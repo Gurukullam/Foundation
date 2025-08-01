@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Functions Library - French Learning App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .function-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .function-title {
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .warning {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛠️ Tech Functions Library</h1>
+        <p><strong>Purpose:</strong> This file contains commonly used functions that should be embedded in HTML files to avoid duplication while maintaining HTML-only architecture.</p>
+        
+        <div class="instructions">
+            <h3>📋 Instructions for Use:</h3>
+            <ol>
+                <li><strong>Copy-Paste Approach:</strong> Copy the required function blocks into your HTML files within <code>&lt;script&gt;</code> tags</li>
+                <li><strong>Choose What You Need:</strong> Only include functions that are actually used in each specific HTML page</li>
+                <li><strong>Maintain HTML-Only:</strong> This file serves as a reference - do NOT link to it externally</li>
+                <li><strong>Update Centrally:</strong> When modifying shared functions, update them here first, then propagate to HTML files</li>
+            </ol>
+        </div>
+
+        <div class="warning">
+            <h3>⚠️ HTML-Only Compliance:</h3>
+            <p><strong>Do NOT include this file directly</strong> in HTML pages using <code>&lt;script src="tech-functions.html"&gt;</code> or similar methods. This would violate the HTML-only architecture. Instead, copy the needed functions directly into each HTML file.</p>
+        </div>
+
+        <!-- FIREBASE CONFIGURATION -->
+        <div class="function-block">
+            <div class="function-title">🔥 Firebase Configuration & Initialization</div>
+            <p><strong>Used in:</strong> All HTML files that need authentication</p>
+            <div class="code-block">
+/* Firebase Configuration */
+const firebaseConfig = {
+    apiKey: "AIzaSyDXHBiw-MkjyM-lN2p3vG8XmF9KZ7Y5hOQ",
+    authDomain: "french-learning-app-46d95.firebaseapp.com",
+    projectId: "french-learning-app-46d95",
+    storageBucket: "french-learning-app-46d95.appspot.com",
+    messagingSenderId: "234567890123",
+    appId: "1:234567890123:web:abc123def456ghi789"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+            </div>
+        </div>
+
+        <!-- AUTHENTICATION FUNCTIONS -->
+        <div class="function-block">
+            <div class="function-title">🔐 Firebase Authentication Functions</div>
+            <p><strong>Used in:</strong> All pages with sign-up/sign-in functionality</p>
+            <div class="code-block">
+/* Firebase Sign Up */
+async function handleFirebaseSignUp(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('signUpEmail').value;
+    const password = document.getElementById('signUpPassword').value;
+    
+    try {
+        const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        
+        // Get subscription status from Firestore
+        const subscriptionStatus = await getUserSubscriptionStatus(user.uid);
+        
+        // Store user in localStorage
+        const userData = {
+            uid: user.uid,
+            email: user.email,
+            subscriptionExpiry: null,
+            subscriptionStatus: 'free',
+            signUpDate: new Date().toISOString(),
+            status: subscriptionStatus, // Use the validated status from getUserSubscriptionStatus
+            plan: subscriptionStatus === 'premium' ? 'monthly' : null,
+            country: 'Other',
+            currency: 'USD'
+        };
+        
+        localStorage.setItem('french_app_current_user', JSON.stringify(userData));
+        
+        // Update UI
+        toggleAuthButtons(true, user.email, subscriptionStatus);
+        
+        // Close modal and show success
+        document.getElementById('authModal').style.display = 'none';
+        showSuccess('authMessages', 'Account created successfully!');
+        
+    } catch (error) {
+        console.error('Sign up error:', error);
+        showError('signUpError', error.message);
+    }
+}
+
+/* Firebase Sign In */
+async function handleFirebaseSignIn(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('signInEmail').value;
+    const password = document.getElementById('signInPassword').value;
+    
+    try {
+        const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        
+        // Get subscription status
+        const subscriptionStatus = await getUserSubscriptionStatus(user.uid);
+        
+        // Store user in localStorage
+        const userData = {
+            uid: user.uid,
+            email: user.email,
+            subscriptionExpiry: null,
+            subscriptionStatus: subscriptionStatus || 'free',
+            status: subscriptionStatus || 'free',
+            plan: subscriptionStatus === 'premium' ? 'monthly' : null,
+            country: 'Other',
+            currency: 'USD'
+        };
+        
+        localStorage.setItem('french_app_current_user', JSON.stringify(userData));
+        
+        // Update UI
+        toggleAuthButtons(true, user.email, subscriptionStatus);
+        
+        // Close modal and show success
+        document.getElementById('authModal').style.display = 'none';
+        showSuccess('authMessages', 'Signed in successfully!');
+        
+    } catch (error) {
+        console.error('Sign in error:', error);
+        showError('signInError', error.message);
+    }
+}
+
+/* Firebase Sign Out */
+async function handleFirebaseSignOut() {
+    try {
+        await firebase.auth().signOut();
+        
+        // Clear localStorage
+        localStorage.removeItem('french_app_current_user');
+        
+        // Update UI to guest state
+        toggleAuthButtons(false);
+        
+        showSuccess('authMessages', 'Signed out successfully!');
+        
+    } catch (error) {
+        console.error('Sign out error:', error);
+        showError('authMessages', 'Error signing out. Please try again.');
+    }
+}
+            </div>
+        </div>
+
+        <!-- UI HELPER FUNCTIONS -->
+        <div class="function-block">
+            <div class="function-title">🎨 UI Helper Functions</div>
+            <p><strong>Used in:</strong> All pages that show messages or manage authentication UI</p>
+            <div class="code-block">
+/* Show Error Message */
+function showError(elementId, message) {
+    const element = document.getElementById(elementId);
+    element.textContent = message;
+    element.style.display = 'block';
+}
+
+/* Show Success Message */
+function showSuccess(elementId, message) {
+    const element = document.getElementById(elementId);
+    element.textContent = message;
+    element.style.display = 'block';
+}
+
+/* Toggle Authentication UI */
+function toggleAuthButtons(isSignedIn, userName = '', subscriptionStatus = 'free') {
+    console.log('🔄 toggleAuthButtons called:', { isSignedIn, userName, subscriptionStatus });
+    
+    const authButtons = document.querySelector('.auth-buttons');
+    const userStatus = document.getElementById('userStatus');
+    const userGreeting = document.getElementById('userGreeting');
+    const subscriptionStatusSpan = document.getElementById('subscriptionStatus');
+    const signOutBtn = document.getElementById('signOutBtn');
+    
+    if (isSignedIn) {
+        // Hide sign in/up buttons
+        if (authButtons) {
+            authButtons.style.display = 'none';
+        }
+        
+        // Show user status
+        if (userStatus) {
+            userStatus.style.display = 'block';
+        }
+        
+        // Update greeting
+        if (userGreeting) {
+            userGreeting.textContent = `Welcome, ${userName}!`;
+        }
+        
+        // Update subscription status
+        if (subscriptionStatusSpan) {
+            const statusText = subscriptionStatus === 'premium' ? 'Premium Member' : 'Free Account';
+            subscriptionStatusSpan.textContent = statusText;
+            subscriptionStatusSpan.className = subscriptionStatus === 'premium' ? 'status-premium' : 'status-free';
+        }
+        
+        // Show sign out button
+        if (signOutBtn) {
+            signOutBtn.style.display = 'inline-block';
+        }
+    } else {
+        // Show sign in/up buttons
+        if (authButtons) {
+            authButtons.style.display = 'flex';
+        }
+        
+        // Hide user status
+        if (userStatus) {
+            userStatus.style.display = 'none';
+        }
+        
+        // Hide sign out button
+        if (signOutBtn) {
+            signOutBtn.style.display = 'none';
+        }
+    }
+}
+            </div>
+        </div>
+
+        <!-- SUBSCRIPTION FUNCTIONS -->
+        <div class="function-block">
+            <div class="function-title">💳 Subscription Management Functions</div>
+            <p><strong>Used in:</strong> Pages that need to check or manage subscription status</p>
+            <div class="code-block">
+/* Get User Subscription Status */
+async function getUserSubscriptionStatus(userId) {
+    console.log('🔍 getUserSubscriptionStatus called for userId:', userId);
+    
+    if (!userId) {
+        console.log('❌ No userId provided');
+        return 'free';
+    }
+
+    try {
+        const db = firebase.firestore();
+        const userDocRef = db.collection('users').doc(userId);
+        const userDoc = await userDocRef.get();
+
+        if (!userDoc.exists) {
+            console.log('📝 User document does not exist, creating with free status');
+            await userDocRef.set({
+                email: firebase.auth().currentUser?.email || 'unknown',
+                subscriptionStatus: 'free',
+                plan: null,
+                subscriptionExpiry: null,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                country: 'Other',
+                currency: 'USD'
+            });
+            return 'free';
+        }
+
+        const userData = userDoc.data();
+        console.log('📊 Raw user data from Firestore:', userData);
+
+        // Check subscription status
+        let status = userData.subscriptionStatus || 'free';
+        
+        // If user has premium, check if it's expired
+        if (status === 'premium' && userData.subscriptionExpiry) {
+            const expiryDate = userData.subscriptionExpiry.toDate ? userData.subscriptionExpiry.toDate() : new Date(userData.subscriptionExpiry);
+            const now = new Date();
+            
+            if (expiryDate <= now) {
+                console.log('⏰ Premium subscription expired');
+                // Update status to expired in Firestore
+                await userDocRef.update({
+                    subscriptionStatus: 'expired'
+                });
+                status = 'expired';
+            }
+        }
+
+        console.log('✅ Final subscription status:', status);
+        return status;
+
+    } catch (error) {
+        console.error('❌ Error getting subscription status:', error);
+        return 'free';
+    }
+}
+
+/* Core Firebase Functions (Base level) */
+function firebaseSignUp(email, password, name, country) {
+    return auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            
+            // Update user profile with name
+            return user.updateProfile({
+                displayName: name
+            }).then(() => {
+                // Store additional user data in Firestore with subscription info
+                return db.collection('users').doc(user.uid).set({
+                    email: email,
+                    name: name,
+                    country: country,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    subscription: {
+                        status: 'free',
+                        plan: null,
+                        startDate: null,
+                        endDate: null,
+                        active: false,
+                        paymentMethod: null
+                    },
+                    subscriptionHistory: []
+                });
+            }).then(() => {
+                return user;
+            });
+        });
+}
+
+function firebaseSignIn(email, password) {
+    return auth.signInWithEmailAndPassword(email, password);
+}
+
+/* Enable Firebase Authentication */
+function enableFirebaseAuth() {
+    // Make functions available globally
+    window.handleFirebaseSignUp = handleFirebaseSignUp;
+    window.handleFirebaseSignIn = handleFirebaseSignIn;
+    window.handleFirebaseSignOut = handleFirebaseSignOut;
+    window.getUserSubscriptionStatus = getUserSubscriptionStatus;
+    window.signOut = handleFirebaseSignOut;
+}
+
+// Auto-enable Firebase auth when Firebase is loaded
+if (typeof firebase !== 'undefined') {
+    enableFirebaseAuth();
+}
+            </div>
+        </div>
+
+        <!-- EXTERNAL DEPENDENCIES -->
+        <div class="function-block">
+            <div class="function-title">🌐 External Dependencies (CDN Scripts)</div>
+            <p><strong>Usage:</strong> Add these script tags to the &lt;head&gt; section of HTML files that need Firebase or Stripe</p>
+            <div class="code-block">
+<!-- Firebase SDK (Choose one version) -->
+
+<!-- For index.html (v9 compat) -->
+&lt;script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"&gt;&lt;/script&gt;
+&lt;script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"&gt;&lt;/script&gt;
+&lt;script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"&gt;&lt;/script&gt;
+
+<!-- For other pages (v8) -->
+&lt;script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"&gt;&lt;/script&gt;
+&lt;script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"&gt;&lt;/script&gt;
+&lt;script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"&gt;&lt;/script&gt;
+
+<!-- Stripe SDK -->
+&lt;script src="https://js.stripe.com/v3/"&gt;&lt;/script&gt;
+            </div>
+        </div>
+
+        <!-- AUTH STATE LISTENER -->
+        <div class="function-block">
+            <div class="function-title">👂 Firebase Auth State Listener</div>
+            <p><strong>Usage:</strong> Add this to pages that need to maintain authentication state</p>
+            <div class="code-block">
+/* Firebase Auth State Listener */
+firebase.auth().onAuthStateChanged(async (user) => {
+    console.log('🔄 Auth state changed:', user ? user.email : 'No user');
+    
+    if (user) {
+        // User is signed in
+        const subscriptionStatus = await getUserSubscriptionStatus(user.uid);
+        
+        // Update localStorage
+        const userData = {
+            uid: user.uid,
+            email: user.email,
+            subscriptionStatus: subscriptionStatus,
+            // Use the subscription status determined by getUserSubscriptionStatus, not raw Firestore data
+            status: subscriptionStatus, // Use the validated status from getUserSubscriptionStatus
+            plan: subscriptionStatus === 'premium' ? 'monthly' : null,
+            country: 'Other',
+            currency: 'USD'
+        };
+        
+        localStorage.setItem('french_app_current_user', JSON.stringify(userData));
+        
+        // Update UI
+        toggleAuthButtons(true, user.email, subscriptionStatus);
+    } else {
+        // User is signed out
+        localStorage.removeItem('french_app_current_user');
+        toggleAuthButtons(false);
+    }
+});
+            </div>
+        </div>
+
+        <!-- IMPLEMENTATION GUIDE -->
+        <div class="function-block">
+            <div class="function-title">📖 Implementation Guide</div>
+            <div class="code-block">
+/* How to implement in your HTML files:
+
+1. Add CDN scripts to &lt;head&gt; section
+2. Copy needed functions into &lt;script&gt; tags
+3. Initialize Firebase configuration
+4. Set up auth state listener
+5. Connect UI event handlers
+
+Example structure:
+&lt;head&gt;
+    &lt;!-- CDN Scripts --&gt;
+    &lt;script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"&gt;&lt;/script&gt;
+    &lt;script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"&gt;&lt;/script&gt;
+    &lt;script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;!-- Your HTML content --&gt;
+    
+    &lt;script&gt;
+        // 1. Firebase Configuration
+        const firebaseConfig = { ... };
+        firebase.initializeApp(firebaseConfig);
+        
+        // 2. Copy needed functions here
+        function showError(elementId, message) { ... }
+        function showSuccess(elementId, message) { ... }
+        function toggleAuthButtons(isSignedIn, userName, subscriptionStatus) { ... }
+        // ... other functions
+        
+        // 3. Auth state listener
+        firebase.auth().onAuthStateChanged(async (user) => { ... });
+        
+        // 4. Enable Firebase auth
+        enableFirebaseAuth();
+    &lt;/script&gt;
+&lt;/body&gt;
+*/
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>🎯 Benefits of This Approach:</h3>
+            <ul>
+                <li><strong>HTML-Only Compliance:</strong> No external file dependencies</li>
+                <li><strong>Reduced Duplication:</strong> Centralized function reference</li>
+                <li><strong>Selective Inclusion:</strong> Only include what each page needs</li>
+                <li><strong>Easy Maintenance:</strong> Update functions here, then propagate</li>
+                <li><strong>Better Performance:</strong> No additional HTTP requests</li>
+                <li><strong>Version Control:</strong> Clear tracking of shared function changes</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <h3>🔄 Next Steps:</h3>
+            <ol>
+                <li><strong>Review this reference file</strong></li>
+                <li><strong>Identify which functions each HTML page needs</strong></li>
+                <li><strong>Replace embedded duplicate code</strong> with optimized versions from this file</li>
+                <li><strong>Test all functionality</strong> after changes</li>
+                <li><strong>Delete duplicate code</strong> from individual HTML files</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html> 

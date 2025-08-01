@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Your Website for Live Payments</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+            font-size: 2.2em;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            padding-left: 15px;
+            border-left: 4px solid #3498db;
+        }
+        h3 {
+            color: #7f8c8d;
+            margin-top: 30px;
+        }
+        code {
+            background-color: #f1f2f6;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .success {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .info {
+            color: #3498db;
+            font-weight: bold;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .checklist {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .checklist h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="emoji">🔄</span>Update Your Website for Live Payments</h1>
+
+        <h2>Replace Test Key with Live Key</h2>
+
+        <h3><span class="emoji">📁</span>File to Edit: <code>index.html</code></h3>
+
+        <p><strong>Find this line (around line 1883):</strong></p>
+        <pre><code>stripe = Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx'); // Current test key</code></pre>
+
+        <p><strong>Replace with your live key:</strong></p>
+        <pre><code>stripe = Stripe('pk_live_YOUR_ACTUAL_LIVE_KEY_HERE'); // Your live key</code></pre>
+
+        <h3><span class="emoji">🌍</span>International Payment Setup for India</h3>
+
+        <p><strong>Since your bank account is in India:</strong></p>
+        <ol>
+            <li><strong>Create Stripe India Account:</strong> Use your Indian business details</li>
+            <li><strong>Bank Account:</strong> Add your Indian bank account (SWIFT code required)</li>
+            <li><strong>Currency:</strong> Keep USD pricing (Stripe handles conversions automatically)</li>
+            <li><strong>Payouts:</strong> Will be sent to your Indian bank in USD, converted to INR</li>
+        </ol>
+
+        <div class="warning">
+            <h3><span class="emoji">⚠️</span>Important Security Note:</h3>
+            <ul>
+                <li><span class="success">✅ DO use</span> the publishable key (<code>pk_live_...</code>) in your website</li>
+                <li><span class="error">❌ NEVER use</span> the secret key (<code>sk_live_...</code>) in frontend code</li>
+                <li><span class="emoji">🔒</span><strong>Secret key</strong> should only be used on your backend server</li>
+            </ul>
+        </div>
+
+        <h2><span class="emoji">🧪</span>Test Your Live Setup</h2>
+
+        <h3>Before Going Public:</h3>
+        <ol>
+            <li><strong>Test with small amount</strong> ($0.50 - $1.00)</li>
+            <li><strong>Use real credit card</strong> (your own)</li>
+            <li><strong>Verify payment appears</strong> in Stripe Dashboard</li>
+            <li><strong>Check bank payout</strong> (usually 2-7 days)</li>
+        </ol>
+
+        <h3><span class="emoji">🌍</span>International Payment Testing:</h3>
+        <p><strong>Test with different card types:</strong></p>
+        <ul>
+            <li><strong>Canadian card:</strong> Use your own Canadian Visa/MasterCard</li>
+            <li><strong>Indian card:</strong> Test with Indian Rupay, Visa, or MasterCard</li>
+            <li><strong>Verify conversion:</strong> Check amounts shown to users vs. actual charges</li>
+        </ul>
+
+        <h3>Test Card for Live Mode:</h3>
+        <pre><code>Use your actual credit/debit card
+This will create a real charge (but you can refund it)</code></pre>
+
+        <h3><span class="emoji">🏦</span>Payout Testing for Indian Bank:</h3>
+        <ol>
+            <li><strong>First payout:</strong> Usually takes 7-14 days for new accounts</li>
+            <li><strong>Regular payouts:</strong> 2-7 business days</li>
+            <li><strong>Currency conversion:</strong> USD to INR at your bank's exchange rate</li>
+            <li><strong>Fees:</strong> Check your bank's USD conversion fees</li>
+        </ol>
+
+        <h2><span class="emoji">📊</span>Monitor Your Payments</h2>
+
+        <h3>Stripe Dashboard Sections:</h3>
+        <ul>
+            <li><strong>Payments:</strong> All customer transactions</li>
+            <li><strong>Customers:</strong> Subscriber management</li>
+            <li><strong>Subscriptions:</strong> Recurring payments</li>
+            <li><strong>Balance:</strong> Available funds</li>
+            <li><strong>Payouts:</strong> Bank transfers</li>
+        </ul>
+
+        <h3>Key Metrics to Watch:</h3>
+        <ul>
+            <li><strong>Successful payments</strong></li>
+            <li><strong>Failed payments</strong></li>
+            <li><strong>Chargeback disputes</strong></li>
+            <li><strong>Monthly recurring revenue</strong></li>
+        </ul>
+
+        <h2><span class="emoji">🔒</span>Security Checklist</h2>
+
+        <div class="checklist">
+            <h3><span class="success">✅ Before Going Live:</span></h3>
+            <ul>
+                <li>☐ Live publishable key added to website</li>
+                <li>☐ Test payments working with live key</li>
+                <li>☐ Bank account verified and active</li>
+                <li>☐ Business verification completed</li>
+                <li>☐ Terms of service updated on website</li>
+                <li>☐ Privacy policy includes payment processing</li>
+            </ul>
+
+            <h3><span class="success">✅ Ongoing Security:</span></h3>
+            <ul>
+                <li>☐ Never share secret keys</li>
+                <li>☐ Monitor for suspicious transactions</li>
+                <li>☐ Keep Stripe webhook endpoints secure</li>
+                <li>☐ Regular dashboard monitoring</li>
+            </ul>
+        </div>
+
+        <h2><span class="emoji">💰</span>Revenue Tracking</h2>
+
+        <h3><span class="emoji">🌍</span>International Revenue Considerations:</h3>
+        <p><strong>Payment Processing Fees:</strong></p>
+        <ul>
+            <li><strong>Domestic cards:</strong> 2.9% + 30¢ per transaction</li>
+            <li><strong>International cards:</strong> 3.9% + 30¢ per transaction</li>
+            <li><strong>Currency conversion:</strong> Additional 1% for non-USD cards</li>
+            <li><strong>Indian bank conversion:</strong> Your bank's USD to INR conversion fee (usually 1-3%)</li>
+        </ul>
+
+        <p><strong>Example Revenue Calculation (Monthly $9.99 plan):</strong></p>
+        <ul>
+            <li><strong>Canadian user:</strong> $9.99 - $0.69 (fees) = $9.30 net</li>
+            <li><strong>Indian user:</strong> $9.99 - $0.69 (fees) = $9.30 net</li>
+            <li><strong>Your bank conversion:</strong> $9.30 USD ≈ ₹773 INR (minus bank fees)</li>
+        </ul>
+
+        <h3>In Stripe Dashboard:</h3>
+        <pre><code>Revenue This Month: $XXX.XX
+Active Subscribers: XX
+Churn Rate: X.X%
+Average Revenue Per User: $XX.XX</code></pre>
+
+        <h3>In Your Website Console:</h3>
+        <pre><code>// Real-time subscription stats
+getSubscriptionStats()
+calculateRevenue()
+getPremiumSubscribers()</code></pre>
+    </div>
+</body>
+</html> 

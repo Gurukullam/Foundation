@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - French Learning Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .success-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .success-icon i {
+            font-size: 48px;
+            color: white;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .plan-details {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 5px solid #4CAF50;
+        }
+
+        .plan-details h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        .benefits {
+            text-align: left;
+            background: #e8f5e8;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .benefits h4 {
+            color: #27ae60;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        .benefits ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .benefits li {
+            margin-bottom: 10px;
+            padding-left: 30px;
+            position: relative;
+            color: #2c3e50;
+        }
+
+        .benefits li::before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .action-buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .payment-id {
+            background: #f1f2f6;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .success-container {
+                padding: 25px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        
+        <h1>Payment Successful!</h1>
+        <p class="subtitle">Welcome to French Learning Premium! Your subscription has been activated and you now have access to all premium content.</p>
+        
+        <div class="plan-details" id="planDetails">
+            <h3>Subscription Details</h3>
+            <div class="detail-row">
+                <span>Plan:</span>
+                <span id="planType">Loading...</span>
+            </div>
+            <div class="detail-row">
+                <span>Amount:</span>
+                <span id="planAmount">Loading...</span>
+            </div>
+            <div class="detail-row">
+                <span>Billing Cycle:</span>
+                <span id="billingCycle">Loading...</span>
+            </div>
+            <div class="detail-row">
+                <span>Status:</span>
+                <span style="color: #27ae60;">✅ Active</span>
+            </div>
+        </div>
+
+        <div class="benefits">
+            <h4>🎉 Your Premium Benefits</h4>
+            <ul>
+                <li>Access to all French alphabet lessons</li>
+                <li>Comprehensive number learning system</li>
+                <li>Advanced verb conjugation training</li>
+                <li>Beginner to advanced course progression</li>
+                <li>Interactive exercises and quizzes</li>
+                <li>Offline content downloads</li>
+                <li>Priority customer support</li>
+                <li>Progress tracking and analytics</li>
+            </ul>
+        </div>
+
+        <div class="payment-id">
+            <strong>Transaction ID:</strong> <span id="transactionId">Loading...</span>
+        </div>
+
+        <div class="action-buttons">
+            <a href="index.html" class="btn btn-primary">
+                <i class="fas fa-home"></i>
+                Start Learning
+            </a>
+            <a href="#" onclick="downloadReceipt()" class="btn btn-secondary">
+                <i class="fas fa-download"></i>
+                Download Receipt
+            </a>
+        </div>
+
+        <div class="footer-note">
+            <p>A confirmation email has been sent to your registered email address. If you have any questions, please contact our support team.</p>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Initialize page with payment details
+        function initializeSuccessPage() {
+            console.log('🎉 Initializing payment success page');
+
+            // Get session ID from URL
+            const sessionId = getUrlParameter('session_id') || 'demo_' + Date.now();
+            
+            // Get stored payment info or use defaults
+            const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || '{}');
+            const paymentHistory = JSON.parse(localStorage.getItem('payment_history') || '[]');
+            const latestPayment = paymentHistory[paymentHistory.length - 1];
+
+            // Extract plan details
+            const planType = latestPayment?.plan || currentUser.subscription?.plan || 'monthly';
+            const currency = latestPayment?.currency || 'USD';
+            const amount = latestPayment?.amount || (planType === 'monthly' ? 999 : planType === 'quarterly' ? 2699 : 9999);
+
+            // Update UI with payment details
+            updatePaymentDetails(planType, currency, amount, sessionId);
+
+            // Ensure user has premium status
+            activatePremiumStatus(planType);
+
+            console.log('✅ Payment success page initialized');
+        }
+
+        function updatePaymentDetails(planType, currency, amount, transactionId) {
+            // Plan type display
+            const planNames = {
+                monthly: 'Monthly Premium',
+                quarterly: 'Quarterly Premium',
+                yearly: 'Yearly Premium'
+            };
+            
+            // Currency formatting
+            const currencySymbol = currency === 'CAD' ? '$' : currency === 'INR' ? '₹' : '$';
+            const displayAmount = `${currencySymbol}${(amount / 100).toFixed(2)} ${currency}`;
+            
+            // Billing cycle
+            const billingCycles = {
+                monthly: 'Every month',
+                quarterly: 'Every 3 months',
+                yearly: 'Every year'
+            };
+
+            // Update DOM elements
+            document.getElementById('planType').textContent = planNames[planType] || 'Premium Plan';
+            document.getElementById('planAmount').textContent = displayAmount;
+            document.getElementById('billingCycle').textContent = billingCycles[planType] || 'One-time';
+            document.getElementById('transactionId').textContent = transactionId;
+        }
+
+        function activatePremiumStatus(planType) {
+            console.log('🔄 Activating premium status for user');
+
+            // Update localStorage with premium status
+            const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || '{}');
+            currentUser.subscription = {
+                status: 'premium',
+                plan: planType,
+                startDate: new Date().toISOString(),
+                endDate: new Date(Date.now() + (planType === 'monthly' ? 30 : planType === 'quarterly' ? 90 : 365) * 24 * 60 * 60 * 1000).toISOString(),
+                active: true,
+                paymentMethod: 'stripe',
+                activatedOn: new Date().toISOString()
+            };
+            
+            localStorage.setItem('french_app_current_user', JSON.stringify(currentUser));
+            console.log('✅ Premium status activated in localStorage');
+        }
+
+        function downloadReceipt() {
+            console.log('📄 Generating receipt download');
+            
+            const paymentHistory = JSON.parse(localStorage.getItem('payment_history') || '[]');
+            const latestPayment = paymentHistory[paymentHistory.length - 1];
+            
+            if (!latestPayment) {
+                alert('No payment information found to generate receipt.');
+                return;
+            }
+
+            // Create receipt content
+            const receiptContent = `
+FRENCH LEARNING PREMIUM - PAYMENT RECEIPT
+=========================================
+
+Transaction ID: ${latestPayment.id}
+Date: ${new Date(latestPayment.date).toLocaleDateString()}
+Plan: ${latestPayment.plan} Premium
+Amount: ${latestPayment.currency === 'CAD' ? '$' : latestPayment.currency === 'INR' ? '₹' : '$'}${(latestPayment.amount / 100).toFixed(2)} ${latestPayment.currency}
+Status: ${latestPayment.status}
+
+Thank you for your purchase!
+For support, contact: support@frenchlearning.com
+            `;
+
+            // Create downloadable file
+            const blob = new Blob([receiptContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `French_Learning_Receipt_${latestPayment.id}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+
+            console.log('✅ Receipt downloaded');
+        }
+
+        // Initialize page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializeSuccessPage);
+    </script>
+</body>
+</html> 

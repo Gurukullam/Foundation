@@ -1,0 +1,4514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>French Numbers Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #faf8f1 0%, #f5f1e8 100%);
+            padding: 0;
+            margin: 0;
+            display: flex;
+            padding-top: 8rem;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1001;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            min-height: 120px;
+        }
+        
+        .auth-status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .nav-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .nav-menu-row {
+            display: flex;
+            justify-content: flex-start;
+            width: 100%;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #8b4513;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .gk-logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #8b4513, #d4af37);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .gk-logo:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4);
+        }
+
+        .gk-letters {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            transform: skew(-10deg) rotate(-5deg);
+            letter-spacing: -2px;
+            position: relative;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #3c2d1f;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #8b4513;
+            text-decoration: none;
+        }
+
+        .nav-links > li > a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #8b4513;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links > li > a:hover::after {
+            width: 100%;
+        }
+
+        /* Navigation Donate Button Styles - Aligned parallel to menu items */
+        .nav-donate {
+            display: none; /* Hidden by default, shown only when user is signed in */
+        }
+
+        .nav-donate-btn {
+            background: none;
+            border: none;
+            color: #3c2d1f; /* Match menu items color */
+            font-weight: 500; /* Match menu items font-weight */
+            font-size: 1rem; /* Match menu items font-size */
+            cursor: pointer;
+            transition: color 0.3s ease; /* Match menu items transition */
+            position: relative; /* For underline effect */
+            padding: 0; /* Remove padding to match menu links */
+            text-decoration: none;
+            display: inline-block; /* Match menu links display */
+            line-height: normal;
+        }
+
+        .nav-donate-btn:hover {
+            color: #8b4513; /* Match menu items hover color */
+            background: none;
+            text-decoration: none; /* Match menu items hover */
+        }
+
+        .nav-donate-btn::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px; /* Match menu items underline height */
+            bottom: -5px; /* Match menu items underline position */
+            left: 0; /* Match menu items underline alignment */
+            background-color: #8b4513; /* Match menu items underline color */
+            transition: width 0.3s ease; /* Match menu items transition */
+        }
+
+        .nav-donate-btn:hover::after {
+            width: 100%;
+        }
+
+        /* Donation Modal Styles */
+        .donation-amounts {
+            margin: 2rem 0;
+        }
+
+        .amount-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .amount-btn {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            color: #495057;
+            border: 2px solid #dee2e6;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 80px;
+        }
+
+        .amount-btn:hover {
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .amount-btn.selected {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border-color: #c0392b;
+        }
+
+        .custom-amount {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .custom-amount label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .amount-input-container {
+            display: inline-flex;
+            align-items: center;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            background: white;
+            max-width: 200px;
+            margin: 0 auto;
+        }
+
+        .currency-symbol {
+            padding: 0.75rem 0.5rem 0.75rem 1rem;
+            background: #f8f9fa;
+            color: #666;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        #customAmount {
+            border: none;
+            outline: none;
+            padding: 0.75rem 1rem 0.75rem 0.5rem;
+            font-size: 1.1rem;
+            width: 120px;
+            background: transparent;
+        }
+
+        .selected-amount-display {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .selected-amount-display p {
+            margin: 0;
+            font-size: 1.1rem;
+            color: #495057;
+        }
+
+        @media (max-width: 768px) {
+            .amount-buttons {
+                gap: 0.5rem;
+            }
+            
+            .amount-btn {
+                padding: 0.8rem 1rem;
+                font-size: 1rem;
+                min-width: 60px;
+            }
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            z-index: 1002;
+            top: 100%;
+            left: 0;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .dropdown-content.show {
+            display: block;
+            animation: dropdownFadeIn 0.3s ease;
+        }
+
+        @keyframes dropdownFadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown-item {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s ease;
+            position: relative;
+            white-space: nowrap;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f5f1e8;
+            color: #8b4513;
+            text-decoration: none;
+        }
+
+        .dropdown-item::after {
+            display: none;
+        }
+
+        .dropdown-toggle {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Nested Dropdown */
+        .nested-dropdown {
+            position: relative;
+        }
+
+        .nested-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 180px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            z-index: 1003;
+            top: 0;
+            left: 100%;
+            margin-left: 5px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .nested-dropdown-content.show {
+            display: block;
+            animation: dropdownFadeIn 0.3s ease;
+        }
+
+        .nested-dropdown:hover .nested-dropdown-content {
+            display: block;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 260px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            position: fixed;
+            top: 140px;
+            height: fit-content;
+            overflow: hidden;
+            z-index: 1000;
+        }
+        
+        /* Legacy sidebar styles - overridden by new theme */
+        .sidebar h3 {
+            color: #374151;
+            margin: 1.5rem 0 0.5rem 0;
+            font-size: 1.1rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        .sidebar h3:first-child {
+            margin-top: 0;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1rem 0;
+        }
+        
+        .sidebar li {
+            margin: 0.3rem 0;
+        }
+        
+        .sidebar a {
+            color: #374151;
+            text-decoration: none;
+            display: block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+        
+        .sidebar a:hover {
+            background: #8b4513;
+            color: #fff;
+            transform: translateX(4px);
+            text-decoration: none;
+        }
+        
+        .sidebar a.category-link {
+            background: #b8860b;
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar a.category-link:hover {
+            background: #d4af37;
+            text-decoration: none;
+        }
+
+        /* Sidebar expand/collapse functionality */
+        .sidebar .expandable-section {
+            margin-bottom: 1rem;
+        }
+        
+        .sidebar .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            cursor: pointer;
+            color: #374151;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar .section-header:hover {
+            color: #8b4513;
+        }
+        
+        .sidebar .expand-icon {
+            transition: transform 0.3s ease;
+            font-size: 0.9rem;
+            color: #374151;
+        }
+        
+        .sidebar .expand-icon.expanded {
+            transform: rotate(90deg);
+        }
+        
+        .sidebar .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .sidebar .collapsible-content.expanded {
+            max-height: 1000px;
+            opacity: 1;
+        }
+        
+        .sidebar .collapsible-content ul {
+            margin: 0;
+            padding-left: 0.5rem;
+        }
+
+        /* Back Button */
+        .back-button-section {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            text-decoration: none !important;
+            color: #374151;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+            color: white;
+            transform: translateX(-3px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.25);
+            text-decoration: none;
+        }
+
+        .back-icon {
+            font-size: 1.25rem;
+            font-weight: bold;
+            transition: transform 0.2s ease;
+        }
+
+        .back-button:hover .back-icon {
+            transform: translateX(-3px);
+        }
+
+        .back-text {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Sidebar Header */
+        .sidebar-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid #f1f5f9;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+
+        .sidebar-header h3 {
+            color: #374151;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 0;
+        }
+
+        /* Updated Navigation Styles */
+        .nav-section {
+            padding: 0.5rem 1.25rem;
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-list li {
+            margin: 0;
+            border-bottom: 1px solid #f8fafc;
+        }
+
+        .nav-list li:last-child {
+            border-bottom: none;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            text-decoration: none;
+            color: #374151;
+            background: transparent;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.875rem;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+            color: white;
+            padding-left: 0.5rem;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 0 -0.5rem;
+            padding: 0.75rem 1rem;
+        }
+
+        /* Expandable Sections */
+        .expandable-section {
+            margin-bottom: 1rem;
+            padding: 0 1.25rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            cursor: pointer;
+            color: #374151;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .section-header:hover {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            color: #8b4513;
+        }
+
+        .expand-icon {
+            transition: transform 0.3s ease;
+            font-size: 0.875rem;
+            color: #374151;
+        }
+
+        .expand-icon.expanded {
+            transform: rotate(90deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #f8fafc;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .collapsible-content.expanded {
+            max-height: 2000px;
+        }
+
+        .collapsible-content .nav-list {
+            padding: 0.5rem 0;
+        }
+
+        .collapsible-content .nav-link {
+            padding: 0.5rem 0 0.5rem 1rem;
+            font-size: 0.8rem;
+            color: #475569;
+        }
+
+        .collapsible-content .nav-link:hover {
+            background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+            color: white;
+            padding-left: 1.5rem;
+            border-radius: 8px;
+            margin: 0 -0.5rem;
+            padding: 0.5rem 1rem 0.5rem 1.5rem;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            flex: 1;
+            min-height: 100vh;
+        }
+        
+        /* Professional Content Spacing */
+        .main-content > div {
+            margin-bottom: 3rem;
+        }
+        
+        .main-content h1 {
+            margin-bottom: 1rem;
+            margin-top: 0;
+        }
+        
+        .main-content h2 {
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-container {
+            margin: 2rem 0;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .dropdown-content {
+                position: fixed;
+                top: 70px;
+                left: 10px;
+                right: 10px;
+                min-width: auto;
+                max-width: none;
+            }
+
+            .nested-dropdown-content {
+                position: static;
+                box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+                margin: 5px 0;
+                border-radius: 4px;
+            }
+
+            .sidebar {
+                width: 250px;
+                transform: translateX(-100%);
+                top: 80px;
+                height: fit-content;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(15px);
+                border-radius: 12px;
+                border: 1px solid rgba(255,255,255,0.2);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 1001;
+                background: #b8860b;
+                color: #fff;
+                border: none;
+                padding: 0.5rem;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        }
+        
+        .menu-toggle {
+            display: none;
+        }
+        
+        h1, h2 {
+            color: #3c2d1f;
+            text-align: center;
+        }
+        
+        table {
+            margin: 2rem auto;
+            border-collapse: collapse;
+            width: 80%;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        th, td {
+            border: 1px solid #d4af37;
+            padding: 0.75rem 1rem;
+            text-align: center;
+        }
+        
+        th {
+            background: #f5f1e8;
+        }
+        
+        a {
+            color: #8b4513;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        button {
+            background: #b8860b;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 0.4rem 1rem;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        button:hover {
+            background: #d4af37;
+        }
+        
+        .master-play {
+            display: block;
+            margin: 0 auto 1.5rem auto;
+            font-size: 1.1rem;
+            padding: 0.5rem 1.5rem;
+        }
+        
+        .drill-up {
+            display: block;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .number-section {
+            margin-bottom: 3rem;
+            background: #fff;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .number-pronunciation {
+            font-size: 3rem;
+            color: #b8860b;
+            text-align: center;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+        
+        .pronunciation-guide {
+            background: #faf8f1;
+            border-left: 4px solid #b8860b;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        /* Search Bar Styles */
+        .search-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        #searchInput {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: #b8860b;
+            box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+        }
+
+        #searchButton {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #b8860b, #d4af37);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        #searchButton:hover {
+            background: linear-gradient(135deg, #d4af37, #cd853f);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(184, 134, 11, 0.3);
+        }
+
+        .search-results {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        .search-results.show {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            background: white;
+            border-left: 3px solid #b8860b;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .search-result-item:hover {
+            background: #f1f5f9;
+            transform: translateX(2px);
+        }
+
+        .search-no-results {
+            color: #6b7280;
+            text-align: center;
+            padding: 1rem;
+            font-style: italic;
+        }
+
+        /* Word highlighting when audio is playing */
+        .word-highlight {
+            background: linear-gradient(135deg, #ffd700, #ffed4e) !important;
+            color: #8b4513 !important;
+            padding: 2px 6px !important;
+            border-radius: 4px !important;
+            font-weight: bold !important;
+            animation: pulse 1.5s ease-in-out infinite !important;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4) !important;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .number-card {
+            background: #fff;
+            border: 2px solid #f5f1e8;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .number-card:hover {
+            border-color: #b8860b;
+            box-shadow: 0 4px 12px rgba(184, 134, 11, 0.1);
+        }
+
+        .number-card .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #b8860b;
+            margin-bottom: 0.5rem;
+        }
+
+        .number-card .french {
+            font-size: 1.2rem;
+            color: #3c2d1f;
+            margin-bottom: 0.5rem;
+        }
+
+        .number-card .english {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Authentication Styles */
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sign-in-btn, .sign-up-btn, .sign-out-btn {
+            padding: 0.25rem 0.6rem;
+            border: none;
+            border-radius: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.7rem;
+        }
+        
+        .subscription-status {
+            font-size: 0.625rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .subscription-status.premium {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #8b4513;
+            border: 1px solid #d4af37;
+        }
+        
+        .subscription-status.free {
+            background: rgba(156, 163, 175, 0.2);
+            color: #6b7280;
+            border: 1px solid #d1d5db;
+        }
+
+        .sign-in-btn {
+            background: transparent;
+            color: #8b4513;
+            border: 2px solid #8b4513;
+        }
+
+        .sign-in-btn:hover {
+            background: #8b4513;
+            color: white;
+        }
+
+        .sign-up-btn {
+            background: linear-gradient(135deg, #8b4513, #d4af37);
+            color: white;
+            border: 2px solid transparent;
+        }
+
+        .sign-up-btn:hover {
+            background: linear-gradient(135deg, #654321, #b8860b);
+            transform: translateY(-2px);
+        }
+
+        .sign-out-btn {
+            background: #dc3545;
+            color: white;
+            border: 2px solid #dc3545;
+        }
+
+        .sign-out-btn:hover {
+            background: #c82333;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #8b4513;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+        
+        .user-profile span#userName {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        @media (max-width: 768px) {
+            .auth-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            right: 15px;
+            top: 10px;
+        }
+
+        .close:hover {
+            color: #8b4513;
+        }
+
+        .modal h2 {
+            color: #8b4513;
+            margin-bottom: 0.8rem;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #3c2d1f;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #8b4513;
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: white;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group select:focus {
+            outline: none;
+            border-color: #8b4513;
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #8b4513, #d4af37);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 1rem 0;
+        }
+
+        .auth-btn:hover {
+            background: linear-gradient(135deg, #654321, #b8860b);
+            transform: translateY(-2px);
+        }
+
+        .auth-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .switch-auth {
+            text-align: center;
+            margin-top: 1rem;
+            color: #666;
+        }
+
+        .switch-auth a {
+            color: #8b4513;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .switch-auth a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #f5c6cb;
+            display: none;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #8b4513;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .user-status {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .user-greeting {
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .subscription-status.premium {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #8b4513;
+            border: 1px solid #d4af37;
+        }
+
+        .subscription-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            padding: 0.25rem 0.6rem;
+            border-radius: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.7rem;
+            text-decoration: none;
+            display: none; /* Hide by default to prevent flash for premium users */
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .subscription-btn:hover {
+            background: linear-gradient(135deg, #218838, #1fa186);
+            transform: translateY(-2px);
+        }
+
+        .subscription-btn.premium {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #8b4513;
+            font-weight: 600;
+        }
+
+        .subscription-btn.premium:hover {
+            background: linear-gradient(135deg, #ffed4e, #ff7f00);
+        }
+
+        /* Subscription Modal Styles */
+        .subscription-modal-content {
+            max-width: 900px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .subscription-plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .plan-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            text-align: center;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: #b8860b;
+        }
+
+        .plan-card.selected {
+            border-color: #b8860b;
+            background: linear-gradient(135deg, #fef9e7, #fef3c7);
+            box-shadow: 0 8px 25px rgba(184, 134, 11, 0.2);
+        }
+
+        .plan-card.popular::before {
+            content: '🌟 Most Popular';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .plan-card.premium::before {
+            content: '💎 Best Value';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .plan-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #3c2d1f;
+            margin-bottom: 1rem;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #b8860b;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+        }
+
+        .plan-price .currency {
+            font-size: 1.5rem;
+            margin-right: 0.2rem;
+        }
+
+        .plan-price .period {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0 0 0;
+            text-align: left;
+        }
+
+        .plan-features li {
+            padding: 0.5rem 0;
+            color: #4a5568;
+            font-size: 0.95rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .plan-features li::before {
+            content: '✅';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .payment-section {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .payment-section h3 {
+            color: #3c2d1f;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .payment-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .payment-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-form .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #3c2d1f;
+            font-weight: 500;
+        }
+
+        .payment-form .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .payment-form .form-group input:focus {
+            outline: none;
+            border-color: #b8860b;
+            box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+        }
+
+        #card-element {
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            transition: border-color 0.3s ease;
+        }
+
+        #card-element:focus-within {
+            border-color: #b8860b;
+            box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.1);
+        }
+
+        .subscription-btn-modal {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #b8860b, #d4af37);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .subscription-btn-modal:hover {
+            background: linear-gradient(135deg, #d4af37, #cd853f);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(184, 134, 11, 0.3);
+        }
+
+        .subscription-btn-modal:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        @media (max-width: 768px) {
+            .subscription-modal-content {
+                width: 98% !important;
+                max-width: 98% !important;
+                margin: 1% auto !important;
+                padding: 1rem !important;
+                max-height: 95vh !important;
+                overflow-y: auto !important;
+            }
+            
+            .subscription-plans {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+            
+            .plan-card {
+                padding: 1rem !important;
+                min-height: auto !important;
+                margin-bottom: 1rem;
+            }
+            
+            .plan-price {
+                font-size: 1.8rem !important;
+            }
+            
+            .payment-section {
+                padding: 1rem !important;
+                margin-top: 1rem !important;
+            }
+            
+            .subscription-btn-modal {
+                width: 100% !important;
+                padding: 1rem !important;
+                font-size: 1.1rem !important;
+                margin-top: 1rem !important;
+                min-height: 50px;
+                touch-action: manipulation;
+            }
+            
+            /* Touch-friendly form inputs */
+            #cardholderName, #card-element {
+                padding: 1rem !important;
+                font-size: 16px !important; /* Prevents zoom on iOS */
+                min-height: 44px !important;
+                touch-action: manipulation;
+            }
+            
+            /* Mobile-friendly navigation and buttons */
+            .premium-module, .module-card {
+                margin-bottom: 1rem;
+                padding: 1rem !important;
+            }
+            
+            .premium-badge {
+                font-size: 0.8rem !important;
+                padding: 0.5rem 1rem !important;
+                min-height: 40px;
+            }
+            
+            .nav-menu-row {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            
+            /* Improved mobile navigation */
+            .dropdown-content {
+                position: fixed !important;
+                top: 70px !important;
+                left: 5% !important;
+                right: 5% !important;
+                width: 90% !important;
+                max-width: none !important;
+                z-index: 9999 !important;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
+            }
+            
+            .dropdown-item {
+                padding: 1rem !important;
+                font-size: 1rem !important;
+                min-height: 48px !important;
+                touch-action: manipulation;
+            }
+        }
+        
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .subscription-modal-content {
+                width: 100% !important;
+                height: 100vh !important;
+                max-height: 100vh !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+                padding: 1rem 0.5rem !important;
+            }
+            
+            .plan-price {
+                font-size: 1.5rem !important;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <!-- Main Navigation -->
+        <nav class="nav-container">
+            <!-- Top Row: Logo + Auth -->
+            <div class="nav-top-row">
+                <a href="index.html" class="logo-container">
+                    <div class="gk-logo">
+                        <span class="gk-letters">GK</span>
+                    </div>
+                    <span class="logo">Foundation</span>
+                </a>
+                <div class="auth-status">
+                    <div id="userStatus" class="user-status" style="display: none;">
+                        <span id="userGreeting" class="user-greeting"></span>
+                        <button id="subscriptionBtn" class="subscription-btn" onclick="openSubscriptionModal()">💎 Go Premium</button>
+                    </div>
+                    <div class="auth-buttons">
+                        <button id="signInBtn" class="sign-in-btn" onclick="openSignInModal()">Sign In</button>
+                        <button id="signUpBtn" class="sign-up-btn" onclick="openSignUpModal()">Sign Up</button>
+                        <button id="signOutBtn" class="sign-out-btn" style="display: none;" onclick="signOut()">Sign Out</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Row: Menu Items -->
+            <div class="nav-menu-row">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" onclick="toggleDropdown(event, 'frenchLearningDropdown')">
+                            Our Offerings
+                            <span class="dropdown-arrow">▼</span>
+                        </a>
+                        <div class="dropdown-content" id="frenchLearningDropdown">
+                                                            <a href="French-for-Beginners.html" class="dropdown-item">🎓 French for Beginners</a>
+                        </div>
+                    </li>
+                    <li><a href="index.html#modules">Learning Modules</a></li>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li class="nav-donate">
+                        <button id="donateBtn" class="nav-donate-btn" onclick="openDonationModal()">❤️ Support Us</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <button class="menu-toggle" onclick="toggleSidebar()">☰ Menu</button>
+    
+    <div class="sidebar" id="sidebar">
+        <!-- Back Button -->
+        <div class="back-button-section">
+            <a href="French-for-Beginners.html" class="back-button">
+                <span class="back-icon">←</span>
+                <span class="back-text">Back</span>
+            </a>
+        </div>
+        
+        <!-- Page-Specific Navigation -->
+        <div class="sidebar-header">
+            <h3>🔢 NUMBERS</h3>
+        </div>
+            
+            <div class="nav-section">
+                <ul class="nav-list">
+                    <li><a href="#top" class="nav-link">↑ Back to Top</a></li>
+                    <li><a href="#numbers-overview" class="nav-link">Numbers Overview</a></li>
+                </ul>
+            </div>
+            
+            <div class="expandable-section">
+                <div class="section-header" onclick="toggleSection('basic-numbers')">
+                    <span>🔢 Basic Numbers (1-20)</span>
+                    <span class="expand-icon" id="basic-numbers-icon">▶</span>
+                </div>
+                <div class="collapsible-content" id="basic-numbers-content">
+                    <ul class="nav-list">
+                        <li><a href="#number-1" class="nav-link">1 - un</a></li>
+                        <li><a href="#number-2" class="nav-link">2 - deux</a></li>
+                        <li><a href="#number-3" class="nav-link">3 - trois</a></li>
+                        <li><a href="#number-4" class="nav-link">4 - quatre</a></li>
+                        <li><a href="#number-5" class="nav-link">5 - cinq</a></li>
+                        <li><a href="#number-6" class="nav-link">6 - six</a></li>
+                        <li><a href="#number-7" class="nav-link">7 - sept</a></li>
+                        <li><a href="#number-8" class="nav-link">8 - huit</a></li>
+                        <li><a href="#number-9" class="nav-link">9 - neuf</a></li>
+                        <li><a href="#number-10" class="nav-link">10 - dix</a></li>
+                        <li><a href="#number-11" class="nav-link">11 - onze</a></li>
+                        <li><a href="#number-12" class="nav-link">12 - douze</a></li>
+                        <li><a href="#number-13" class="nav-link">13 - treize</a></li>
+                        <li><a href="#number-14" class="nav-link">14 - quatorze</a></li>
+                        <li><a href="#number-15" class="nav-link">15 - quinze</a></li>
+                        <li><a href="#number-16" class="nav-link">16 - seize</a></li>
+                        <li><a href="#number-17" class="nav-link">17 - dix-sept</a></li>
+                        <li><a href="#number-18" class="nav-link">18 - dix-huit</a></li>
+                        <li><a href="#number-19" class="nav-link">19 - dix-neuf</a></li>
+                        <li><a href="#number-20" class="nav-link">20 - vingt</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="expandable-section">
+                <div class="section-header" onclick="toggleSection('tens-numbers')">
+                    <span>🔟 Tens (20-100)</span>
+                    <span class="expand-icon" id="tens-numbers-icon">▶</span>
+                </div>
+                <div class="collapsible-content" id="tens-numbers-content">
+                    <ul class="nav-list">
+                        <li><a href="#number-20" class="nav-link">20 - vingt</a></li>
+                        <li><a href="#number-30" class="nav-link">30 - trente</a></li>
+                        <li><a href="#number-40" class="nav-link">40 - quarante</a></li>
+                        <li><a href="#number-50" class="nav-link">50 - cinquante</a></li>
+                        <li><a href="#number-60" class="nav-link">60 - soixante</a></li>
+                        <li><a href="#number-70" class="nav-link">70 - soixante-dix</a></li>
+                        <li><a href="#number-80" class="nav-link">80 - quatre-vingts</a></li>
+                        <li><a href="#number-90" class="nav-link">90 - quatre-vingt-dix</a></li>
+                        <li><a href="#number-100" class="nav-link">100 - cent</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div id="top">
+            <h1>French Numbers Learning</h1>
+            <p>Master French numbers from 1 to 100 with detailed pronunciation guides, audio practice, and usage examples. Learn the unique French counting system including the distinctive patterns for 70-99.</p>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search for any number or French word (e.g., vingt, 25, soixante-dix)..." />
+                <button id="searchButton" onclick="performSearch()">🔍 Search</button>
+            </div>
+            <div id="searchResults" class="search-results"></div>
+        </div>
+        
+        <div id="numbers-overview">
+            <h2>French Numbers (Les Nombres)</h2>
+            <div style="text-align: center; margin: 1rem 0;">
+                <button class="master-play" onclick="playAllNumbers()">▶️ Play Numbers 1-20</button>
+                <button class="master-play" onclick="playTensNumbers()">▶️ Play Tens (20-100)</button>
+            </div>
+            <div style="max-width: 800px; margin: 0 auto 1.5rem auto; background: #fff3cd; border-left: 4px solid #ffc107; padding: 1rem 1.5rem; color: #8b4513; font-size: 1.08rem;">
+                <strong>Understanding French Numbers</strong><br>
+                French numbers follow specific patterns and have unique characteristics, especially from 70-99. Unlike English, French uses a base-20 system for these higher numbers (70 = sixty-ten, 80 = four-twenties, 90 = four-twenty-ten).<br><br>
+                <strong>Number Formation Rules</strong><br>
+                • 1-16: Unique forms to memorize<br>
+                • 17-19: Ten + hyphen + unit (dix-sept)<br>
+                • 21-69: Ten + hyphen + unit (vingt-et-un, trente-deux)<br>
+                • 70-79: Sixty + ten + unit (soixante-dix)<br>
+                • 80-89: Four-twenties + unit (quatre-vingts)<br>
+                • 90-99: Four-twenty + ten + unit (quatre-vingt-dix)
+            </div>
+            
+            <div class="numbers-grid">
+                <div class="number-card">
+                    <div class="number">1-10</div>
+                    <div class="french">Les nombres de base</div>
+                    <div class="english">Basic numbers</div>
+                    <button onclick="playNumberRange(1, 10)">🔊 Play</button>
+                </div>
+                <div class="number-card">
+                    <div class="number">11-20</div>
+                    <div class="french">Les nombres teens</div>
+                    <div class="english">Teen numbers</div>
+                    <button onclick="playNumberRange(11, 20)">🔊 Play</button>
+                </div>
+                <div class="number-card">
+                    <div class="number">21-69</div>
+                    <div class="french">Formation régulière</div>
+                    <div class="english">Regular formation</div>
+                    <button onclick="playNumberRange(20, 30)">🔊 Play 20s</button>
+                </div>
+                <div class="number-card">
+                    <div class="number">70-99</div>
+                    <div class="french">Système vigésimal</div>
+                    <div class="english">Base-20 system</div>
+                    <button onclick="playNumberRange(70, 80)">🔊 Play 70s</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Basic Numbers 1-20 -->
+        <div class="number-section" id="numbers-1-20">
+            <h2>Basic Numbers (1-20)</h2>
+            <div style="text-align: center; margin: 1rem 0;">
+                <button class="master-play" onclick="playNumberRange(1, 20)">▶️ Play All Basic Numbers</button>
+            </div>
+            <table>
+                <thead>
+                    <tr><th>Number</th><th>French</th><th>Pronunciation</th><th>Audio</th></tr>
+                </thead>
+                <tbody>
+                    <tr id="number-1"><td>1</td><td>un</td><td>un</td><td><button onclick="playNumber('un')">🔊</button></td></tr>
+                    <tr id="number-2"><td>2</td><td>deux</td><td>deuh</td><td><button onclick="playNumber('deux')">🔊</button></td></tr>
+                    <tr id="number-3"><td>3</td><td>trois</td><td>twah</td><td><button onclick="playNumber('trois')">🔊</button></td></tr>
+                    <tr id="number-4"><td>4</td><td>quatre</td><td>katr</td><td><button onclick="playNumber('quatre')">🔊</button></td></tr>
+                    <tr id="number-5"><td>5</td><td>cinq</td><td>sank</td><td><button onclick="playNumber('cinq')">🔊</button></td></tr>
+                    <tr id="number-6"><td>6</td><td>six</td><td>sees</td><td><button onclick="playNumber('six')">🔊</button></td></tr>
+                    <tr id="number-7"><td>7</td><td>sept</td><td>set</td><td><button onclick="playNumber('sept')">🔊</button></td></tr>
+                    <tr id="number-8"><td>8</td><td>huit</td><td>weet</td><td><button onclick="playNumber('huit')">🔊</button></td></tr>
+                    <tr id="number-9"><td>9</td><td>neuf</td><td>nerf</td><td><button onclick="playNumber('neuf')">🔊</button></td></tr>
+                    <tr id="number-10"><td>10</td><td>dix</td><td>dees</td><td><button onclick="playNumber('dix')">🔊</button></td></tr>
+                    <tr id="number-11"><td>11</td><td>onze</td><td>onz</td><td><button onclick="playNumber('onze')">🔊</button></td></tr>
+                    <tr id="number-12"><td>12</td><td>douze</td><td>dooz</td><td><button onclick="playNumber('douze')">🔊</button></td></tr>
+                    <tr id="number-13"><td>13</td><td>treize</td><td>trez</td><td><button onclick="playNumber('treize')">🔊</button></td></tr>
+                    <tr id="number-14"><td>14</td><td>quatorze</td><td>ka-torz</td><td><button onclick="playNumber('quatorze')">🔊</button></td></tr>
+                    <tr id="number-15"><td>15</td><td>quinze</td><td>kanz</td><td><button onclick="playNumber('quinze')">🔊</button></td></tr>
+                    <tr id="number-16"><td>16</td><td>seize</td><td>sez</td><td><button onclick="playNumber('seize')">🔊</button></td></tr>
+                    <tr id="number-17"><td>17</td><td>dix-sept</td><td>dees-set</td><td><button onclick="playNumber('dix-sept')">🔊</button></td></tr>
+                    <tr id="number-18"><td>18</td><td>dix-huit</td><td>dees-weet</td><td><button onclick="playNumber('dix-huit')">🔊</button></td></tr>
+                    <tr id="number-19"><td>19</td><td>dix-neuf</td><td>dees-nerf</td><td><button onclick="playNumber('dix-neuf')">🔊</button></td></tr>
+                    <tr id="number-20"><td>20</td><td>vingt</td><td>van</td><td><button onclick="playNumber('vingt')">🔊</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tens Numbers -->
+        <div class="number-section" id="tens-numbers">
+            <h2>Tens and Larger Numbers (20-100)</h2>
+            <div style="text-align: center; margin: 1rem 0;">
+                <button class="master-play" onclick="playTensNumbers()">▶️ Play All Tens</button>
+            </div>
+            <table>
+                <thead>
+                    <tr><th>Number</th><th>French</th><th>Pattern/Notes</th><th>Audio</th></tr>
+                </thead>
+                <tbody>
+                    <tr id="number-20"><td>20</td><td>vingt</td><td>Base for 20s</td><td><button onclick="playNumber('vingt')">🔊</button></td></tr>
+                    <tr><td>21</td><td>vingt et un</td><td>twenty and one</td><td><button onclick="playNumber('vingt et un')">🔊</button></td></tr>
+                    <tr><td>22</td><td>vingt-deux</td><td>twenty-two</td><td><button onclick="playNumber('vingt-deux')">🔊</button></td></tr>
+                    <tr><td>25</td><td>vingt-cinq</td><td>twenty-five</td><td><button onclick="playNumber('vingt-cinq')">🔊</button></td></tr>
+                    <tr id="number-30"><td>30</td><td>trente</td><td>Base for 30s</td><td><button onclick="playNumber('trente')">🔊</button></td></tr>
+                    <tr><td>31</td><td>trente et un</td><td>thirty and one</td><td><button onclick="playNumber('trente et un')">🔊</button></td></tr>
+                    <tr><td>35</td><td>trente-cinq</td><td>thirty-five</td><td><button onclick="playNumber('trente-cinq')">🔊</button></td></tr>
+                    <tr id="number-40"><td>40</td><td>quarante</td><td>Base for 40s</td><td><button onclick="playNumber('quarante')">🔊</button></td></tr>
+                    <tr><td>44</td><td>quarante-quatre</td><td>forty-four</td><td><button onclick="playNumber('quarante-quatre')">🔊</button></td></tr>
+                    <tr id="number-50"><td>50</td><td>cinquante</td><td>Base for 50s</td><td><button onclick="playNumber('cinquante')">🔊</button></td></tr>
+                    <tr><td>55</td><td>cinquante-cinq</td><td>fifty-five</td><td><button onclick="playNumber('cinquante-cinq')">🔊</button></td></tr>
+                    <tr id="number-60"><td>60</td><td>soixante</td><td>Base for 60s</td><td><button onclick="playNumber('soixante')">🔊</button></td></tr>
+                    <tr><td>65</td><td>soixante-cinq</td><td>sixty-five</td><td><button onclick="playNumber('soixante-cinq')">🔊</button></td></tr>
+                    <tr id="number-70"><td>70</td><td>soixante-dix</td><td>sixty-ten (special!)</td><td><button onclick="playNumber('soixante-dix')">🔊</button></td></tr>
+                    <tr><td>71</td><td>soixante et onze</td><td>sixty and eleven</td><td><button onclick="playNumber('soixante et onze')">🔊</button></td></tr>
+                    <tr><td>75</td><td>soixante-quinze</td><td>sixty-fifteen</td><td><button onclick="playNumber('soixante-quinze')">🔊</button></td></tr>
+                    <tr><td>79</td><td>soixante-dix-neuf</td><td>sixty-nineteen</td><td><button onclick="playNumber('soixante-dix-neuf')">🔊</button></td></tr>
+                    <tr id="number-80"><td>80</td><td>quatre-vingts</td><td>four-twenties (special!)</td><td><button onclick="playNumber('quatre-vingts')">🔊</button></td></tr>
+                    <tr><td>81</td><td>quatre-vingt-un</td><td>four-twenty-one</td><td><button onclick="playNumber('quatre-vingt-un')">🔊</button></td></tr>
+                    <tr><td>85</td><td>quatre-vingt-cinq</td><td>four-twenty-five</td><td><button onclick="playNumber('quatre-vingt-cinq')">🔊</button></td></tr>
+                    <tr id="number-90"><td>90</td><td>quatre-vingt-dix</td><td>four-twenty-ten</td><td><button onclick="playNumber('quatre-vingt-dix')">🔊</button></td></tr>
+                    <tr><td>91</td><td>quatre-vingt-onze</td><td>four-twenty-eleven</td><td><button onclick="playNumber('quatre-vingt-onze')">🔊</button></td></tr>
+                    <tr><td>95</td><td>quatre-vingt-quinze</td><td>four-twenty-fifteen</td><td><button onclick="playNumber('quatre-vingt-quinze')">🔊</button></td></tr>
+                    <tr><td>99</td><td>quatre-vingt-dix-neuf</td><td>four-twenty-nineteen</td><td><button onclick="playNumber('quatre-vingt-dix-neuf')">🔊</button></td></tr>
+                    <tr id="number-100"><td>100</td><td>cent</td><td>One hundred</td><td><button onclick="playNumber('cent')">🔊</button></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p style="text-align:center; margin-top:3rem; color:#666;">
+            Complete French numbers 1-100 with detailed pronunciation guides and examples.<br>
+            <a href="#top">Back to Top</a> | 
+            <a href="index.html">Home</a> | 
+            <a href="French-Alphabets.html">French Alphabets</a> | 
+            <a href="French-Verbs.html">French Verbs</a>
+        </p>
+    </div>
+
+    <script>
+        // Dropdown functionality
+        function toggleDropdown(event, dropdownId) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            // Close all other dropdowns
+            document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                if (dropdown.id !== dropdownId) {
+                    dropdown.classList.remove('show');
+                    dropdown.parentElement.classList.remove('active');
+                }
+            });
+            
+            // Toggle the clicked dropdown
+            const dropdown = document.getElementById(dropdownId);
+            const dropdownParent = dropdown.parentElement;
+            
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+                dropdownParent.classList.remove('active');
+            } else {
+                dropdown.classList.add('show');
+                dropdownParent.classList.add('active');
+            }
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.matches('.dropdown-toggle') && !event.target.matches('.dropdown-arrow')) {
+                document.querySelectorAll('.dropdown-content').forEach(dropdown => {
+                    dropdown.classList.remove('show');
+                    dropdown.parentElement.classList.remove('active');
+                });
+            }
+        });
+
+        // Sidebar expand/collapse functionality
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId + '-content');
+            const icon = document.getElementById(sectionId + '-icon');
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                icon.classList.remove('expanded');
+                icon.textContent = '▶';
+            } else {
+                content.classList.add('expanded');
+                icon.classList.add('expanded');
+                icon.textContent = '▼';
+            }
+        }
+
+        // Navigation helper function
+        function navigateToModule(url) {
+            window.location.href = url;
+        }
+
+        // French numbers data
+        window.numbersData = {
+            // Basic numbers 1-20
+            '1': 'un', '2': 'deux', '3': 'trois', '4': 'quatre', '5': 'cinq',
+            '6': 'six', '7': 'sept', '8': 'huit', '9': 'neuf', '10': 'dix',
+            '11': 'onze', '12': 'douze', '13': 'treize', '14': 'quatorze', '15': 'quinze',
+            '16': 'seize', '17': 'dix-sept', '18': 'dix-huit', '19': 'dix-neuf', '20': 'vingt',
+            
+            // 20s
+            '21': 'vingt et un', '22': 'vingt-deux', '23': 'vingt-trois', '24': 'vingt-quatre', '25': 'vingt-cinq',
+            '26': 'vingt-six', '27': 'vingt-sept', '28': 'vingt-huit', '29': 'vingt-neuf',
+            
+            // 30s
+            '30': 'trente', '31': 'trente et un', '32': 'trente-deux', '33': 'trente-trois', '34': 'trente-quatre', 
+            '35': 'trente-cinq', '36': 'trente-six', '37': 'trente-sept', '38': 'trente-huit', '39': 'trente-neuf',
+            
+            // 40s
+            '40': 'quarante', '41': 'quarante et un', '42': 'quarante-deux', '43': 'quarante-trois', '44': 'quarante-quatre',
+            '45': 'quarante-cinq', '46': 'quarante-six', '47': 'quarante-sept', '48': 'quarante-huit', '49': 'quarante-neuf',
+            
+            // 50s
+            '50': 'cinquante', '51': 'cinquante et un', '52': 'cinquante-deux', '53': 'cinquante-trois', '54': 'cinquante-quatre',
+            '55': 'cinquante-cinq', '56': 'cinquante-six', '57': 'cinquante-sept', '58': 'cinquante-huit', '59': 'cinquante-neuf',
+            
+            // 60s
+            '60': 'soixante', '61': 'soixante et un', '62': 'soixante-deux', '63': 'soixante-trois', '64': 'soixante-quatre',
+            '65': 'soixante-cinq', '66': 'soixante-six', '67': 'soixante-sept', '68': 'soixante-huit', '69': 'soixante-neuf',
+            
+            // 70s (Belgian/Swiss style: septante would be alternative)
+            '70': 'soixante-dix', '71': 'soixante et onze', '72': 'soixante-douze', '73': 'soixante-treize', '74': 'soixante-quatorze',
+            '75': 'soixante-quinze', '76': 'soixante-seize', '77': 'soixante-dix-sept', '78': 'soixante-dix-huit', '79': 'soixante-dix-neuf',
+            
+            // 80s (Belgian/Swiss style: octante/huitante would be alternative)
+            '80': 'quatre-vingts', '81': 'quatre-vingt-un', '82': 'quatre-vingt-deux', '83': 'quatre-vingt-trois', '84': 'quatre-vingt-quatre',
+            '85': 'quatre-vingt-cinq', '86': 'quatre-vingt-six', '87': 'quatre-vingt-sept', '88': 'quatre-vingt-huit', '89': 'quatre-vingt-neuf',
+            
+            // 90s (Belgian/Swiss style: nonante would be alternative)
+            '90': 'quatre-vingt-dix', '91': 'quatre-vingt-onze', '92': 'quatre-vingt-douze', '93': 'quatre-vingt-treize', '94': 'quatre-vingt-quatorze',
+            '95': 'quatre-vingt-quinze', '96': 'quatre-vingt-seize', '97': 'quatre-vingt-dix-sept', '98': 'quatre-vingt-dix-huit', '99': 'quatre-vingt-dix-neuf',
+            
+            // 100
+            '100': 'cent'
+        };
+
+        // Get best French voice
+        function getBestFrenchVoice() {
+            const voices = window.speechSynthesis.getVoices();
+            let claude = voices.find(v => v.name === 'Microsoft Claude - French (Canada)');
+            if (claude) return claude;
+            let frCaVoices = voices.filter(v => v.lang === 'fr-CA');
+            if (frCaVoices.length > 0) return frCaVoices[0];
+            let frVoices = voices.filter(v => v.lang.startsWith('fr'));
+            if (frVoices.length > 0) return frVoices[0];
+            return null;
+        }
+
+        // Highlight word function
+        function highlightWord(word) {
+            // Remove any existing highlights
+            document.querySelectorAll('.word-highlight').forEach(el => {
+                el.classList.remove('word-highlight');
+            });
+            
+            // Find and highlight the word in tables
+            const tables = document.querySelectorAll('table');
+            tables.forEach(table => {
+                const cells = table.querySelectorAll('td');
+                cells.forEach(cell => {
+                    const cellText = cell.textContent.trim();
+                    const searchWord = word.trim();
+                    
+                    // Try exact match (case sensitive and insensitive)
+                    if (cellText === searchWord || cellText.toLowerCase() === searchWord.toLowerCase()) {
+                        cell.classList.add('word-highlight');
+                    }
+                    // Try partial match for compound numbers (like "vingt et un")
+                    else if (cellText.includes(searchWord) || cellText.toLowerCase().includes(searchWord.toLowerCase())) {
+                        cell.classList.add('word-highlight');
+                    }
+                });
+            });
+        }
+
+        // Remove highlight function
+        function removeHighlight() {
+            document.querySelectorAll('.word-highlight').forEach(el => {
+                el.classList.remove('word-highlight');
+            });
+        }
+
+        // Play single number
+        function playNumber(frenchNumber) {
+            // Highlight the word
+            highlightWord(frenchNumber);
+            
+            const utterance = new SpeechSynthesisUtterance(frenchNumber);
+            const voice = getBestFrenchVoice();
+            if (voice) utterance.voice = voice;
+            utterance.lang = voice ? voice.lang : 'fr-CA';
+            utterance.rate = 0.8;
+            
+            // Remove highlight when audio ends
+            utterance.onend = function() {
+                setTimeout(removeHighlight, 200);
+            };
+            
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Play number range
+        function playNumberRange(start, end) {
+            const numbers = [];
+            for (let i = start; i <= end; i++) {
+                if (window.numbersData[i.toString()]) {
+                    numbers.push(window.numbersData[i.toString()]);
+                }
+            }
+            
+            let idx = 0;
+            function speakNext() {
+                if (idx < numbers.length) {
+                    // Highlight current number
+                    highlightWord(numbers[idx]);
+                    
+                    const utterance = new SpeechSynthesisUtterance(numbers[idx]);
+                    const voice = getBestFrenchVoice();
+                    if (voice) utterance.voice = voice;
+                    utterance.lang = voice ? voice.lang : 'fr-CA';
+                    utterance.rate = 0.7;
+                    utterance.onend = function() {
+                        idx++;
+                        if (idx >= numbers.length) {
+                            // Remove highlight when all done
+                            setTimeout(removeHighlight, 200);
+                            return; // Exit here to prevent calling speakNext() again
+                        }
+                        setTimeout(speakNext, 800);
+                    };
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
+            window.speechSynthesis.cancel();
+            removeHighlight(); // Clear any existing highlights
+            
+            // Ensure voices are loaded before starting
+            if (window.speechSynthesis.getVoices().length === 0) {
+                window.speechSynthesis.onvoiceschanged = function() {
+                    // Clear the event handler to prevent multiple calls
+                    window.speechSynthesis.onvoiceschanged = null;
+                    speakNext();
+                };
+            } else {
+                speakNext();
+            }
+        }
+
+        // Play all basic numbers 1-20
+        function playAllNumbers() {
+            playNumberRange(1, 20);
+        }
+
+        // Play tens numbers
+        function playTensNumbers() {
+            const tensNumbers = ['vingt', 'trente', 'quarante', 'cinquante', 'soixante', 'soixante-dix', 'quatre-vingts', 'quatre-vingt-dix', 'cent'];
+            let idx = 0;
+            function speakNext() {
+                if (idx < tensNumbers.length) {
+                    // Highlight current number
+                    highlightWord(tensNumbers[idx]);
+                    
+                    const utterance = new SpeechSynthesisUtterance(tensNumbers[idx]);
+                    const voice = getBestFrenchVoice();
+                    if (voice) utterance.voice = voice;
+                    utterance.lang = voice ? voice.lang : 'fr-CA';
+                    utterance.rate = 0.7;
+                    utterance.onend = function() {
+                        idx++;
+                        if (idx >= tensNumbers.length) {
+                            // Remove highlight when all done
+                            setTimeout(removeHighlight, 200);
+                            return; // Exit here to prevent calling speakNext() again
+                        }
+                        setTimeout(speakNext, 900);
+                    };
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
+            window.speechSynthesis.cancel();
+            removeHighlight(); // Clear any existing highlights
+            
+            // Ensure voices are loaded before starting
+            if (window.speechSynthesis.getVoices().length === 0) {
+                window.speechSynthesis.onvoiceschanged = function() {
+                    // Clear the event handler to prevent multiple calls
+                    window.speechSynthesis.onvoiceschanged = null;
+                    speakNext();
+                };
+            } else {
+                speakNext();
+            }
+        }
+
+        // Search functionality
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+            const resultsContainer = document.getElementById('searchResults');
+            
+            if (!searchTerm) {
+                resultsContainer.classList.remove('show');
+                return;
+            }
+
+            const searchableContent = [];
+            
+            // Add number items
+            Object.entries(window.numbersData).forEach(([num, french]) => {
+                searchableContent.push({
+                    title: `${num} - ${french}`,
+                    content: `Number ${num} in French: ${french}`,
+                    link: `#number-${num}`,
+                    category: 'French Numbers'
+                });
+            });
+
+            // Perform search
+            const results = searchableContent.filter(item => 
+                item.title.toLowerCase().includes(searchTerm) || 
+                item.content.toLowerCase().includes(searchTerm) ||
+                searchTerm === item.title.split(' - ')[0] ||
+                searchTerm === item.title.split(' - ')[1]
+            );
+
+            if (results.length > 0) {
+                resultsContainer.innerHTML = results.map(result => 
+                    `<div class="search-result-item" onclick="window.location.href='${result.link}'">
+                        <strong>${result.title}</strong> - ${result.category}<br>
+                        <small>${result.content}</small>
+                    </div>`
+                ).join('');
+                resultsContainer.classList.add('show');
+            } else {
+                resultsContainer.innerHTML = '<div class="search-no-results">No results found for "' + searchTerm + '"</div>';
+                resultsContainer.classList.add('show');
+            }
+        }
+
+        // Allow search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Hide results when clicking outside
+        document.addEventListener('click', function(e) {
+            const searchContainer = document.querySelector('.search-container');
+            if (!searchContainer.contains(e.target)) {
+                document.getElementById('searchResults').classList.remove('show');
+            }
+        });
+
+        // Mobile menu toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Country-specific pricing functions (Enhanced Firebase integration)
+        async function getUserCurrency() {
+            try {
+                // First, try to get country from Firebase Firestore
+                const firebaseUser = (typeof firebase !== 'undefined' && firebase.auth && firebase.auth().currentUser) ? firebase.auth().currentUser : null;
+                
+                if (firebaseUser && typeof firebase.firestore !== 'undefined') {
+                    console.log('🔍 Checking Firebase for country data for user:', firebaseUser.uid);
+                    
+                    try {
+                        const doc = await firebase.firestore().collection('users').doc(firebaseUser.uid).get();
+                        if (doc.exists) {
+                            const userData = doc.data();
+                            const firebaseCountry = userData.country;
+                            
+                            console.log('🌍 Firebase country data:', firebaseCountry);
+                            
+                            if (firebaseCountry) {
+                                // Update localStorage with Firebase data
+                                const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || '{}');
+                                currentUser.country = firebaseCountry;
+                                localStorage.setItem('french_app_current_user', JSON.stringify(currentUser));
+                                
+                                if (firebaseCountry === 'Canada') {
+                                    console.log('💰 Using CAD currency for Canada (from Firebase)');
+                                    return 'CAD';
+                                } else if (firebaseCountry === 'India') {
+                                    console.log('💰 Using INR currency for India (from Firebase)');
+                                    return 'INR';
+                                }
+                            }
+                        }
+                    } catch (firebaseError) {
+                        console.log('⚠️ Firebase query failed, falling back to localStorage:', firebaseError.message);
+                    }
+                }
+                
+                // Fallback to localStorage
+                const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || '{}');
+                console.log('💰 Getting user currency from localStorage for:', currentUser.country);
+                
+                if (currentUser.country === 'Canada') {
+                    return 'CAD';
+                } else if (currentUser.country === 'India') {
+                    return 'INR';
+                }
+                
+                // Default to USD for other countries or if no country specified
+                console.log('💰 Using USD currency (default/fallback)');
+                return 'USD';
+                
+            } catch (error) {
+                console.error('❌ Error in getUserCurrency:', error);
+                return 'USD';
+            }
+        }
+
+        async function updateSubscriptionPricingForUser() {
+            try {
+                const currency = await getUserCurrency();
+                
+                console.log('🎯 Updating subscription pricing for currency:', currency);
+                
+                if (currency === 'CAD') {
+                    console.log('🍁 Applying Canadian pricing');
+                    updatePlanPrices('CAD', 13.47, 36.44, 135);
+                } else if (currency === 'INR') {
+                    console.log('🇮🇳 Applying Indian pricing');
+                    updatePlanPrices('INR', 499, 1497, 5988);
+                } else {
+                    // Use default USD pricing for other countries
+                    console.log('🇺🇸 Using default USD pricing');
+                    updatePlanPrices('USD', 9.99, 26.99, 99.99);
+                }
+            } catch (error) {
+                console.error('❌ Error in updateSubscriptionPricingForUser:', error);
+                // Fallback to USD
+                updatePlanPrices('USD', 9.99, 26.99, 99.99);
+            }
+        }
+
+        function updatePlanPrices(currency, monthly, quarterly, yearly) {
+            // Update the main price display
+            const monthlyPrice = document.querySelector('#monthlyPlan .plan-price');
+            const quarterlyPrice = document.querySelector('#quarterlyPlan .plan-price');
+            const yearlyPrice = document.querySelector('#yearlyPlan .plan-price');
+            
+            const symbol = currency === 'CAD' ? '$' : currency === 'INR' ? '₹' : '$';
+            
+            console.log('💰 Updating plan prices to:', currency, { monthly, quarterly, yearly });
+            
+            if (monthlyPrice) {
+                monthlyPrice.innerHTML = `<span class="currency">${symbol}</span>${monthly}<span class="period">/month</span>`;
+                console.log('✅ Updated monthly price');
+            } else {
+                console.log('⚠️ Monthly price element not found');
+            }
+            
+            if (quarterlyPrice) {
+                quarterlyPrice.innerHTML = `<span class="currency">${symbol}</span>${quarterly}<span class="period">/3 months</span>`;
+                console.log('✅ Updated quarterly price');
+            } else {
+                console.log('⚠️ Quarterly price element not found');
+            }
+            
+            if (yearlyPrice) {
+                yearlyPrice.innerHTML = `<span class="currency">${symbol}</span>${yearly}<span class="period">/year</span>`;
+                console.log('✅ Updated yearly price');
+            } else {
+                console.log('⚠️ Yearly price element not found');
+            }
+        }
+
+        function ensureUserHasCountryData() {
+            const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || '{}');
+            
+            // If user exists but has no country data, prompt them
+            if (currentUser.email && !currentUser.country) {
+                console.log('⚠️ User missing country data, prompting for selection...');
+                const userChoice = prompt(
+                    '🌍 Country Selection Required\n\nTo show you the correct pricing, please select your country:\n\n1 - Canada (CAD pricing)\n2 - India (INR pricing)\n3 - Other countries (USD pricing)\n\nEnter 1, 2, or 3:'
+                );
+                
+                let country = 'Other';
+                if (userChoice === '1') {
+                    country = 'Canada';
+                } else if (userChoice === '2') {
+                    country = 'India';
+                }
+                
+                // Update user data with country
+                currentUser.country = country;
+                localStorage.setItem('french_app_current_user', JSON.stringify(currentUser));
+                
+                console.log('✅ Country updated to:', country);
+                return country;
+            }
+            
+            return currentUser.country || 'Other';
+        }
+
+        async function updatePaymentButtonCurrency() {
+            console.log('🔍 updatePaymentButtonCurrency called');
+            
+            try {
+                // Get currency from Firebase first, then localStorage
+                const userCurrency = await getUserCurrency();
+                const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || '{}');
+                const btnText = document.getElementById('subscribeBtnText');
+                
+                console.log('👤 Current user data:', currentUser);
+                console.log('💰 Detected currency:', userCurrency);
+                
+                if (btnText) {
+                    let defaultText;
+                    if (userCurrency === 'CAD') {
+                        defaultText = 'Complete Payment $13.47 CAD/month';
+                    } else if (userCurrency === 'INR') {
+                        defaultText = 'Complete Payment ₹499 INR/month';
+                    } else {
+                        defaultText = 'Complete Payment $9.99 USD/month';
+                    }
+                    btnText.textContent = defaultText;
+                    console.log('✅ Button currency updated to:', defaultText);
+                    console.log('✅ Button element updated successfully');
+                } else {
+                    console.error('❌ subscribeBtnText element not found!');
+                }
+            } catch (error) {
+                console.error('❌ Error in updatePaymentButtonCurrency:', error);
+                // Fallback to USD if there's an error
+                const btnText = document.getElementById('subscribeBtnText');
+                if (btnText) {
+                    btnText.textContent = 'Complete Payment $9.99 USD/month';
+                }
+            }
+        }
+
+        // Tech-Pay Centralized Payment System Configuration
+        // Environment Configuration - UPDATE FOR LIVE INTEGRATION
+        const STRIPE_CONFIG = {
+            environment: 'live',  // 'test' or 'live' - LIVE ENVIRONMENT ACTIVATED
+            test: {
+                publishableKey: 'pk_test_TYooMQauvdEDq54NiTphI7jx',
+            },
+            live: {
+                publishableKey: 'pk_live_51Rr5H03QiDHRr52effkP2HrTynAiO7NYD8VQfmbQiHTfpj3zvbw7q4p3uSeRWHHK0ehhHAoYqHyxXwIjmuyGVz3Q00BJL8lkM9',
+            }
+        };
+
+        // Get current Stripe publishable key based on environment
+        function getStripePublishableKey() {
+            const config = STRIPE_CONFIG[STRIPE_CONFIG.environment];
+            console.log(`🔧 Using ${STRIPE_CONFIG.environment} Stripe environment`);
+            return config.publishableKey;
+        }
+
+        // Global Stripe variables (from Tech-Pay.html)
+        let selectedPlan = null;
+        let stripe = null;
+        let elements = null;
+        let cardElement = null;
+
+        // Live Payment Helper Function
+        function logPaymentSuccess(paymentIntent, planType, currency, amount) {
+            console.log('📊 Payment Success Log:', {
+                payment_id: paymentIntent?.id || 'demo_' + Date.now(),
+                plan: planType,
+                currency: currency,
+                amount: amount,
+                timestamp: new Date().toISOString(),
+                environment: STRIPE_CONFIG.environment
+            });
+
+            // Store payment info in localStorage for tracking
+            const paymentHistory = JSON.parse(localStorage.getItem('payment_history') || '[]');
+            paymentHistory.push({
+                id: paymentIntent?.id || 'demo_' + Date.now(),
+                plan: planType,
+                currency: currency,
+                amount: amount,
+                date: new Date().toISOString(),
+                status: 'completed'
+            });
+            localStorage.setItem('payment_history', JSON.stringify(paymentHistory));
+        }
+
+        async function selectPlan(planType) {
+            console.log('🎯 Plan selected:', planType);
+            
+            try {
+                selectedPlan = planType;
+                
+                // Clear any existing error messages
+                clearMessages();
+                
+                // Update UI - remove selected class from all cards
+                document.querySelectorAll('.plan-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                
+                // Add selected class to the chosen plan
+                const selectedCard = document.getElementById(planType + 'Plan');
+                if (selectedCard) {
+                    selectedCard.classList.add('selected');
+                    console.log('✅ Plan card updated:', planType + 'Plan');
+                } else {
+                    console.error('❌ Could not find plan card:', planType + 'Plan');
+                }
+                
+                // Show payment section with smooth transition
+                const paymentSection = document.getElementById('paymentSection');
+                if (paymentSection) {
+                    paymentSection.style.display = 'block';
+                    paymentSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    console.log('✅ Payment section shown');
+                } else {
+                    console.error('❌ Could not find payment section');
+                }
+                
+                // Update button text with selected plan amount based on user's country
+                const userCurrency = await getUserCurrency();
+                let amount;
+                
+                if (userCurrency === 'CAD') {
+                    if (planType === 'monthly') {
+                        amount = '$13.47 CAD/month';
+                    } else if (planType === 'quarterly') {
+                        amount = '$36.44 CAD/3 months';
+                    } else if (planType === 'yearly') {
+                        amount = '$135 CAD/year';
+                    }
+                } else if (userCurrency === 'INR') {
+                    if (planType === 'monthly') {
+                        amount = '₹499 INR/month';
+                    } else if (planType === 'quarterly') {
+                        amount = '₹1,497 INR/3 months';
+                    } else if (planType === 'yearly') {
+                        amount = '₹5,988 INR/year';
+                    }
+                } else {
+                    // Default USD pricing
+                    if (planType === 'monthly') {
+                        amount = '$9.99 USD/month';
+                    } else if (planType === 'quarterly') {
+                        amount = '$26.99 USD/3 months';
+                    } else if (planType === 'yearly') {
+                        amount = '$99.99 USD/year';
+                    }
+                }
+                
+                const btnText = document.getElementById('subscribeBtnText');
+                if (btnText) {
+                    btnText.textContent = `Complete Payment ${amount}`;
+                    console.log('✅ Button text updated:', amount);
+                } else {
+                    console.error('❌ Could not find subscribe button text');
+                }
+                
+                // Initialize Stripe if not already done
+                if (!stripe) {
+                    console.log('🔄 Initializing Stripe...');
+                    initializeStripe();
+                }
+                
+                // Show success message for plan selection
+                const planName = planType === 'monthly' ? 'Monthly' : planType === 'quarterly' ? 'Quarterly' : 'Yearly';
+                showSuccess('subscriptionSuccess', `${planName} Premium plan selected! Please fill in your payment details below.`);
+                
+                console.log('🎉 Plan selection completed successfully');
+                
+            } catch (error) {
+                console.error('❌ Error in selectPlan:', error);
+                showError('subscriptionError', 'There was an error selecting your plan. Please try again.');
+            }
+        }
+
+        // Tech-Pay Centralized Stripe Initialization (from Tech-Pay.html)
+        function initializeStripe() {
+            console.log('🔄 Initializing Stripe...');
+            
+            if (typeof Stripe === 'undefined') {
+                console.error('❌ Stripe.js not loaded');
+                showError('subscriptionError', 'Payment system not available. Please refresh the page.');
+                return;
+            }
+
+            try {
+                // Initialize Stripe with environment-appropriate key (Tech-Pay System)
+                const publishableKey = getStripePublishableKey();
+                stripe = Stripe(publishableKey);
+                elements = stripe.elements();
+                
+                // Create card element optimized for international users
+                // Supports CAD, INR, USD, and other international cards
+                cardElement = elements.create('card', {
+                    style: {
+                        base: {
+                            fontSize: '16px',
+                            color: '#424770',
+                            '::placeholder': {
+                                color: '#aab7c4',
+                            },
+                        },
+                    },
+                    hidePostalCode: true // International-friendly: Remove ZIP code requirement
+                });
+                
+                cardElement.mount('#card-element');
+                
+                // Handle real-time validation errors from the card Element
+                cardElement.on('change', ({error}) => {
+                    const displayError = document.getElementById('card-errors');
+                    if (error) {
+                        displayError.textContent = error.message;
+                    } else {
+                        displayError.textContent = '';
+                    }
+                });
+                
+                console.log('✅ Stripe initialized successfully with Tech-Pay system');
+                
+            } catch (error) {
+                console.error('❌ Error initializing Stripe:', error);
+                showError('subscriptionError', 'Payment system initialization failed. Please refresh the page.');
+            }
+        }
+
+        // Tech-Pay Centralized Payment Processing (Live Bank Integration Ready)
+        async function processPayment() {
+            if (!selectedPlan) {
+                showError('subscriptionError', 'Please select a subscription plan.');
+                return;
+            }
+            
+            const cardholderName = document.getElementById('cardholderName').value;
+            if (!cardholderName.trim()) {
+                showError('subscriptionError', 'Please enter the cardholder name.');
+                return;
+            }
+            
+            // Show loading
+            const subscribeBtn = document.getElementById('subscribeBtn');
+            const subscribeBtnText = document.getElementById('subscribeBtnText');
+            const subscribeSpinner = document.getElementById('subscribeSpinner');
+            
+            subscribeBtnText.style.display = 'none';
+            subscribeSpinner.style.display = 'inline';
+            subscribeBtn.disabled = true;
+            
+            try {
+                // Create payment method with Stripe
+                const {error, paymentMethod} = await stripe.createPaymentMethod({
+                    type: 'card',
+                    card: cardElement,
+                    billing_details: {
+                        name: cardholderName,
+                    },
+                });
+                
+                if (error) {
+                    throw new Error(error.message);
+                }
+                
+                console.log('✅ Payment method created:', paymentMethod.id);
+                
+                // Get pricing for the selected plan and currency
+                const userCurrency = await getUserCurrency();
+                let priceInCents;
+                
+                if (userCurrency === 'CAD') {
+                    priceInCents = selectedPlan === 'monthly' ? 1347 : selectedPlan === 'quarterly' ? 3644 : 13500;
+                } else if (userCurrency === 'INR') {
+                    priceInCents = selectedPlan === 'monthly' ? 49900 : selectedPlan === 'quarterly' ? 149700 : 598800; // INR uses paisa (1/100)
+                } else {
+                    priceInCents = selectedPlan === 'monthly' ? 999 : selectedPlan === 'quarterly' ? 2699 : 9999;
+                }
+                
+                console.log('💳 Processing payment for:', priceInCents, userCurrency);
+                
+                // LIVE ENVIRONMENT: Backend Payment Processing with Stripe Payment Intents
+                if (STRIPE_CONFIG.environment === 'live') {
+                    console.log('🚀 Processing LIVE payment with backend integration');
+                    
+                    try {
+                        console.log('💳 Creating payment intent with backend...');
+                        
+                        // Get current user for customer details
+                        const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || '{}');
+                        
+                        // Create payment intent via backend
+                        const response = await fetch('https://foundation-backend-chi.vercel.app/create-payment-intent', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                planType: selectedPlan,
+                                currency: userCurrency,
+                                amount: priceInCents,
+                                customerEmail: currentUser.email || '',
+                                customerName: currentUser.displayName || cardholderName
+                            })
+                        });
+                        
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            throw new Error(errorData.error || 'Payment setup failed');
+                        }
+                        
+                        const { clientSecret, paymentIntentId } = await response.json();
+                        console.log('✅ Payment intent created:', paymentIntentId);
+                        
+                        // Confirm payment with Stripe
+                        const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                            payment_method: paymentMethod.id
+                        });
+                        
+                        if (confirmError) {
+                            throw new Error(confirmError.message);
+                        }
+                        
+                        if (paymentIntent.status === 'succeeded') {
+                            console.log('✅ LIVE payment processed successfully!');
+                            console.log('💰 Payment Details:', paymentIntent);
+                            
+                            // Log the successful payment for tracking
+                            logPaymentSuccess(paymentIntent, selectedPlan, userCurrency, priceInCents);
+                        } else {
+                            throw new Error('Payment was not completed successfully');
+                        }
+                        
+                    } catch (liveError) {
+                        console.error('❌ Live payment processing error:', liveError);
+                        
+                        // Redirect to error page with details
+                        const errorParams = new URLSearchParams({
+                            error: liveError.message || 'Payment processing failed',
+                            code: liveError.code || 'PAYMENT_FAILED',
+                            plan: selectedPlan,
+                            amount: priceInCents,
+                            currency: userCurrency
+                        });
+                        
+                        window.location.href = 'payment-error.html?' + errorParams.toString();
+                        return;
+                    }
+                } else {
+                    // Test environment processing
+                    console.log('✅ Payment processed successfully with Stripe using test card');
+                }
+                
+                // Update user subscription in Firebase
+                console.log('💳 Payment successful, updating Firebase...');
+                const updateResult = await updateUserSubscription(selectedPlan);
+                
+                if (!updateResult || !updateResult.success) {
+                    console.error('❌ Subscription update failed:', updateResult);
+                    const errorMsg = updateResult?.error || 'Unknown Firebase error';
+                    throw new Error(`Failed to update subscription in Firebase: ${errorMsg}`);
+                }
+                
+                console.log('✅ Firebase updated successfully, updating localStorage...');
+                
+                // Update localStorage with the actual Firebase data
+                const currentUser = JSON.parse(localStorage.getItem('french_app_current_user'));
+                currentUser.subscription = {
+                    status: 'premium',
+                    plan: selectedPlan,
+                    startDate: new Date().toISOString(),
+                    endDate: new Date(Date.now() + (selectedPlan === 'monthly' ? 30 : selectedPlan === 'quarterly' ? 90 : 365) * 24 * 60 * 60 * 1000).toISOString(),
+                    active: true,
+                    paymentMethod: 'stripe'
+                };
+                localStorage.setItem('french_app_current_user', JSON.stringify(currentUser));
+                
+                console.log('✅ localStorage updated with premium status');
+                
+                showSuccess('subscriptionSuccess', '🎉 Payment successful! Welcome to Premium!');
+                
+                setTimeout(() => {
+                    closeModal('subscriptionModal');
+                    
+                    // Update UI to show premium status
+                    if (typeof updateSubscriptionUI === 'function') {
+                        updateSubscriptionUI('premium');
+                    }
+                    
+                    // Force refresh the menu access
+                    if (typeof updateMenuAccess === 'function') {
+                        updateMenuAccess();
+                    }
+                    
+                }, 2000);
+                
+            } catch (error) {
+                console.error('❌ Payment processing error:', error);
+                showError('subscriptionError', error.message);
+                
+            } finally {
+                // Reset button state
+                subscribeBtnText.style.display = 'inline';
+                subscribeSpinner.style.display = 'none';
+                subscribeBtn.disabled = false;
+            }
+        }
+
+        async function updateUserSubscription(plan) {
+            const firebaseUser = firebase.auth().currentUser;
+            if (!firebaseUser) {
+                console.log('❌ No Firebase user for subscription update');
+                return { success: false, error: 'No authenticated user' };
+            }
+            
+            try {
+                console.log('🔍 Starting Firebase subscription update...');
+                console.log('🆔 Plan parameter:', plan);
+                console.log('🆔 FirebaseUser UID:', firebaseUser.uid);
+                
+                const userDocRef = firebase.firestore().collection('users').doc(firebaseUser.uid);
+                
+                const subscriptionData = {
+                    status: 'premium',
+                    plan: plan,
+                    startDate: new Date(),
+                    endDate: new Date(Date.now() + (plan === 'monthly' ? 30 : plan === 'quarterly' ? 90 : 365) * 24 * 60 * 60 * 1000),
+                    paymentMethod: 'stripe',
+                    active: true,
+                    updatedAt: new Date()
+                };
+                
+                console.log('📝 Attempting to update subscription data:', subscriptionData);
+                
+                try {
+                    // Try to update existing document first
+                    await userDocRef.update({
+                        subscription: subscriptionData
+                    });
+                    console.log('✅ Updated existing user document');
+                } catch (updateError) {
+                    console.log('⚠️ Update failed, attempting set instead:', updateError.message);
+                    // If update fails (document doesn't exist), create it
+                    await userDocRef.set({
+                        email: firebaseUser.email,
+                        name: firebaseUser.displayName || firebaseUser.email,
+                        subscription: subscriptionData,
+                        createdAt: new Date()
+                    });
+                    console.log('✅ Created new user document');
+                }
+                
+                console.log('✅ Firebase subscription update completed successfully');
+                return { success: true };
+                
+            } catch (error) {
+                console.error('❌ Firebase subscription update failed:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // Authentication Functions
+        function toggleAuthButtons(isSignedIn, userName = '', subscriptionStatus = 'free') {
+            console.log('🔄 toggleAuthButtons called:', { isSignedIn, userName, subscriptionStatus });
+            
+            const authButtons = document.querySelector('.auth-buttons');
+            const userStatus = document.getElementById('userStatus');
+            const userGreeting = document.getElementById('userGreeting');
+            // Subscription status display removed for cleaner interface
+            const signOutBtn = document.getElementById('signOutBtn');
+            const donateBtn = document.querySelector('.nav-donate');
+            
+            if (isSignedIn) {
+                // User is signed in - show user status and hide sign in/up buttons
+                console.log('👤 Showing user status for:', userName);
+                
+                // Validate userName to prevent password from being displayed
+                const displayName = (userName && typeof userName === 'string' && userName.trim() && !userName.includes('@')) 
+                    ? userName.trim() 
+                    : 'User';
+                
+                if (authButtons) {
+                    const signInBtn = authButtons.querySelector('.sign-in-btn');
+                    const signUpBtn = authButtons.querySelector('.sign-up-btn');
+                    if (signInBtn) signInBtn.style.display = 'none';
+                    if (signUpBtn) signUpBtn.style.display = 'none';
+                }
+                
+                if (userStatus) userStatus.style.display = 'flex';
+                if (userGreeting) userGreeting.textContent = `Welcome, ${displayName}!`;
+                if (signOutBtn) signOutBtn.style.display = 'inline-block';
+                // Show Support Us button only for premium users
+                if (donateBtn) {
+                    if (subscriptionStatus === 'premium') {
+                        donateBtn.style.display = 'block';
+                        console.log('✅ Support Us button shown for premium user');
+                    } else {
+                        donateBtn.style.display = 'none';
+                        console.log('❌ Support Us button hidden for non-premium user');
+                    }
+                }
+                
+                // Handle subscription button based on premium status (direct logic like other pages)
+                const subscriptionBtn = document.getElementById('subscriptionBtn');
+                if (subscriptionBtn) {
+                    if (subscriptionStatus === 'premium') {
+                        console.log('🎯 Direct premium check - hiding Go Premium button');
+                        subscriptionBtn.style.display = 'none';
+                    } else {
+                        console.log('🎯 Direct non-premium check - showing Go Premium button');
+                        subscriptionBtn.style.display = 'inline-flex';
+                        subscriptionBtn.textContent = '💎 Go Premium';
+                    }
+                }
+                
+                // Update subscription status
+                updateSubscriptionUI(subscriptionStatus);
+                
+            } else {
+                // User is signed out - show sign in/up buttons and hide user status
+                console.log('🚪 Hiding user status, showing sign in/up buttons');
+                
+                if (authButtons) {
+                    const signInBtn = authButtons.querySelector('.sign-in-btn');
+                    const signUpBtn = authButtons.querySelector('.sign-up-btn');
+                    if (signInBtn) signInBtn.style.display = 'inline-block';
+                    if (signUpBtn) signUpBtn.style.display = 'inline-block';
+                }
+                
+                if (userStatus) userStatus.style.display = 'none';
+                if (signOutBtn) signOutBtn.style.display = 'none';
+                if (donateBtn) donateBtn.style.display = 'none'; // Hide Support Us button when signed out
+                
+                // Reset user name and subscription status to default guest state
+                if (userGreeting) userGreeting.textContent = 'Welcome!';
+                
+                // Force reset subscription UI to free/guest state
+                const subscriptionStatusSpan = document.getElementById('subscriptionStatus');
+                if (subscriptionStatusSpan) {
+                    subscriptionStatusSpan.textContent = 'Free';
+                    subscriptionStatusSpan.className = 'subscription-status free';
+                }
+                
+                // Show Go Premium button for signed-out users
+                updateSubscriptionUI('free');
+                
+                console.log('✅ UI reset to guest state');
+            }
+        }
+
+        // Function to check if current user has premium access
+        function isPremiumUser() {
+            const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || 'null');
+            return currentUser && currentUser.subscription?.status === 'premium';
+        }
+
+        // Function to handle numbers feature access
+        function handleNumbersAccess(event, targetUrl = null) {
+            event.preventDefault();
+            
+            // Default targetUrl if none provided - this fixes the main menu link navigation
+            if (!targetUrl) {
+                targetUrl = 'French-Numbers.html';
+            }
+            
+            console.log('🔢 handleNumbersAccess called from French-Numbers.html:', {
+                hasTargetUrl: !!targetUrl,
+                targetUrl: targetUrl,
+                clickedElement: event.target.textContent.trim()
+            });
+            
+            const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || 'null');
+            
+            if (!currentUser) {
+                // Not signed in
+                console.log('❌ User not signed in');
+                alert('🔐 Please sign in first to access French Numbers.\n\nThis is a premium feature that requires an account.');
+                window.location.href = 'index.html';
+                return false;
+            }
+            
+            console.log('👤 User found:', {
+                email: currentUser.email,
+                subscriptionStatus: currentUser.subscription?.status
+            });
+            
+            if (currentUser.subscription?.status === 'premium') {
+                // Premium user - allow access
+                console.log('✅ Premium user detected, navigating to:', targetUrl);
+                
+                try {
+                    // Multiple navigation methods for reliability
+                    if (targetUrl) {
+                        console.log('🚀 Attempting navigation...');
+                        
+                        // Method 1: Direct navigation
+                        window.location.href = targetUrl;
+                        
+                        // Method 2: Fallback with timeout
+                        setTimeout(() => {
+                            if (window.location.href.indexOf(targetUrl) === -1) {
+                                console.log('🔄 Fallback navigation attempt...');
+                                window.location.assign(targetUrl);
+                            }
+                        }, 100);
+                        
+                        console.log('✅ Navigation initiated successfully');
+                    } else {
+                        console.log('❌ No targetUrl provided for navigation');
+                    }
+                } catch (error) {
+                    console.error('❌ Navigation error:', error);
+                    alert('Navigation error occurred. Please try refreshing the page.');
+                }
+                
+                return true;
+            } else {
+                // Free user - show premium prompt
+                console.log('🔒 Free user, showing premium prompt');
+                alert('🔒 Premium Feature Required\n\n"French Numbers" is available exclusively for Premium subscribers.\n\nUpgrade to Premium to unlock:\n\n✨ Complete French Numbers (1-100)\n✨ Pronunciation guides\n✨ Interactive exercises\n✨ Audio practice\n✨ All future content updates');
+                
+                // Open subscription modal directly
+                openSubscriptionModal();
+                return false;
+            }
+        }
+
+        // Check if user is already signed in when page loads
+        window.addEventListener('load', function() {
+            const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || 'null');
+            
+            // Check premium access first
+            if (!currentUser) {
+                // Not signed in - redirect to main page
+                alert('🔐 Access Restricted\n\nFrench Numbers is a premium feature that requires an account.\n\nYou will be redirected to sign in.');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            if (currentUser.subscription?.status !== 'premium') {
+                // Not premium - redirect with upgrade prompt
+                alert('🔒 Premium Feature Required\n\nFrench Numbers is available exclusively for Premium subscribers.\n\nYou will be redirected to upgrade your account.');
+                window.location.href = 'index.html#upgrade';
+                return;
+            }
+            
+            // Premium user - allow access
+            console.log('👑 Premium user verified, setting up UI:', {
+                email: currentUser.email,
+                subscriptionStatus: currentUser.subscription?.status
+            });
+            
+            if (currentUser) {
+                toggleAuthButtons(true, currentUser.name, currentUser.subscription?.status || 'premium');
+                // Update subscription pricing based on user's country from Firebase
+                if (typeof updateSubscriptionPricingForUser === 'function') {
+                    updateSubscriptionPricingForUser();
+                }
+            }
+        });
+
+        // Handle browser navigation (back/forward buttons)
+        window.addEventListener('pageshow', function(event) {
+            console.log('🔄 pageshow event fired - syncing auth state');
+            
+            // Check auth state when page is shown (including back navigation)
+            const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || 'null');
+            
+            // Check premium access first
+            if (!currentUser) {
+                // Not signed in - redirect to main page
+                alert('🔐 Access Restricted\n\nFrench Numbers is a premium feature that requires an account.\n\nYou will be redirected to sign in.');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            if (currentUser.subscription?.status !== 'premium') {
+                // Not premium - redirect with upgrade prompt
+                alert('🔒 Premium Feature Required\n\nFrench Numbers is available exclusively for Premium subscribers.\n\nYou will be redirected to upgrade your account.');
+                window.location.href = 'index.html#upgrade';
+                return;
+            }
+            
+            // Premium user - allow access and update UI
+            console.log('👤 User found on pageshow:', {
+                email: currentUser.email,
+                subscriptionStatus: currentUser.subscription?.status
+            });
+            toggleAuthButtons(true, currentUser.name, currentUser.subscription?.status || 'premium');
+        });
+
+        // Simple authentication functions (will be enhanced with Firebase)
+        function openSignInModal() {
+            document.getElementById('signInModal').style.display = 'block';
+            clearMessages();
+        }
+
+        function openSignUpModal() {
+            document.getElementById('signUpModal').style.display = 'block';
+            clearMessages();
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            clearMessages();
+        }
+
+        function switchToSignIn() {
+            closeModal('signUpModal');
+            openSignInModal();
+        }
+
+        function switchToSignUp() {
+            closeModal('signInModal');
+            openSignUpModal();
+        }
+
+        function clearMessages() {
+            document.querySelectorAll('.error-message, .success-message').forEach(msg => {
+                msg.style.display = 'none';
+                msg.textContent = '';
+            });
+        }
+
+        function openSubscriptionModal() {
+            console.log('🎯 Opening subscription modal...');
+            
+            // Check both Firebase auth and localStorage for current user
+            const localUser = JSON.parse(localStorage.getItem('french_app_current_user') || 'null');
+            const firebaseUser = (typeof firebase !== 'undefined' && firebase.auth && firebase.auth().currentUser) ? firebase.auth().currentUser : null;
+            
+            if (!localUser && !firebaseUser) {
+                alert('Please sign in first to subscribe.');
+                openSignInModal();
+                return;
+            }
+            
+            // If Firebase user exists but localStorage doesn't, sync them
+            if (firebaseUser && !localUser) {
+                const userData = {
+                    email: firebaseUser.email,
+                    name: firebaseUser.displayName || firebaseUser.email,
+                    registeredAt: new Date().toISOString(),
+                    subscription: {
+                        status: 'free',
+                        plan: null,
+                        startDate: null,
+                        endDate: null
+                    }
+                };
+                localStorage.setItem('french_app_current_user', JSON.stringify(userData));
+            }
+            
+            // Reset modal state
+            selectedPlan = null;
+            document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
+            document.getElementById('paymentSection').style.display = 'none';
+            
+            // Update pricing based on user's country before showing modal
+            updateSubscriptionPricingForUser().catch(error => {
+                console.error('❌ Error updating subscription pricing:', error);
+            });
+            
+            // Update button text to show correct currency immediately
+            updatePaymentButtonCurrency().catch(error => {
+                console.error('❌ Error updating payment button currency:', error);
+            });
+            
+            // Show modal
+            document.getElementById('subscriptionModal').style.display = 'block';
+            clearMessages();
+            
+            // Show helpful message
+            showSuccess('subscriptionSuccess', '👆 Please select a plan above to continue with payment');
+            
+            // Initialize Stripe if not already done
+            if (!stripe) {
+                initializeStripe();
+            }
+        }
+
+        function updateSubscriptionUI(status) {
+            const subscriptionStatusSpan = document.getElementById('subscriptionStatus');
+            const subscriptionBtn = document.getElementById('subscriptionBtn');
+            
+            if (status === 'premium') {
+                if (subscriptionStatusSpan) {
+                    subscriptionStatusSpan.textContent = 'Premium';
+                    subscriptionStatusSpan.className = 'subscription-status premium';
+                }
+                // Hide the subscription button for premium users to keep it clean
+                if (subscriptionBtn) subscriptionBtn.style.display = 'none';
+            } else {
+                if (subscriptionStatusSpan) {
+                    subscriptionStatusSpan.textContent = 'Free';
+                    subscriptionStatusSpan.className = 'subscription-status free';
+                }
+                if (subscriptionBtn) {
+                    subscriptionBtn.innerHTML = '💎 Go Premium';
+                    subscriptionBtn.className = 'subscription-btn';
+                    subscriptionBtn.style.display = 'inline-flex';
+                    subscriptionBtn.onclick = openSubscriptionModal;
+                }
+            }
+        }
+
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+
+        function showSuccess(elementId, message) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.style.display = 'block';
+        }
+
+        // localStorage-based authentication (demo mode)
+        function handleSignUp(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('signUpEmail').value;
+            const password = document.getElementById('signUpPassword').value;
+            const name = document.getElementById('signUpName').value;
+            const country = document.getElementById('signUpCountry').value;
+            
+            // Show loading
+            document.getElementById('signUpBtnText').style.display = 'none';
+            document.getElementById('signUpSpinner').style.display = 'inline';
+            document.getElementById('signUpBtn').disabled = true;
+            
+            // Simulate API delay
+            setTimeout(() => {
+                // Get existing users
+                const users = JSON.parse(localStorage.getItem('french_app_users') || '[]');
+                
+                // Check if user already exists
+                if (users.find(user => user.email === email)) {
+                    showError('signUpError', 'An account with this email already exists.');
+                } else {
+                    // Add new user
+                    const newUser = {
+                        email: email,
+                        name: name,
+                        country: country,
+                        registeredAt: new Date().toISOString(),
+                        subscription: {
+                            status: 'free',
+                            plan: null,
+                            startDate: null,
+                            endDate: null
+                        }
+                    };
+                    users.push(newUser);
+                    localStorage.setItem('french_app_users', JSON.stringify(users));
+                    
+                    // Set current user
+                    localStorage.setItem('french_app_current_user', JSON.stringify(newUser));
+                    
+                    showSuccess('signUpSuccess', 'Account created successfully! Welcome!');
+                    
+                    setTimeout(() => {
+                        closeModal('signUpModal');
+                        toggleAuthButtons(true, name, 'free');
+                    }, 1500);
+                }
+                
+                // Hide loading
+                document.getElementById('signUpBtnText').style.display = 'inline';
+                document.getElementById('signUpSpinner').style.display = 'none';
+                document.getElementById('signUpBtn').disabled = false;
+            }, 1000);
+        }
+
+        function handleSignIn(event) {
+            event.preventDefault();
+            
+            // Clear any existing error messages first
+            clearMessages();
+            
+            const email = document.getElementById('signInEmail').value;
+            const password = document.getElementById('signInPassword').value;
+            
+            // Show loading
+            document.getElementById('signInBtnText').style.display = 'none';
+            document.getElementById('signInSpinner').style.display = 'inline';
+            document.getElementById('signInBtn').disabled = true;
+            
+            // Simulate API delay
+            setTimeout(async () => {
+                try {
+                    // First try Firebase authentication if available
+                    if (typeof firebase !== 'undefined' && firebase.auth) {
+                        console.log('🔥 Attempting Firebase authentication for:', email);
+                        
+                        try {
+                            const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+                            const user = userCredential.user;
+                            console.log('✅ Firebase authentication successful:', user.email);
+                            
+                            // Get user data from Firestore or use defaults
+                            let userData = {
+                                email: user.email,
+                                name: user.displayName || user.email.split('@')[0],
+                                uid: user.uid,
+                                subscription: { status: 'free' }
+                            };
+                            
+                            try {
+                                if (typeof firebase.firestore !== 'undefined') {
+                                    const userDoc = await firebase.firestore().collection('users').doc(user.uid).get();
+                                    if (userDoc.exists) {
+                                        userData = { ...userData, ...userDoc.data() };
+                                        console.log('✅ Firestore user data retrieved');
+                                    }
+                                }
+                            } catch (firestoreError) {
+                                console.log('⚠️ Firestore operation failed, using defaults');
+                            }
+                            
+                            // Store in localStorage for compatibility
+                            localStorage.setItem('french_app_current_user', JSON.stringify(userData));
+                            
+                            showSuccess('signInSuccess', 'Successfully signed in! Welcome back!');
+                            
+                            setTimeout(() => {
+                                closeModal('signInModal');
+                                toggleAuthButtons(true, userData.name, userData.subscription?.status || 'free');
+                                // Update subscription pricing silently if function exists
+                                if (typeof updateSubscriptionPricingForUser === 'function') {
+                                    try {
+                                        updateSubscriptionPricingForUser();
+                                    } catch (pricingError) {
+                                        console.log('⚠️ Pricing update failed silently, using defaults');
+                                    }
+                                }
+                            }, 1500);
+                            
+                            // Additional safeguard: Clear any error messages that might appear after success
+                            setTimeout(() => {
+                                const errorElements = document.querySelectorAll('.error-message');
+                                errorElements.forEach(el => {
+                                    el.style.display = 'none';
+                                    el.textContent = '';
+                                });
+                            }, 2500);
+                            
+                            return; // Success, exit function
+                            
+                        } catch (firebaseError) {
+                            console.log('⚠️ Firebase authentication failed:', firebaseError.message);
+                            // Fall back to localStorage check for backward compatibility
+                        }
+                    }
+                    
+                    // Fallback: Check localStorage for existing users (backward compatibility)
+                    console.log('🔄 Falling back to localStorage authentication');
+                    const users = JSON.parse(localStorage.getItem('french_app_users') || '[]');
+                    const user = users.find(u => u.email === email);
+                    
+                    if (user) {
+                        // Set current user
+                        localStorage.setItem('french_app_current_user', JSON.stringify(user));
+                        
+                        showSuccess('signInSuccess', 'Successfully signed in! Welcome back!');
+                        
+                        setTimeout(() => {
+                            closeModal('signInModal');
+                            toggleAuthButtons(true, user.name, user.subscription?.status || 'free');
+                            // Update subscription pricing silently if function exists
+                            if (typeof updateSubscriptionPricingForUser === 'function') {
+                                try {
+                                    updateSubscriptionPricingForUser();
+                                } catch (pricingError) {
+                                    console.log('⚠️ Pricing update failed silently, using defaults');
+                                }
+                            }
+                        }, 1500);
+                        
+                        // Additional safeguard: Clear any error messages that might appear after success
+                        setTimeout(() => {
+                            const errorElements = document.querySelectorAll('.error-message');
+                            errorElements.forEach(el => {
+                                el.style.display = 'none';
+                                el.textContent = '';
+                            });
+                        }, 2500);
+                        
+                    } else {
+                        showError('signInError', 'Invalid email or password. Please try again.');
+                    }
+                    
+                } catch (error) {
+                    console.error('❌ Authentication error:', error);
+                    showError('signInError', 'Sign in failed. Please try again.');
+                }
+                
+                // Hide loading
+                document.getElementById('signInBtnText').style.display = 'inline';
+                document.getElementById('signInSpinner').style.display = 'none';
+                document.getElementById('signInBtn').disabled = false;
+            }, 1000);
+        }
+
+        function signOut() {
+            console.log('🚪 COMPLETE SIGN OUT from French-Numbers.html');
+            
+            // STEP 1: Set Firebase persistence to NONE to prevent auto-restore
+            console.log('🔥 Step 1: Disabling Firebase persistence...');
+            if (typeof firebase !== 'undefined' && firebase.auth) {
+                firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE).then(() => {
+                    console.log('✅ Firebase persistence disabled');
+                    return firebase.auth().signOut();
+                }).then(() => {
+                    console.log('✅ Firebase sign out successful - now clearing storage...');
+                    completeSignOutCleanup();
+                }).catch((error) => {
+                    console.log('❌ Firebase operations error, proceeding with fallback cleanup:', error);
+                    // Force sign out even if persistence change fails
+                    firebase.auth().signOut().catch(() => {});
+                    completeSignOutCleanup();
+                });
+            } else {
+                console.log('🔥 No Firebase available, proceeding with local cleanup...');
+                completeSignOutCleanup();
+            }
+        }
+
+        // Helper function to complete sign-out cleanup after Firebase sign-out
+        function completeSignOutCleanup() {
+            console.log('🧹 Step 2: Clearing all storage after Firebase sign-out...');
+            
+            // Clear storage
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            console.log('🧹 Step 3: UI reset...');
+            try {
+                performCompleteUIReset();
+            } catch (error) {
+                console.log('UI reset error (ignored):', error);
+            }
+            
+            console.log('🧹 Step 4: Setting sign-out flags...');
+            // Set flags for index.html detection
+            sessionStorage.setItem('just_signed_out', 'true');
+            sessionStorage.setItem('force_guest_state', 'true');
+            sessionStorage.setItem('firebase_signed_out', 'true');
+            
+            // Show feedback
+            alert('✅ SUCCESSFULLY SIGNED OUT! Redirecting to home page...');
+            
+            console.log('🚪 Step 5: Redirecting to home page...');
+            // Redirect after short delay
+            setTimeout(() => {
+                console.log('🚀 Redirecting with sign-out confirmation...');
+                window.location.replace('index.html?signedOut=true&firebaseSignedOut=true');
+            }, 300);
+        }
+
+        // Helper function to perform complete UI reset
+        function performCompleteUIReset() {
+            console.log('🔄 Performing complete UI reset from French-Numbers.html...');
+            
+            try {
+                // Clear all user data from localStorage
+                localStorage.removeItem('french_app_current_user');
+                localStorage.removeItem('french_app_users'); // Clear all users for fresh start
+                
+                // Reset authentication UI
+                toggleAuthButtons(false);
+                
+                // Force reset subscription UI to default state
+                resetSubscriptionUIToDefault();
+                
+                // Force reset menu access to default (free) state
+                if (typeof updateMenuAccess === 'function') {
+                    updateMenuAccess();
+                }
+                
+                console.log('✅ UI reset completed');
+                
+            } catch (error) {
+                console.error('❌ Error during UI reset:', error);
+            }
+        }
+
+        // Helper function to complete the sign out process
+        function completeSignOutProcess() {
+            console.log('🏁 Completing sign out process...');
+            
+            // Show success message
+            alert('Successfully signed out! Redirecting to home page...');
+            
+            // Set flag to help index.html detect sign-out redirect
+            sessionStorage.setItem('just_signed_out', 'true');
+            
+            // Redirect to home page after a short delay
+            setTimeout(() => {
+                window.location.href = 'index.html?signedOut=true';
+            }, 1000);
+            
+            console.log('✅ Sign out process completed');
+        }
+
+        // Function to reset subscription UI to default free state
+        function resetSubscriptionUIToDefault() {
+            console.log('🔄 Resetting subscription UI to default state...');
+            
+            try {
+                const subscriptionStatusSpan = document.getElementById('subscriptionStatus');
+                const subscriptionBtn = document.getElementById('subscriptionBtn');
+                const userNameSpan = document.getElementById('userName');
+                
+                // Reset subscription status
+                if (subscriptionStatusSpan) {
+                    subscriptionStatusSpan.textContent = 'Free';
+                    subscriptionStatusSpan.className = 'subscription-status free';
+                }
+                
+                // Reset subscription button
+                if (subscriptionBtn) {
+                    subscriptionBtn.innerHTML = '💎 Go Premium';
+                    subscriptionBtn.className = 'subscription-btn';
+                    subscriptionBtn.onclick = () => { window.location.href = 'index.html'; };
+                }
+                
+                // Reset user name
+                if (userNameSpan) {
+                    userNameSpan.textContent = 'Welcome!';
+                }
+                
+                console.log('✅ Subscription UI reset to default');
+                
+            } catch (error) {
+                console.error('❌ Error resetting subscription UI:', error);
+            }
+                  }
+
+          // Function to check and update authentication status on page load
+          function checkAuthStatus() {
+              const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || 'null');
+              
+              if (currentUser) {
+                  console.log('✅ User found on page load:', currentUser.name);
+                  toggleAuthButtons(true, currentUser.name, currentUser.subscription?.status || 'free');
+              } else {
+                  console.log('❌ No user found - showing guest state');
+                  toggleAuthButtons(false);
+              }
+          }
+
+          // Initialize form event listeners when DOM is ready
+          document.addEventListener('DOMContentLoaded', function() {
+              const signUpForm = document.getElementById('signUpForm');
+              const signInForm = document.getElementById('signInForm');
+              
+              if (signUpForm) {
+                  signUpForm.addEventListener('submit', handleSignUp);
+              }
+              
+              if (signInForm) {
+                  signInForm.addEventListener('submit', handleSignIn);
+              }
+              
+              // Check authentication status on page load
+              checkAuthStatus();
+          });
+
+      </script>
+
+    <!-- Sign Up Modal -->
+    <div id="signUpModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('signUpModal')">&times;</span>
+            <h2>Create Account</h2>
+            <div id="signUpError" class="error-message"></div>
+            <div id="signUpSuccess" class="success-message"></div>
+            <form id="signUpForm">
+                <div class="form-group">
+                    <label for="signUpEmail">Email Address</label>
+                    <input type="email" id="signUpEmail" name="email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="signUpPassword">Password</label>
+                    <input type="password" id="signUpPassword" name="password" required placeholder="Enter your password">
+                </div>
+                <div class="form-group">
+                    <label for="signUpName">Full Name</label>
+                    <input type="text" id="signUpName" name="name" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="signUpCountry">Country</label>
+                    <select id="signUpCountry" name="country" required>
+                        <option value="">Select your country</option>
+                        <option value="Canada">🇨🇦 Canada</option>
+                        <option value="India">🇮🇳 India</option>
+                        <option value="United States">🇺🇸 United States</option>
+                        <option value="United Kingdom">🇬🇧 United Kingdom</option>
+                        <option value="Germany">🇩🇪 Germany</option>
+                        <option value="France">🇫🇷 France</option>
+                        <option value="Japan">🇯🇵 Japan</option>
+                        <option value="Australia">🇦🇺 Australia</option>
+                        <option value="Other">🌐 Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="auth-btn" id="signUpBtn">
+                    <span id="signUpBtnText">Create Account</span>
+                    <span id="signUpSpinner" class="spinner"></span>
+                </button>
+            </form>
+            <div class="switch-auth">
+                Already have an account? <a href="#" onclick="switchToSignIn()">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign In Modal -->
+    <div id="signInModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('signInModal')">&times;</span>
+            <h2>Welcome Back</h2>
+            <div id="signInError" class="error-message"></div>
+            <div id="signInSuccess" class="success-message"></div>
+            <form id="signInForm">
+                <div class="form-group">
+                    <label for="signInEmail">Email Address</label>
+                    <input type="email" id="signInEmail" name="email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="signInPassword">Password</label>
+                    <input type="password" id="signInPassword" name="password" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="auth-btn" id="signInBtn">
+                    <span id="signInBtnText">Sign In</span>
+                    <span id="signInSpinner" class="spinner"></span>
+                </button>
+            </form>
+            <div class="switch-auth">
+                Don't have an account? <a href="#" onclick="switchToSignUp()">Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subscription Modal -->
+    <div id="subscriptionModal" class="modal">
+        <div class="modal-content subscription-modal-content">
+            <span class="close" onclick="closeModal('subscriptionModal')">&times;</span>
+            <h2>🌟 Upgrade to Premium</h2>
+            <div id="subscriptionError" class="error-message"></div>
+            <div id="subscriptionSuccess" class="success-message"></div>
+            
+            <div class="subscription-plans">
+                <div class="plan-card" onclick="selectPlan('monthly')" id="monthlyPlan">
+                    <div class="plan-name">Monthly Premium</div>
+                    <div class="plan-price">
+                        <span class="currency">$</span>9.99<span class="period">/month</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li>Unlimited access to all modules</li>
+                        <li>Advanced pronunciation guides</li>
+                        <li>Interactive exercises</li>
+                        <li>Progress tracking</li>
+                        <li>Downloadable content</li>
+                        <li>Priority support</li>
+                    </ul>
+                </div>
+                
+                <div class="plan-card popular" onclick="selectPlan('quarterly')" id="quarterlyPlan">
+                    <div class="plan-name">Quarterly Premium</div>
+                    <div class="plan-price">
+                        <span class="currency">$</span>26.99<span class="period">/3 months</span>
+                    </div>
+                    <div style="background: #3498db; color: white; padding: 0.3rem; border-radius: 15px; margin: 0.5rem 0; font-weight: 600; font-size: 0.7rem;">
+                        Save $3.98 (10% off)
+                    </div>
+                    <ul class="plan-features">
+                        <li>Everything in Monthly Premium</li>
+                        <li>10% discount vs monthly</li>
+                        <li>Quarterly progress reports</li>
+                        <li>Flexible learning schedule</li>
+                        <li>Mid-term assessments</li>
+                        <li>Enhanced support</li>
+                    </ul>
+                </div>
+                
+                <div class="plan-card premium" onclick="selectPlan('yearly')" id="yearlyPlan">
+                    <div class="plan-name">Yearly Premium</div>
+                    <div class="plan-price">
+                        <span class="currency">$</span>99.99<span class="period">/year</span>
+                    </div>
+                    <div style="background: #ff8c00; color: white; padding: 0.5rem; border-radius: 20px; margin: 1rem 0; font-weight: 600;">
+                        Save $19.89 (17% off)
+                    </div>
+                    <ul class="plan-features">
+                        <li>Everything in Monthly Premium</li>
+                        <li>2 months free (14 months total)</li>
+                        <li>Advanced AI tutoring</li>
+                        <li>Custom learning paths</li>
+                        <li>Offline mode</li>
+                        <li>Certificate of completion</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="payment-section" id="paymentSection" style="display: none;">
+                <h3>💳 Payment Information</h3>
+                <div class="payment-form">
+                    <div class="form-group">
+                        <label for="cardholderName">Cardholder Name</label>
+                        <input type="text" id="cardholderName" name="cardholderName" required placeholder="Enter cardholder name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="card-element">Credit or Debit Card</label>
+                        <div id="card-element">
+                            <!-- Stripe Elements will create form elements here -->
+                        </div>
+                        <div id="card-errors" role="alert" style="color: #721c24; margin-top: 0.5rem;"></div>
+                    </div>
+
+                    <button type="button" class="subscription-btn-modal" id="subscribeBtn" onclick="processPayment()">
+                        <span id="subscribeBtnText">Complete Payment & Subscribe</span>
+                        <span id="subscribeSpinner" class="spinner"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 1rem; color: #666; font-size: 0.85rem;">
+                <p style="margin: 0.25rem 0;">🔒 Secure payment processing by Stripe</p>
+                <p style="margin: 0.25rem 0;">Cancel anytime • 30-day money-back guarantee</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Firebase SDK (v9 compat - standardized) -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Stripe.js (Tech-Pay Centralized Payment System) -->
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <!-- Global Firebase error handler to prevent error flashing -->
+    <script>
+        window.addEventListener('unhandledrejection', function(event) {
+            if (event.reason && event.reason.message && 
+                (event.reason.message.includes('Firebase') || 
+                 event.reason.message.includes('auth/') ||
+                 event.reason.message.includes('firestore'))) {
+                console.warn('🛡️ Caught unhandled Firebase error:', event.reason.message);
+                event.preventDefault(); // Prevent the error from showing to user
+            }
+        });
+    </script>
+
+    <!-- Firebase Configuration (embedded from firebase-config.js) -->
+    <script>
+// Firebase Configuration (v8 compat syntax for HTML)
+// ✅ Your real Firebase project config
+const firebaseConfig = {
+  apiKey: "AIzaSyA12z5FR90bSz1x5Q3ay-uJxV8xNOS_xjk",
+  authDomain: "french-learning-app-46d95.firebaseapp.com",
+  projectId: "french-learning-app-46d95",
+  storageBucket: "french-learning-app-46d95.firebasestorage.app",
+  messagingSenderId: "270430812441",
+  appId: "1:270430812441:web:3fa199a9131794e90c2d88",
+  measurementId: "G-GHZV5LJH4P"
+};
+
+// Initialize Firebase (v8 compat syntax)
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Authentication Functions for Firebase
+function firebaseSignUp(email, password, name, country) {
+    return auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            
+            // Update user profile with name
+            return user.updateProfile({
+                displayName: name
+            }).then(() => {
+                // Store additional user data in Firestore with subscription info
+                return db.collection('users').doc(user.uid).set({
+                    email: email,
+                    name: name,
+                    country: country,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    subscription: {
+                        status: 'free',
+                        plan: null,
+                        startDate: null,
+                        endDate: null,
+                        active: false,
+                        paymentMethod: null
+                    },
+                    subscriptionHistory: []
+                });
+            }).then(() => {
+                return user;
+            });
+        });
+}
+
+function firebaseSignIn(email, password) {
+    return auth.signInWithEmailAndPassword(email, password);
+}
+
+function firebaseSignOut() {
+    return auth.signOut();
+}
+
+// Enhanced Authentication Functions (replace localStorage functions)
+function handleFirebaseSignUp(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('signUpEmail').value;
+    const password = document.getElementById('signUpPassword').value;
+    const name = document.getElementById('signUpName').value;
+    const country = document.getElementById('signUpCountry').value;
+    
+    // Show loading
+    document.getElementById('signUpBtnText').style.display = 'none';
+    document.getElementById('signUpSpinner').style.display = 'inline';
+    document.getElementById('signUpBtn').disabled = true;
+    
+    firebaseSignUp(email, password, name, country)
+        .then((user) => {
+            // Store user data in localStorage for compatibility
+            const userData = {
+                email: user.email,
+                name: user.displayName || name,
+                country: country,
+                registeredAt: new Date().toISOString(),
+                subscription: {
+                    status: 'free',
+                    plan: null,
+                    startDate: null,
+                    endDate: null
+                }
+            };
+            localStorage.setItem('french_app_current_user', JSON.stringify(userData));
+            
+            showSuccess('signUpSuccess', 'Account created successfully! Welcome!');
+            
+            setTimeout(() => {
+                closeModal('signUpModal');
+                toggleAuthButtons(true, user.displayName, 'free');
+                // Update subscription pricing based on user's country
+                if (typeof updateSubscriptionPricingForUser === 'function') {
+                    updateSubscriptionPricingForUser();
+                }
+            }, 1500);
+        })
+        .catch((error) => {
+            let errorMessage = 'An error occurred. Please try again.';
+            
+            switch(error.code) {
+                case 'auth/email-already-in-use':
+                    errorMessage = 'An account with this email already exists.';
+                    break;
+                case 'auth/weak-password':
+                    errorMessage = 'Password is too weak. Please use at least 6 characters.';
+                    break;
+                case 'auth/invalid-email':
+                    errorMessage = 'Please enter a valid email address.';
+                    break;
+            }
+            
+            showError('signUpError', errorMessage);
+        })
+        .finally(() => {
+            // Hide loading
+            document.getElementById('signUpBtnText').style.display = 'inline';
+            document.getElementById('signUpSpinner').style.display = 'none';
+            document.getElementById('signUpBtn').disabled = false;
+        });
+}
+
+function handleFirebaseSignIn(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('signInEmail').value;
+    const password = document.getElementById('signInPassword').value;
+    
+    // Show loading
+    document.getElementById('signInBtnText').style.display = 'none';
+    document.getElementById('signInSpinner').style.display = 'inline';
+    document.getElementById('signInBtn').disabled = true;
+    
+    firebaseSignIn(email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            
+            // Get user subscription status from Firestore
+            return db.collection('users').doc(user.uid).get().then(async (doc) => {
+                // Use the centralized subscription status function for consistency
+                const subscriptionStatus = await getUserSubscriptionStatus(user.uid);
+                
+                let userData = {
+                    email: user.email,
+                    name: user.displayName || user.email,
+                    country: null,
+                    registeredAt: new Date().toISOString(),
+                    subscription: {
+                        status: subscriptionStatus,
+                        plan: null,
+                        startDate: null,
+                        endDate: null
+                    }
+                };
+                
+                if (doc.exists) {
+                    const firestoreData = doc.data();
+                    userData.subscription = {
+                        status: subscriptionStatus,
+                        plan: firestoreData.subscription?.plan || null,
+                        startDate: firestoreData.subscription?.startDate || null,
+                        endDate: firestoreData.subscription?.endDate || null,
+                        active: firestoreData.subscription?.active || false,
+                        paymentMethod: firestoreData.subscription?.paymentMethod || null
+                    };
+                    userData.name = firestoreData.name || userData.name;
+                    userData.country = firestoreData.country || null;
+                    userData.registeredAt = firestoreData.createdAt ? firestoreData.createdAt.toDate().toISOString() : userData.registeredAt;
+                }
+                
+                // Store user data in localStorage for compatibility
+                localStorage.setItem('french_app_current_user', JSON.stringify(userData));
+                
+                showSuccess('signInSuccess', 'Successfully signed in! Welcome back!');
+                
+                setTimeout(() => {
+                    closeModal('signInModal');
+                    toggleAuthButtons(true, user.displayName || user.email, subscriptionStatus);
+                    // Update subscription pricing based on user's country from Firebase
+                    if (typeof updateSubscriptionPricingForUser === 'function') {
+                        updateSubscriptionPricingForUser();
+                    }
+                }, 1500);
+            });
+        })
+        .catch((error) => {
+            let errorMessage = 'An error occurred. Please try again.';
+            
+            switch(error.code) {
+                case 'auth/user-not-found':
+                case 'auth/wrong-password':
+                    errorMessage = 'Invalid email or password. Please try again.';
+                    break;
+                case 'auth/invalid-email':
+                    errorMessage = 'Please enter a valid email address.';
+                    break;
+                case 'auth/too-many-requests':
+                    errorMessage = 'Too many failed attempts. Please try again later.';
+                    break;
+            }
+            
+            showError('signInError', errorMessage);
+        })
+        .finally(() => {
+            // Hide loading
+            document.getElementById('signInBtnText').style.display = 'inline';
+            document.getElementById('signInSpinner').style.display = 'none';
+            document.getElementById('signInBtn').disabled = false;
+        });
+}
+
+function handleFirebaseSignOut() {
+    firebaseSignOut()
+        .then(() => {
+            toggleAuthButtons(false);
+            showSuccess('signInSuccess', 'Successfully signed out!');
+            setTimeout(() => {
+                clearMessages();
+            }, 2000);
+        })
+        .catch((error) => {
+            console.error('Sign out error:', error);
+        });
+}
+
+async function getUserSubscriptionStatus(userId) {
+    try {
+        const doc = await db.collection('users').doc(userId).get();
+        
+        if (doc.exists) {
+            const userData = doc.data();
+            const subscription = userData.subscription || { status: 'free' };
+            
+            // Check if subscription is expired
+            if (subscription.status === 'premium' && subscription.endDate) {
+                const endDate = subscription.endDate.toDate ? subscription.endDate.toDate() : new Date(subscription.endDate);
+                if (endDate < new Date()) {
+                    // Update status to expired
+                    await db.collection('users').doc(userId).update({
+                        'subscription.status': 'expired',
+                        'subscription.active': false
+                    });
+                    return 'expired';
+                }
+            }
+            
+            return subscription.status || 'free';
+        }
+        
+        return 'free';
+    } catch (error) {
+        console.error('Error getting subscription status:', error);
+        return 'free';
+    }
+}
+
+// Listen for authentication state changes
+auth.onAuthStateChanged(async (user) => {
+    // Check for sign-out flags before doing anything
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionFlags = {
+        signedOut: urlParams.get('signedOut') === 'true' || urlParams.get('firebaseSignedOut') === 'true',
+        forceGuest: urlParams.get('forceGuest') === 'true',
+        justSignedOut: sessionStorage.getItem('just_signed_out') === 'true',
+        firebaseSignedOut: sessionStorage.getItem('firebase_signed_out') === 'true',
+        forceGuestState: sessionStorage.getItem('force_guest_state') === 'true'
+    };
+
+    const isSignOutProcess = Object.values(sessionFlags).some(flag => flag) || window.FORCE_GUEST_MODE;
+
+    if (isSignOutProcess) {
+        // If there's still a Firebase user during sign-out process, sign them out
+        if (user) {
+            auth.signOut().catch(error => {
+                console.log('Firebase sign-out error in onAuthStateChanged (ignored):', error);
+            });
+        }
+        
+        // Ensure localStorage is cleared and UI is in guest state
+        localStorage.removeItem('french_app_current_user');
+        if (typeof toggleAuthButtons === 'function') {
+            toggleAuthButtons(false);
+        }
+        return;
+    }
+
+    if (user) {
+        // User is signed in - get their subscription status and sync localStorage
+        try {
+            const subscriptionStatus = await getUserSubscriptionStatus(user.uid);
+            
+            // Ensure localStorage is synced with Firebase user data
+            const doc = await db.collection('users').doc(user.uid).get();
+            let userData = {
+                email: user.email,
+                name: user.displayName || user.email,
+                country: null,
+                registeredAt: new Date().toISOString(),
+                subscription: {
+                    status: subscriptionStatus,
+                    plan: null,
+                    startDate: null,
+                    endDate: null
+                }
+            };
+            
+            if (doc.exists) {
+                const firestoreData = doc.data();
+                userData.subscription = {
+                    status: subscriptionStatus,
+                    plan: firestoreData.subscription?.plan || null,
+                    startDate: firestoreData.subscription?.startDate || null,
+                    endDate: firestoreData.subscription?.endDate || null,
+                    active: firestoreData.subscription?.active || false,
+                    paymentMethod: firestoreData.subscription?.paymentMethod || null
+                };
+                userData.name = firestoreData.name || userData.name;
+                userData.country = firestoreData.country || null;
+                userData.registeredAt = firestoreData.createdAt ? firestoreData.createdAt.toDate().toISOString() : userData.registeredAt;
+            }
+            
+            localStorage.setItem('french_app_current_user', JSON.stringify(userData));
+            if (typeof toggleAuthButtons === 'function') {
+                toggleAuthButtons(true, user.displayName || user.email, userData.subscription.status);
+            }
+            
+            // Update subscription pricing based on user's country from Firebase
+            if (typeof updateSubscriptionPricingForUser === 'function') {
+                updateSubscriptionPricingForUser();
+            }
+        } catch (error) {
+            console.error('Error getting user subscription:', error);
+            // Still create basic localStorage entry
+            const userData = {
+                email: user.email,
+                name: user.displayName || user.email,
+                country: null,
+                registeredAt: new Date().toISOString(),
+                subscription: { status: 'free', plan: null, startDate: null, endDate: null }
+            };
+            localStorage.setItem('french_app_current_user', JSON.stringify(userData));
+            if (typeof toggleAuthButtons === 'function') {
+                toggleAuthButtons(true, user.displayName || user.email, 'free');
+            }
+        }
+    } else {
+        // User is signed out - clear localStorage
+        localStorage.removeItem('french_app_current_user');
+        if (typeof toggleAuthButtons === 'function') {
+            toggleAuthButtons(false);
+        }
+    }
+});
+
+// Replace the localStorage-based functions when Firebase is enabled
+function enableFirebaseAuth() {
+    // Update event listeners to use Firebase functions
+    if (document.getElementById('signUpForm')) {
+        document.getElementById('signUpForm').removeEventListener('submit', handleSignUp);
+        document.getElementById('signUpForm').addEventListener('submit', handleFirebaseSignUp);
+    }
+    if (document.getElementById('signInForm')) {
+        document.getElementById('signInForm').removeEventListener('submit', handleSignIn);
+        document.getElementById('signInForm').addEventListener('submit', handleFirebaseSignIn);
+    }
+    
+    // Update sign out function
+    window.signOut = handleFirebaseSignOut;
+    
+    // Add subscription management functions to global scope
+    window.getUserSubscriptionStatus = getUserSubscriptionStatus;
+}
+
+// Automatically enable Firebase auth if Firebase is loaded
+if (typeof firebase !== 'undefined') {
+    enableFirebaseAuth();
+}
+    </script>
+
+    <!-- Donation Modal -->
+    <div id="donationModal" class="modal">
+        <div class="modal-content subscription-modal-content">
+            <span class="close" onclick="closeModal('donationModal')">&times;</span>
+            <h2>❤️ Support Global Education</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 2rem;">
+                Help support the GK Foundation's mission to provide free education globally. Your donation directly funds the development of new educational content, maintains our learning platform, and expands access to quality education for students and professionals worldwide.
+            </p>
+            <div id="donationError" class="error-message"></div>
+            <div id="donationSuccess" class="success-message"></div>
+            
+            <!-- Suggested Donation Amounts -->
+            <div class="donation-amounts">
+                <h3 style="text-align: center; margin-bottom: 1rem;">Choose an amount</h3>
+                <div class="amount-buttons">
+                    <button class="amount-btn" onclick="selectDonationAmount(5)">$5</button>
+                    <button class="amount-btn" onclick="selectDonationAmount(10)">$10</button>
+                    <button class="amount-btn" onclick="selectDonationAmount(25)">$25</button>
+                    <button class="amount-btn" onclick="selectDonationAmount(50)">$50</button>
+                </div>
+                
+                <!-- Custom Amount Input -->
+                <div class="custom-amount">
+                    <label for="customAmount">Or enter a custom amount:</label>
+                    <div class="amount-input-container">
+                        <span class="currency-symbol">$</span>
+                        <input type="number" 
+                               id="customAmount" 
+                               placeholder="0.00" 
+                               min="1" 
+                               step="0.01"
+                               onchange="selectCustomAmount(this.value)"
+                               onfocus="clearAmountSelection()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Section -->
+            <div id="donationPaymentSection" class="payment-section" style="display: none; margin-top: 2rem;">
+                <h3>Payment Details</h3>
+                
+                <div class="selected-amount-display">
+                    <p>Donation Amount: <strong id="selectedDonationAmount">$0.00</strong></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="donationCardholderName">Cardholder Name</label>
+                    <input type="text" id="donationCardholderName" placeholder="Your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="donation-card-element">Credit or Debit Card</label>
+                    <div id="donation-card-element">
+                        <!-- Stripe Elements will create form elements here -->
+                    </div>
+                    <div id="donation-card-errors" role="alert" style="color: #721c24; margin-top: 0.5rem;"></div>
+                </div>
+
+                <button type="button" class="subscription-btn-modal" id="donateProcessBtn" onclick="processDonation()">
+                    <span id="donateBtnText">Complete Donation</span>
+                    <span id="donateSpinner" class="spinner"></span>
+                </button>
+            </div>
+
+            <div style="text-align: center; margin-top: 1rem; color: #666; font-size: 0.85rem;">
+                <p style="margin: 0.25rem 0;">🔒 Secure donation processing by Stripe</p>
+                <p style="margin: 0.25rem 0;">💝 Every contribution supports the Foundation's educational mission</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Donation system variables
+        let selectedDonationAmount = 0;
+        let donationCardElement = null;
+
+        // Function to update donation amounts based on user currency
+        async function updateDonationAmounts() {
+            try {
+                const userCurrency = await getUserCurrency();
+                const amountButtons = document.querySelectorAll('.amount-btn');
+                const currencySymbol = document.querySelector('.currency-symbol');
+                
+                let amounts, symbol;
+                
+                if (userCurrency === 'INR') {
+                    amounts = [10, 20, 30, 40]; // INR amounts (₹10 to ₹40)
+                    symbol = '₹';
+                } else if (userCurrency === 'CAD') {
+                    amounts = [3, 4, 5, 6]; // CAD amounts ($3 to $6 CAD)
+                    symbol = '$';
+                } else {
+                    amounts = [2, 3, 4, 5]; // USD amounts ($2 to $5 USD - default)
+                    symbol = '$';
+                }
+                
+                // Update amount buttons
+                amountButtons.forEach((btn, index) => {
+                    if (index < amounts.length) {
+                        const amount = amounts[index];
+                        btn.textContent = `${symbol}${amount}`;
+                        btn.onclick = () => selectDonationAmount(amount);
+                    }
+                });
+                
+                // Update currency symbol in custom input
+                if (currencySymbol) {
+                    currencySymbol.textContent = symbol;
+                }
+                
+                console.log('💰 Updated donation amounts for currency:', userCurrency, amounts);
+            } catch (error) {
+                console.error('❌ Error updating donation amounts:', error);
+                // Fallback to USD
+                const amountButtons = document.querySelectorAll('.amount-btn');
+                amountButtons.forEach((btn, index) => {
+                    const amounts = [2, 3, 4, 5]; // USD fallback amounts
+                    if (index < amounts.length) {
+                        btn.textContent = `$${amounts[index]}`;
+                        btn.onclick = () => selectDonationAmount(amounts[index]);
+                    }
+                });
+            }
+        }
+
+        // Open Donation Modal
+        function openDonationModal() {
+            console.log('🎁 Opening donation modal...');
+            
+            // Reset any previous selections
+            selectedDonationAmount = 0;
+            clearAmountSelection();
+            document.getElementById('donationPaymentSection').style.display = 'none';
+            document.getElementById('donationError').textContent = '';
+            document.getElementById('donationSuccess').textContent = '';
+            
+            // Update donation amounts based on user currency
+            updateDonationAmounts();
+            
+            // Initialize Stripe for donations if not already done
+            if (!donationCardElement) {
+                initializeDonationStripe();
+            }
+            
+            document.getElementById('donationModal').style.display = 'block';
+        }
+
+        // Initialize Stripe Elements for Donation
+        function initializeDonationStripe() {
+            console.log('🔄 Initializing Stripe for donations...');
+            
+            if (typeof Stripe === 'undefined') {
+                console.error('❌ Stripe.js not loaded');
+                showError('donationError', 'Payment system not available. Please refresh the page.');
+                return;
+            }
+
+            try {
+                // Use existing stripe instance from Tech-Pay system
+                if (!stripe) {
+                    const publishableKey = getStripePublishableKey();
+                    stripe = Stripe(publishableKey);
+                    elements = stripe.elements();
+                }
+                
+                // Create separate card element for donations
+                donationCardElement = elements.create('card', {
+                    style: {
+                        base: {
+                            fontSize: '16px',
+                            color: '#424770',
+                            '::placeholder': {
+                                color: '#aab7c4',
+                            },
+                        },
+                    },
+                    hidePostalCode: true
+                });
+                
+                donationCardElement.mount('#donation-card-element');
+                
+                // Handle real-time validation errors
+                donationCardElement.on('change', ({error}) => {
+                    const displayError = document.getElementById('donation-card-errors');
+                    if (error) {
+                        displayError.textContent = error.message;
+                    } else {
+                        displayError.textContent = '';
+                    }
+                });
+                
+                console.log('✅ Donation Stripe initialized successfully');
+                
+            } catch (error) {
+                console.error('❌ Error initializing donation Stripe:', error);
+                showError('donationError', 'Payment system initialization failed. Please refresh the page.');
+            }
+        }
+
+        // Select Donation Amount (Preset)
+        function selectDonationAmount(amount) {
+            console.log('💝 Donation amount selected:', amount);
+            
+            selectedDonationAmount = amount;
+            
+            // Clear custom amount input
+            document.getElementById('customAmount').value = '';
+            
+            // Update button states
+            updateAmountButtons(amount);
+            
+            // Show payment section
+            showDonationPaymentSection();
+        }
+
+        // Select Custom Donation Amount
+        function selectCustomAmount(amount) {
+            const numAmount = parseFloat(amount);
+            if (numAmount && numAmount >= 1) {
+                console.log('💝 Custom donation amount:', numAmount);
+                selectedDonationAmount = numAmount;
+                
+                // Clear preset button selections
+                clearAmountSelection();
+                
+                // Show payment section
+                showDonationPaymentSection();
+            } else {
+                selectedDonationAmount = 0;
+                document.getElementById('donationPaymentSection').style.display = 'none';
+            }
+        }
+
+        // Clear Amount Selection
+        function clearAmountSelection() {
+            document.querySelectorAll('.amount-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+        }
+
+        // Update Amount Button States
+        function updateAmountButtons(selectedAmount) {
+            document.querySelectorAll('.amount-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                if (btn.textContent === `$${selectedAmount}`) {
+                    btn.classList.add('selected');
+                }
+            });
+        }
+
+        // Show Donation Payment Section
+        function showDonationPaymentSection() {
+            document.getElementById('selectedDonationAmount').textContent = `$${selectedDonationAmount.toFixed(2)}`;
+            document.getElementById('donationPaymentSection').style.display = 'block';
+            
+            // Scroll to payment section
+            document.getElementById('donationPaymentSection').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'nearest' 
+            });
+        }
+
+        // Process Donation (Tech-Pay Integration)
+        async function processDonation() {
+            if (!selectedDonationAmount || selectedDonationAmount < 1) {
+                showError('donationError', 'Please select a donation amount of at least $1.');
+                return;
+            }
+            
+            const cardholderName = document.getElementById('donationCardholderName').value;
+            if (!cardholderName.trim()) {
+                showError('donationError', 'Please enter the cardholder name.');
+                return;
+            }
+            
+            // Show loading
+            const donateBtn = document.getElementById('donateProcessBtn');
+            const donateBtnText = document.getElementById('donateBtnText');
+            const donateSpinner = document.getElementById('donateSpinner');
+            
+            donateBtnText.style.display = 'none';
+            donateSpinner.style.display = 'inline';
+            donateBtn.disabled = true;
+            
+            try {
+                // Create payment method with Stripe
+                const {error, paymentMethod} = await stripe.createPaymentMethod({
+                    type: 'card',
+                    card: donationCardElement,
+                    billing_details: {
+                        name: cardholderName,
+                    },
+                });
+                
+                if (error) {
+                    throw new Error(error.message);
+                }
+                
+                console.log('✅ Donation payment method created:', paymentMethod.id);
+                
+                // Get user currency (reuse existing function)
+                const userCurrency = await getUserCurrency();
+                let amountInCents = Math.round(selectedDonationAmount * 100);
+                
+                // Convert to local currency if needed
+                if (userCurrency === 'CAD') {
+                    amountInCents = Math.round(selectedDonationAmount * 134); // Approximate CAD conversion
+                } else if (userCurrency === 'INR') {
+                    amountInCents = Math.round(selectedDonationAmount * 8300); // Approximate INR conversion (paisa)
+                }
+                
+                console.log('💳 Processing donation:', amountInCents, userCurrency);
+                
+                // LIVE ENVIRONMENT: Backend Donation Processing with Stripe Payment Intents
+                if (STRIPE_CONFIG.environment === 'live') {
+                    try {
+                        console.log('💝 Creating donation payment intent with backend...');
+                        
+                        // Get current user for customer details
+                        const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || '{}');
+                        
+                        // Create donation payment intent via backend
+                        const response = await fetch('https://foundation-backend-chi.vercel.app/create-payment-intent', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                planType: 'donation',
+                                currency: userCurrency,
+                                amount: amountInCents,
+                                customerEmail: currentUser.email || '',
+                                customerName: currentUser.displayName || cardholderName
+                            })
+                        });
+                        
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            throw new Error(errorData.error || 'Donation setup failed');
+                        }
+                        
+                        const { clientSecret, paymentIntentId } = await response.json();
+                        console.log('✅ Donation payment intent created:', paymentIntentId);
+                        
+                        // Confirm donation payment with Stripe
+                        const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                            payment_method: paymentMethod.id
+                        });
+                        
+                        if (confirmError) {
+                            throw new Error(confirmError.message);
+                        }
+                        
+                        if (paymentIntent.status !== 'succeeded') {
+                            throw new Error('Donation was not completed successfully');
+                        }
+                        
+                        console.log('✅ LIVE donation processed successfully!');
+                        console.log('💰 Donation Details:', paymentIntent);
+                        
+                    } catch (donationError) {
+                        console.error('❌ Live donation processing error:', donationError);
+                        throw donationError;
+                    }
+                } else {
+                    // Test environment processing
+                    console.log('✅ Donation processed successfully with Stripe using test card');
+                }
+                
+                // Log donation in Firebase (optional)
+                await logDonation(selectedDonationAmount, userCurrency, paymentMethod.id, cardholderName);
+                
+                console.log('✅ Donation completed successfully');
+                
+                showSuccess('donationSuccess', `🎉 Thank you for your $${selectedDonationAmount.toFixed(2)} donation! Your support helps the GK Foundation expand free educational access globally.`);
+                
+                // Store amount before modal reset
+                const finalDonationAmount = selectedDonationAmount;
+                
+                setTimeout(() => {
+                    closeModal('donationModal');
+                    
+                    // Show appreciation message with preserved amount
+                    alert(`💝 Thank you for supporting the GK Foundation! Your $${finalDonationAmount.toFixed(2)} donation helps us fulfill our mission of providing free, quality education to students and professionals worldwide.`);
+                }, 2000);
+                
+            } catch (error) {
+                console.error('❌ Donation processing error:', error);
+                showError('donationError', error.message);
+                
+            } finally {
+                // Reset button state
+                donateBtnText.style.display = 'inline';
+                donateSpinner.style.display = 'none';
+                donateBtn.disabled = false;
+            }
+        }
+
+        // Log Donation (Optional - for record keeping)
+        async function logDonation(amount, currency, paymentMethodId, donorName) {
+            try {
+                const currentUser = JSON.parse(localStorage.getItem('french_app_current_user'));
+                const firebaseUser = firebase.auth().currentUser;
+                
+                const donationData = {
+                    amount: amount,
+                    currency: currency,
+                    donorName: donorName,
+                    paymentMethodId: paymentMethodId,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    userId: firebaseUser ? firebaseUser.uid : null,
+                    userEmail: firebaseUser ? firebaseUser.email : 'anonymous',
+                    environment: STRIPE_CONFIG.environment
+                };
+                
+                // Log to Firebase (if available)
+                if (typeof firebase !== 'undefined' && firebase.firestore) {
+                    await firebase.firestore().collection('donations').add(donationData);
+                    console.log('📝 Donation logged to Firebase');
+                }
+                
+            } catch (error) {
+                console.warn('⚠️ Could not log donation:', error);
+                // Don't throw error - donation was successful even if logging failed
+            }
+        }
+    </script>
+</body>
+</html> 

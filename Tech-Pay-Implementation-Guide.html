@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech-Pay Implementation Guide - Live Bank Integration</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .step {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        .code-example {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin: 15px 0;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .completed { background: #d4edda; color: #155724; }
+        .in-progress { background: #fff3cd; color: #856404; }
+        .pending { background: #f8d7da; color: #721c24; }
+        .live-ready { background: #d1ecf1; color: #0c5460; }
+        .file-status {
+            background: #e7f3ff;
+            border: 1px solid #007bff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏦 Tech-Pay Implementation Guide</h1>
+        <p><strong>Purpose:</strong> Step-by-step guide to implement the centralized Tech-Pay system across all HTML files for seamless live bank integration.</p>
+
+        <div class="live-ready">
+            <h2>✅ Current Status</h2>
+            <ul>
+                <li><strong>Tech-Pay.html:</strong> <span class="status completed">Completed</span> - Centralized payment library created</li>
+                <li><strong>French-Numbers.html:</strong> <span class="status completed">Completed</span> - Updated with Tech-Pay system</li>
+                <li><strong>Remaining Files:</strong> <span class="status pending">Pending</span> - Need Tech-Pay integration</li>
+                <li><strong>Live Integration:</strong> <span class="status live-ready">Ready</span> - Environment switch prepared</li>
+            </ul>
+        </div>
+
+        <div class="file-status">
+            <h3>📋 Files Requiring Tech-Pay Integration</h3>
+            <ul>
+                <li><strong>index.html</strong> - Main page with payment functionality</li>
+                <li><strong>French-Alphabets.html</strong> - Has subscription payment features</li>
+                <li><strong>French-for-Beginners.html</strong> - Has payment integration</li>
+                <li><strong>French-Verbs.html</strong> - Has subscription functionality</li>
+            </ul>
+        </div>
+
+        <!-- STEP 1 -->
+        <div class="step">
+            <h3>📌 Step 1: Replace Stripe Configuration</h3>
+            <p><strong>Action:</strong> Replace hardcoded Stripe keys with Tech-Pay environment configuration</p>
+            
+            <p><strong>Find this code in each HTML file:</strong></p>
+            <div class="code-example">
+let stripe = null;
+let selectedPlan = null;
+let cardElement = null;
+
+// Old way:
+stripe = Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+            </div>
+
+            <p><strong>Replace with Tech-Pay configuration:</strong></p>
+            <div class="code-example">
+// Tech-Pay Centralized Payment System Configuration
+const STRIPE_CONFIG = {
+    environment: 'test',  // 'test' or 'live' - CHANGE TO 'live' FOR BANK INTEGRATION
+    test: {
+        publishableKey: 'pk_test_TYooMQauvdEDq54NiTphI7jx',
+    },
+    live: {
+        publishableKey: 'pk_live_51Rr5H03QiDHRr52effkP2HrTynAiO7NYD8VQfmbQiHTfpj3zvbw7q4p3uSeRWHHK0ehhHAoYqHyxXwIjmuyGVz3Q00BJL8lkM9',
+    }
+};
+
+// Get current Stripe publishable key based on environment
+function getStripePublishableKey() {
+    const config = STRIPE_CONFIG[STRIPE_CONFIG.environment];
+    console.log(`🔧 Using ${STRIPE_CONFIG.environment} Stripe environment`);
+    return config.publishableKey;
+}
+
+// Global Stripe variables (from Tech-Pay.html)
+let selectedPlan = null;
+let stripe = null;
+let elements = null;
+let cardElement = null;
+            </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step">
+            <h3>🔌 Step 2: Update initializeStripe Function</h3>
+            <p><strong>Action:</strong> Replace the initializeStripe function with Tech-Pay version</p>
+            
+            <p><strong>Find and replace the initializeStripe function:</strong></p>
+            <div class="code-example">
+// Tech-Pay Centralized Stripe Initialization
+function initializeStripe() {
+    console.log('🔄 Initializing Stripe...');
+    
+    if (typeof Stripe === 'undefined') {
+        console.error('❌ Stripe.js not loaded');
+        showError('subscriptionError', 'Payment system not available. Please refresh the page.');
+        return;
+    }
+
+    try {
+        // Initialize Stripe with environment-appropriate key (Tech-Pay System)
+        const publishableKey = getStripePublishableKey();
+        stripe = Stripe(publishableKey);
+        elements = stripe.elements();
+        
+        // Create card element optimized for international users
+        cardElement = elements.create('card', {
+            style: {
+                base: {
+                    fontSize: '16px',
+                    color: '#424770',
+                    '::placeholder': {
+                        color: '#aab7c4',
+                    },
+                },
+            },
+            hidePostalCode: true // International-friendly
+        });
+        
+        cardElement.mount('#card-element');
+        
+        // Handle real-time validation errors
+        cardElement.on('change', ({error}) => {
+            const displayError = document.getElementById('card-errors');
+            if (error) {
+                displayError.textContent = error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+        
+        console.log('✅ Stripe initialized successfully with Tech-Pay system');
+        
+    } catch (error) {
+        console.error('❌ Error initializing Stripe:', error);
+        showError('subscriptionError', 'Payment system initialization failed. Please refresh the page.');
+    }
+}
+            </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step">
+            <h3>💳 Step 3: Update processPayment Function</h3>
+            <p><strong>Action:</strong> Replace processPayment with live bank integration ready version</p>
+            
+            <p><strong>Key changes in the new processPayment function:</strong></p>
+            <ul>
+                <li>✅ Environment-aware processing (test vs live)</li>
+                <li>✅ Live payment integration placeholder</li>
+                <li>✅ Better error handling</li>
+                <li>✅ Comprehensive logging</li>
+            </ul>
+
+            <div class="code-example">
+// Tech-Pay Centralized Payment Processing (Live Bank Integration Ready)
+async function processPayment() {
+    // ... validation code ...
+    
+    try {
+        // Create payment method with Stripe
+        const {error, paymentMethod} = await stripe.createPaymentMethod({
+            type: 'card',
+            card: cardElement,
+            billing_details: { name: cardholderName },
+        });
+        
+        if (error) {
+            throw new Error(error.message);
+        }
+        
+        // Get pricing for the selected plan and currency
+        const userCurrency = await getUserCurrency();
+        let priceInCents;
+        // ... pricing logic ...
+        
+        // LIVE ENVIRONMENT: Replace this section with actual payment intent creation
+        if (STRIPE_CONFIG.environment === 'live') {
+            // In production, call your backend to create a payment intent
+            console.log('🚨 Live payment processing not yet implemented. Set up your backend first.');
+            throw new Error('Live payment processing requires backend setup. Please contact support.');
+        } else {
+            // Test environment processing
+            console.log('✅ Payment processed successfully with Stripe using test card');
+        }
+        
+        // ... rest of payment processing ...
+        
+    } catch (error) {
+        console.error('❌ Payment processing error:', error);
+        showError('subscriptionError', error.message);
+    }
+}
+            </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="step">
+            <h3>📝 Step 4: Update HTML Comments</h3>
+            <p><strong>Action:</strong> Update Stripe script comments to indicate Tech-Pay usage</p>
+            
+            <div class="code-example">
+&lt;!-- Stripe.js (Tech-Pay Centralized Payment System) --&gt;
+&lt;script src="https://js.stripe.com/v3/"&gt;&lt;/script&gt;
+            </div>
+        </div>
+
+        <!-- LIVE INTEGRATION STEPS -->
+        <div class="step">
+            <h3>🏦 Step 5: Live Bank Integration Process</h3>
+            <p><strong>When ready to integrate with live bank account:</strong></p>
+            
+            <h4>5.1 Get Live Stripe Keys</h4>
+            <ol>
+                <li>Go to <a href="https://stripe.com" target="_blank">stripe.com</a> and create account</li>
+                <li>Complete business verification process</li>
+                <li>Get live API keys from Stripe Dashboard</li>
+                <li>Update <code>STRIPE_CONFIG.live.publishableKey</code> with your actual live key</li>
+            </ol>
+
+            <h4>5.2 Switch to Live Environment</h4>
+            <div class="code-example">
+// Change this line in STRIPE_CONFIG:
+environment: 'test',  // CHANGE TO 'live'
+
+// To:
+environment: 'live',
+            </div>
+
+            <h4>5.3 Set Up Backend (Required for Live)</h4>
+            <p>Live payments require a backend server. You'll need:</p>
+            <ul>
+                <li><strong>POST /create-payment-intent</strong> - Create payment intents securely</li>
+                <li><strong>POST /webhook</strong> - Handle Stripe webhooks</li>
+                <li><strong>GET /subscription-status</strong> - Check subscription status</li>
+            </ul>
+
+            <h4>5.4 Update processPayment for Live</h4>
+            <p>Uncomment and configure the live payment processing code in the processPayment function.</p>
+
+            <h4>5.5 Configure Webhooks</h4>
+            <p>In Stripe Dashboard, set up webhooks for:</p>
+            <ul>
+                <li>payment_intent.succeeded</li>
+                <li>payment_intent.payment_failed</li>
+                <li>invoice.payment_succeeded</li>
+                <li>customer.subscription.deleted</li>
+            </ul>
+        </div>
+
+        <!-- FILES TO UPDATE -->
+        <div class="step">
+            <h3>📁 Step 6: Apply to Remaining Files</h3>
+            <p><strong>Apply Steps 1-4 to these files:</strong></p>
+            
+            <div class="file-status">
+                <h4>index.html</h4>
+                <p><strong>Status:</strong> <span class="status pending">Pending</span></p>
+                <p><strong>Sections to update:</strong></p>
+                <ul>
+                    <li>Line ~2448: Replace <code>stripe = Stripe('pk_test_...')</code></li>
+                    <li>Line ~2442: Update initializeStripe function</li>
+                    <li>Line ~2479: Update processPayment function</li>
+                </ul>
+            </div>
+
+            <div class="file-status">
+                <h4>French-Alphabets.html</h4>
+                <p><strong>Status:</strong> <span class="status pending">Pending</span></p>
+                <p><strong>Sections to update:</strong></p>
+                <ul>
+                    <li>Line ~3631: Replace Stripe initialization</li>
+                    <li>Line ~3620: Update initializeStripe function</li>
+                    <li>Line ~3665: Update processPayment function</li>
+                </ul>
+            </div>
+
+            <div class="file-status">
+                <h4>French-for-Beginners.html</h4>
+                <p><strong>Status:</strong> <span class="status pending">Pending</span></p>
+                <p><strong>Sections to update:</strong></p>
+                <ul>
+                    <li>Line ~2428: Replace Stripe initialization</li>
+                    <li>Line ~2426: Update initializeStripe function</li>
+                    <li>Line ~2459: Update processPayment function</li>
+                </ul>
+            </div>
+
+            <div class="file-status">
+                <h4>French-Verbs.html</h4>
+                <p><strong>Status:</strong> <span class="status pending">Pending</span></p>
+                <p><strong>Sections to update:</strong></p>
+                <ul>
+                    <li>Line ~5777: Replace Stripe initialization</li>
+                    <li>Line ~5766: Update initializeStripe function</li>
+                    <li>Line ~5811: Update processPayment function</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TESTING -->
+        <div class="step">
+            <h3>🧪 Step 7: Testing the Tech-Pay System</h3>
+            <p><strong>Test with these cards in test mode:</strong></p>
+            
+            <div class="code-example">
+US/International: 4242 4242 4242 4242
+Canada:          4000 0012 4000 0000
+India:           4000 0003 5600 0008
+Declined Card:   4000 0000 0000 0002
+
+Use any future date for expiry and any 3-digit CVC
+            </div>
+
+            <p><strong>Testing checklist:</strong></p>
+            <ul>
+                <li>✅ Plan selection works</li>
+                <li>✅ Currency detection works (CAD, INR, USD)</li>
+                <li>✅ Payment form validation</li>
+                <li>✅ Test card processing</li>
+                <li>✅ Firebase subscription update</li>
+                <li>✅ UI updates to premium status</li>
+                <li>✅ Environment logging shows "test" mode</li>
+            </ul>
+        </div>
+
+        <!-- BENEFITS -->
+        <div class="live-ready">
+            <h3>🎯 Benefits of Tech-Pay Centralized System</h3>
+            <ul>
+                <li><strong>Easy Live Integration:</strong> One-place environment switch</li>
+                <li><strong>Consistent Payment Flow:</strong> Standardized across all pages</li>
+                <li><strong>Multi-Currency Ready:</strong> CAD, INR, USD support built-in</li>
+                <li><strong>Bank Integration Ready:</strong> Live payment structure prepared</li>
+                <li><strong>Better Error Handling:</strong> Comprehensive payment error management</li>
+                <li><strong>Environment Aware:</strong> Clear test vs live separation</li>
+                <li><strong>Reduced Duplication:</strong> Centralized payment logic</li>
+                <li><strong>Easy Maintenance:</strong> Update one system, apply everywhere</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <h3>⚠️ Important Notes</h3>
+            <ul>
+                <li><strong>Test First:</strong> Always test with test cards before going live</li>
+                <li><strong>Backend Required:</strong> Live payments need a backend server</li>
+                <li><strong>Security:</strong> Never expose secret keys (sk_live_) in frontend</li>
+                <li><strong>HTTPS Required:</strong> Live payments require HTTPS</li>
+                <li><strong>Gradual Rollout:</strong> Test Tech-Pay system on one file first</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>🔄 Next Steps</h3>
+            <ol>
+                <li><strong>Apply Tech-Pay to remaining HTML files</strong> using this guide</li>
+                <li><strong>Test the payment flow</strong> with test cards</li>
+                <li><strong>Set up Stripe live account</strong> when ready for real payments</li>
+                <li><strong>Develop backend</strong> for live payment processing</li>
+                <li><strong>Switch environment to 'live'</strong> and deploy</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html> 

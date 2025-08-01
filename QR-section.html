@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code - GuruKullam Academy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #3c2d1f;
+            background: linear-gradient(135deg, #d4af37 0%, #b8860b 50%, #cd853f 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        /* QR Code Section */
+        .qr-code-section {
+            margin-top: 2rem;
+            padding: 1.3rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transform: scale(0.65);
+            transform-origin: center;
+        }
+
+        .qr-code-section h3 {
+            color: #2d3748;
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .qr-code-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .qr-code-image {
+            width: 150px;
+            height: 150px;
+            border: 3px solid #8b4513;
+            border-radius: 10px;
+            padding: 10px;
+            background: white;
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .qr-code-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(139, 69, 19, 0.3);
+        }
+
+        .qr-code-text {
+            font-size: 0.7rem;
+            color: #2d3748;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .qr-code-url {
+            font-size: 0.6rem;
+            color: #8b4513;
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            background: rgba(139, 69, 19, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(139, 69, 19, 0.2);
+            font-weight: 700;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .qr-code-section {
+                margin-top: 1rem;
+                padding: 0.65rem;
+                margin: 1rem 1rem 0 1rem;
+                transform: scale(0.65);
+                transform-origin: center;
+            }
+
+            .qr-code-section h3 {
+                font-size: 1.1rem;
+                margin-bottom: 0.5rem;
+                font-weight: 700;
+            }
+
+            .qr-code-image {
+                width: 120px;
+                height: 120px;
+            }
+
+            .qr-code-text {
+                font-size: 0.65rem;
+                font-weight: 700;
+            }
+
+            .qr-code-url {
+                font-size: 0.55rem;
+                padding: 0.2rem 0.4rem;
+                font-weight: 700;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="qr-code-section">
+        <h3>Self-phased online tutorial</h3>
+        <div class="qr-code-container">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://gurukullam.github.io/Academy&color=8b4513&bgcolor=f5f1e8" 
+                 alt="QR Code to GuruKullam Academy" 
+                 class="qr-code-image">
+            <p class="qr-code-text">Use a laptop to experience all features</p>
+            <p class="qr-code-url">https://gurukullam.github.io/Academy</p>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Error - French Learning Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .error-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            animation: shake 0.6s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .error-icon i {
+            font-size: 48px;
+            color: white;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .error-details {
+            background: #fff5f5;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 5px solid #ff6b6b;
+        }
+
+        .error-details h3 {
+            color: #c53030;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .error-message {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+
+        .common-solutions {
+            text-align: left;
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .common-solutions h4 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        .common-solutions ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .common-solutions li {
+            margin-bottom: 12px;
+            padding-left: 30px;
+            position: relative;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+
+        .common-solutions li::before {
+            content: '💡';
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .action-buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+        }
+
+        .support-info {
+            background: #e6fffa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            border: 1px solid #81e6d9;
+        }
+
+        .support-info h4 {
+            color: #234e52;
+            margin-bottom: 10px;
+        }
+
+        .support-info p {
+            color: #2c7a7b;
+            margin-bottom: 8px;
+        }
+
+        .error-code {
+            background: #f1f2f6;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .error-container {
+                padding: 25px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .loading {
+            display: none;
+        }
+
+        .loading.show {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        
+        <h1>Payment Failed</h1>
+        <p class="subtitle">We encountered an issue processing your payment. Don't worry - no charges were made to your account.</p>
+        
+        <div class="error-details">
+            <h3>Error Details</h3>
+            <div class="error-message" id="errorMessage">
+                Payment could not be processed. Please check your payment details and try again.
+            </div>
+            <div class="error-code">
+                <strong>Error Code:</strong> <span id="errorCode">PAYMENT_FAILED</span><br>
+                <strong>Time:</strong> <span id="errorTime">Loading...</span>
+            </div>
+        </div>
+
+        <div class="common-solutions">
+            <h4>💡 Common Solutions</h4>
+            <ul>
+                <li><strong>Check your card details:</strong> Ensure your card number, expiry date, and CVC are correct</li>
+                <li><strong>Verify billing address:</strong> Make sure your billing address matches your card</li>
+                <li><strong>Sufficient funds:</strong> Ensure your account has enough balance for the transaction</li>
+                <li><strong>Card restrictions:</strong> Some cards have online payment restrictions - contact your bank</li>
+                <li><strong>Try a different card:</strong> Use an alternative payment method if available</li>
+                <li><strong>International payments:</strong> Ensure your card is enabled for international transactions</li>
+                <li><strong>Browser issues:</strong> Try clearing your browser cache or using a different browser</li>
+            </ul>
+        </div>
+
+        <div class="action-buttons">
+            <button onclick="retryPayment()" class="btn btn-primary">
+                <i class="fas fa-redo"></i>
+                <span class="loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    Processing...
+                </span>
+                <span class="normal-text">Try Again</span>
+            </button>
+            <a href="index.html" class="btn btn-secondary">
+                <i class="fas fa-home"></i>
+                Back to Home
+            </a>
+            <button onclick="contactSupport()" class="btn btn-danger">
+                <i class="fas fa-headset"></i>
+                Contact Support
+            </button>
+        </div>
+
+        <div class="support-info">
+            <h4>🆘 Need Help?</h4>
+            <p><strong>Email:</strong> support@frenchlearning.com</p>
+            <p><strong>Response Time:</strong> Usually within 24 hours</p>
+            <p><strong>Include:</strong> Error code, time of error, and payment method used</p>
+        </div>
+
+        <div class="footer-note">
+            <p>Your payment information is secure and protected. We use industry-standard encryption to keep your data safe.</p>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Initialize error page with details
+        function initializeErrorPage() {
+            console.log('❌ Initializing payment error page');
+
+            // Get error details from URL parameters or localStorage
+            const errorMessage = getUrlParameter('error') || 'Payment processing failed';
+            const errorCode = getUrlParameter('code') || 'PAYMENT_FAILED';
+            const errorTime = new Date().toLocaleString();
+
+            // Update error details
+            document.getElementById('errorMessage').textContent = errorMessage;
+            document.getElementById('errorCode').textContent = errorCode;
+            document.getElementById('errorTime').textContent = errorTime;
+
+            // Store error for support reference
+            storeErrorDetails(errorMessage, errorCode, errorTime);
+
+            console.log('❌ Error page initialized with:', { errorMessage, errorCode, errorTime });
+        }
+
+        function storeErrorDetails(message, code, time) {
+            const errorLog = {
+                message,
+                code,
+                time,
+                url: window.location.href,
+                userAgent: navigator.userAgent,
+                timestamp: new Date().toISOString()
+            };
+
+            // Store in localStorage for support reference
+            const errorHistory = JSON.parse(localStorage.getItem('payment_errors') || '[]');
+            errorHistory.push(errorLog);
+            
+            // Keep only last 10 errors
+            if (errorHistory.length > 10) {
+                errorHistory.splice(0, errorHistory.length - 10);
+            }
+            
+            localStorage.setItem('payment_errors', JSON.stringify(errorHistory));
+        }
+
+        function retryPayment() {
+            console.log('🔄 Retrying payment...');
+            
+            const button = event.target.closest('.btn');
+            const loadingSpan = button.querySelector('.loading');
+            const normalText = button.querySelector('.normal-text');
+            
+            // Show loading state
+            loadingSpan.classList.add('show');
+            normalText.style.display = 'none';
+            button.disabled = true;
+
+            // Simulate retry delay
+            setTimeout(() => {
+                // Hide loading state
+                loadingSpan.classList.remove('show');
+                normalText.style.display = 'inline';
+                button.disabled = false;
+
+                // Redirect back to main page to retry
+                const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || '{}');
+                if (currentUser.email) {
+                    window.location.href = 'index.html#subscription';
+                } else {
+                    window.location.href = 'index.html';
+                }
+            }, 2000);
+        }
+
+        function contactSupport() {
+            console.log('📞 Contacting support...');
+
+            // Prepare support email with error details
+            const errorHistory = JSON.parse(localStorage.getItem('payment_errors') || '[]');
+            const latestError = errorHistory[errorHistory.length - 1];
+            const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || '{}');
+
+            const emailSubject = 'Payment Error - French Learning Premium';
+            const emailBody = `Hello Support Team,
+
+I encountered a payment error while trying to subscribe to French Learning Premium.
+
+ERROR DETAILS:
+- Error Message: ${latestError?.message || 'Payment failed'}
+- Error Code: ${latestError?.code || 'UNKNOWN'}
+- Time: ${latestError?.time || 'Unknown'}
+- Browser: ${navigator.userAgent}
+
+USER DETAILS:
+- Email: ${currentUser.email || 'Not provided'}
+- Country: ${currentUser.country || 'Not provided'}
+- Attempted Plan: ${getUrlParameter('plan') || 'Not specified'}
+
+Please help me resolve this issue so I can complete my subscription.
+
+Thank you!`;
+
+            // Create mailto link
+            const mailtoLink = `mailto:support@frenchlearning.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            
+            // Try to open email client
+            try {
+                window.location.href = mailtoLink;
+                console.log('✅ Email client opened');
+            } catch (error) {
+                console.error('❌ Could not open email client:', error);
+                
+                // Fallback: show contact details
+                alert(`Please contact support at: support@frenchlearning.com
+                
+Include this error code: ${latestError?.code || 'PAYMENT_FAILED'}
+Error time: ${latestError?.time || new Date().toLocaleString()}`);
+            }
+        }
+
+        // Initialize page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializeErrorPage);
+
+        // Handle navigation back from browser
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                initializeErrorPage();
+            }
+        });
+    </script>
+</body>
+</html> 

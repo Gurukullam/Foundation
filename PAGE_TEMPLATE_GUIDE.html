@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GK Foundation - Page Development Template & Synchronization Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #8b4513, #d4af37);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .toc {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #8b4513;
+        }
+
+        .toc h2 {
+            color: #8b4513;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .toc ul {
+            list-style: none;
+        }
+
+        .toc li {
+            margin: 8px 0;
+        }
+
+        .toc a {
+            color: #8b4513;
+            text-decoration: none;
+            padding: 5px 10px;
+            display: block;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .toc a:hover {
+            background: #f5f5f5;
+            color: #d4af37;
+        }
+
+        .section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #8b4513;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #d4af37;
+        }
+
+        .section h3 {
+            color: #8b4513;
+            font-size: 1.4rem;
+            margin: 25px 0 15px 0;
+            padding-left: 10px;
+            border-left: 4px solid #d4af37;
+        }
+
+        .section h4 {
+            color: #654321;
+            font-size: 1.2rem;
+            margin: 20px 0 10px 0;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin: 15px 0;
+            border: 1px solid #444;
+        }
+
+        .code-block.html {
+            border-left: 4px solid #e34c26;
+        }
+
+        .code-block.css {
+            border-left: 4px solid #1572b6;
+        }
+
+        .code-block.javascript {
+            border-left: 4px solid #f7df1e;
+        }
+
+        .code-header {
+            background: #333;
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 5px 5px 0 0;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+
+        .code-header.html { background: #e34c26; }
+        .code-header.css { background: #1572b6; }
+        .code-header.javascript { background: #f7df1e; color: #333; }
+
+        .highlight {
+            background: linear-gradient(135deg, #ffeb3b, #ffc107);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #ff9800;
+        }
+
+        .warning {
+            background: linear-gradient(135deg, #ffe5e5, #ffcdd2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #f44336;
+        }
+
+        .success {
+            background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #4caf50;
+        }
+
+        .checklist {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .checklist ul {
+            list-style: none;
+        }
+
+        .checklist li {
+            margin: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .checklist li:before {
+            content: '☐';
+            position: absolute;
+            left: 0;
+            color: #8b4513;
+            font-size: 1.2rem;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #2196f3;
+        }
+
+        .command {
+            background: #2d2d2d;
+            color: #00ff00;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 10px 0;
+            border-left: 4px solid #00ff00;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #8b4513;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top:hover {
+            background: #d4af37;
+            transform: translateY(-3px);
+        }
+
+        .divider {
+            height: 3px;
+            background: linear-gradient(135deg, #8b4513, #d4af37);
+            border-radius: 2px;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .code-block {
+                font-size: 0.8rem;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>GK Foundation</h1>
+            <p>Page Development Template & Synchronization Guide</p>
+        </div>
+
+        <div class="toc">
+            <h2>📋 Table of Contents</h2>
+            <ul>
+                <li><a href="#overview">🎯 Overview</a></li>
+                <li><a href="#html-structure">🏗 HTML Structure</a></li>
+                <li><a href="#css-classes">🎨 CSS Classes</a></li>
+                <li><a href="#javascript-auth">🔥 JavaScript Authentication</a></li>
+                <li><a href="#helper-functions">🛠 Helper Functions</a></li>
+                <li><a href="#development-checklist">✅ Development Checklist</a></li>
+                <li><a href="#synchronization">🔄 Synchronization Maintenance</a></li>
+                <li><a href="#quick-reference">🚀 Quick Reference</a></li>
+            </ul>
+        </div>
+
+        <div class="section" id="overview">
+            <h2>🎯 Overview</h2>
+            <div class="highlight">
+                <strong>This guide ensures ALL pages (current and future) maintain perfect synchronization with:</strong>
+                <ul>
+                    <li>Authentication state (sign-in/sign-out)</li>
+                    <li>Firebase integration</li>
+                    <li>Premium subscription features</li>
+                    <li>UI consistency (logo, navigation, styling)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section" id="html-structure">
+            <h2>🏗 1. MANDATORY HTML Structure</h2>
+            
+            <h3>Logo Section (EXACT COPY)</h3>
+            <div class="code-header html">HTML</div>
+            <div class="code-block html">&lt;div class="nav-top-row"&gt;
+    &lt;a href="index.html" class="logo-container"&gt;
+        &lt;div class="gk-logo"&gt;
+            &lt;span class="gk-letters"&gt;GK&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;span class="logo"&gt;Foundation&lt;/span&gt;  &lt;!-- ALWAYS "Foundation" --&gt;
+    &lt;/a&gt;
+    &lt;div class="auth-status"&gt;
+        &lt;div id="userStatus" class="user-status" style="display: none;"&gt;
+            &lt;span id="userGreeting" class="user-greeting"&gt;&lt;/span&gt;
+            &lt;button id="subscriptionBtn" class="subscription-btn" onclick="openSubscriptionModal()"&gt;💎 Go Premium&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class="auth-buttons"&gt;
+            &lt;button id="signInBtn" class="sign-in-btn" onclick="openSignInModal()"&gt;Sign In&lt;/button&gt;
+            &lt;button id="signUpBtn" class="sign-up-btn" onclick="openSignUpModal()"&gt;Sign Up&lt;/button&gt;
+            &lt;button id="signOutBtn" class="sign-out-btn" style="display: none;" onclick="signOut()"&gt;Sign Out&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</div>
+
+            <h3>Support Us Button (EXACT COPY)</h3>
+            <div class="code-header html">HTML</div>
+            <div class="code-block html">&lt;li class="nav-donate" style="display: none;"&gt;
+    &lt;button id="donateBtn" class="nav-donate-btn" onclick="openDonationModal()"&gt;
+        Support Us
+    &lt;/button&gt;
+&lt;/li&gt;</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section" id="css-classes">
+            <h2>🎨 2. MANDATORY CSS Classes</h2>
+            
+            <h3>Logo & Authentication CSS (Copy from index.html)</h3>
+            <div class="code-header css">CSS</div>
+            <div class="code-block css">.logo-container {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    gap: 0.5rem;
+}
+
+.gk-logo {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: linear-gradient(135deg, #8b4513, #d4af37);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 1rem;
+}
+
+.logo {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #8b4513;
+}
+
+.subscription-btn {
+    display: none; /* CRITICAL: Hide by default to prevent flash for premium users */
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    padding: 0.25rem 0.6rem;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    font-size: 0.7rem;
+    text-decoration: none;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.nav-donate {
+    display: none; /* Hide by default, shown only for signed-in users */
+}</div>
+
+            <div class="warning">
+                <strong>⚠️ IMPORTANT:</strong> No duplicate .subscription-btn definitions allowed!
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section" id="javascript-auth">
+            <h2>🔥 3. MANDATORY JavaScript Authentication Pattern</h2>
+            
+            <h3>Page Load Authentication (EXACT COPY)</h3>
+            <div class="code-header javascript">JavaScript</div>
+            <div class="code-block javascript">// Use window.load event (NOT DOMContentLoaded)
+window.addEventListener('load', function() {
+    console.log('🌐 Window load event fired - checking auth');
+    
+    // Small delay to ensure DOM is fully ready and prevent flash
+    setTimeout(() => {
+        const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || 'null');
+        if (currentUser) {
+            console.log('👤 User found on page load:', {
+                email: currentUser.email,
+                name: currentUser.name,
+                subscriptionStatus: currentUser.subscription?.status
+            });
+            
+            // Pass subscription status to toggleAuthButtons
+            toggleAuthButtons(true, currentUser.name, currentUser.subscription?.status || 'free');
+            
+            // Force menu access update after a short delay
+            setTimeout(() => {
+                if (currentUser.subscription?.status === 'premium') {
+                    console.log('👑 Premium user detected on page load');
+                    updateMenuAccess();
+                }
+            }, 200);
+        } else {
+            console.log('🚶 No user found on page load - guest mode');
+            toggleAuthButtons(false);
+        }
+        updateMenuAccess();
+    }, 50);
+});</div>
+
+            <h3>Cross-Tab Synchronization (MANDATORY)</h3>
+            <div class="code-header javascript">JavaScript</div>
+            <div class="code-block javascript">// Listen for localStorage changes from other tabs/pages
+window.addEventListener('storage', function(event) {
+    if (event.key === 'french_app_current_user') {
+        console.log('🔄 localStorage changed from another tab:', event.newValue);
+        setTimeout(() => {
+            const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || 'null');
+            if (currentUser) {
+                toggleAuthButtons(true, currentUser.name, currentUser.subscription?.status || 'free');
+            } else {
+                toggleAuthButtons(false);
+            }
+            updateMenuAccess();
+        }, 100);
+    }
+});</div>
+
+            <h3>Browser Navigation Sync (MANDATORY)</h3>
+            <div class="code-header javascript">JavaScript</div>
+            <div class="code-block javascript">// Handle browser navigation (back/forward buttons)
+window.addEventListener('pageshow', function(event) {
+    console.log('🔄 pageshow event fired - syncing auth state');
+    
+    // Small delay to prevent flash on browser navigation
+    setTimeout(() => {
+        const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || 'null');
+        if (currentUser) {
+            console.log('👤 User found on pageshow:', {
+                email: currentUser.email,
+                subscriptionStatus: currentUser.subscription?.status
+            });
+            toggleAuthButtons(true, currentUser.name, currentUser.subscription?.status || 'free');
+            updateMenuAccess();
+        } else {
+            console.log('🚶 No user found on pageshow - guest mode');
+            toggleAuthButtons(false);
+            updateMenuAccess();
+        }
+    }, 30);
+});</div>
+
+            <h3>Firebase Authentication Listener (EXACT COPY from index.html)</h3>
+            <div class="info-box">
+                <strong>Critical:</strong> This is the complete Firebase listener. Copy this entire block without modifications.
+            </div>
+            <div class="code-header javascript">JavaScript</div>
+            <div class="code-block javascript">// Firebase auth state listener
+if (typeof firebase !== 'undefined' && firebase.auth) {
+    firebase.auth().onAuthStateChanged(async function(user) {
+        console.log('🔄 Firebase onAuthStateChanged triggered:', {
+            hasUser: !!user,
+            userEmail: user?.email,
+            currentUrl: window.location.href
+        });
+
+        // CRITICAL: Check for sign-out flags before doing anything
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionFlags = {
+            signedOut: urlParams.get('signedOut') === 'true' || urlParams.get('firebaseSignedOut') === 'true',
+            forceGuest: urlParams.get('forceGuest') === 'true',
+            justSignedOut: sessionStorage.getItem('just_signed_out') === 'true',
+            firebaseSignedOut: sessionStorage.getItem('firebase_signed_out') === 'true',
+            forceGuestState: sessionStorage.getItem('force_guest_state') === 'true'
+        };
+
+        const isSignOutProcess = Object.values(sessionFlags).some(flag => flag) || window.FORCE_GUEST_MODE;
+
+        if (isSignOutProcess) {
+            console.log('🚫 SIGN-OUT PROCESS DETECTED');
+            if (user) {
+                firebase.auth().signOut().catch(error => {
+                    console.log('Firebase sign-out error (ignored):', error);
+                });
+            }
+            localStorage.removeItem('french_app_current_user');
+            if (typeof toggleAuthButtons === 'function') {
+                toggleAuthButtons(false);
+            }
+            return;
+        }
+
+        if (user) {
+            console.log('✅ Valid user sign-in detected - syncing localStorage...');
+            try {
+                const subscriptionStatus = await getUserSubscriptionStatus(user.uid);
+                
+                const doc = await firebase.firestore().collection('users').doc(user.uid).get();
+                let userData = {
+                    email: user.email,
+                    name: user.displayName || user.email,
+                    country: null,
+                    registeredAt: new Date().toISOString(),
+                    subscription: {
+                        status: subscriptionStatus,
+                        plan: null,
+                        startDate: null,
+                        endDate: null
+                    }
+                };
+                
+                if (doc.exists) {
+                    const firestoreData = doc.data();
+                    userData.subscription = {
+                        status: subscriptionStatus,
+                        plan: firestoreData.subscription?.plan || null,
+                        startDate: firestoreData.subscription?.startDate || null,
+                        endDate: firestoreData.subscription?.endDate || null,
+                        active: firestoreData.subscription?.active || false,
+                        paymentMethod: firestoreData.subscription?.paymentMethod || null
+                    };
+                    userData.name = firestoreData.name || userData.name;
+                    userData.country = firestoreData.country || null;
+                    userData.registeredAt = firestoreData.createdAt ? firestoreData.createdAt.toDate().toISOString() : userData.registeredAt;
+                }
+                
+                localStorage.setItem('french_app_current_user', JSON.stringify(userData));
+                if (typeof toggleAuthButtons === 'function') {
+                    toggleAuthButtons(true, user.displayName || user.email, userData.subscription.status);
+                }
+                
+                console.log('✅ localStorage synced for authenticated user');
+            } catch (error) {
+                console.error('Error getting user subscription:', error);
+                const userData = {
+                    email: user.email,
+                    name: user.displayName || user.email,
+                    country: null,
+                    registeredAt: new Date().toISOString(),
+                    subscription: { status: 'free', plan: null, startDate: null, endDate: null }
+                };
+                localStorage.setItem('french_app_current_user', JSON.stringify(userData));
+                if (typeof toggleAuthButtons === 'function') {
+                    toggleAuthButtons(true, user.displayName || user.email, 'free');
+                }
+            }
+        } else {
+            console.log('🚫 No Firebase user - clearing localStorage and setting guest state');
+            localStorage.removeItem('french_app_current_user');
+            if (typeof toggleAuthButtons === 'function') {
+                toggleAuthButtons(false);
+            }
+        }
+    }, function(error) {
+        console.warn('🛡️ Auth state change error caught silently:', error.message);
+    });
+}</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section" id="helper-functions">
+            <h2>🛠 4. MANDATORY Helper Functions</h2>
+            
+            <h3>Required Functions (Copy from French-Verbs.html)</h3>
+            <div class="info-box">
+                <strong>Note:</strong> These functions must be included on every page to ensure proper authentication and subscription management.
+            </div>
+            
+            <div class="code-header javascript">JavaScript</div>
+            <div class="code-block javascript">// Function to get validated subscription status from Firebase
+async function getUserSubscriptionStatus(userId) {
+    try {
+        console.log('🔍 getUserSubscriptionStatus called for userId:', userId);
+        const doc = await firebase.firestore().collection('users').doc(userId).get();
+        
+        if (doc.exists) {
+            const userData = doc.data();
+            const subscription = userData.subscription || { status: 'free' };
+            
+            // Check if subscription is expired
+            if (subscription.status === 'premium' && subscription.endDate) {
+                const endDate = subscription.endDate.toDate ? subscription.endDate.toDate() : new Date(subscription.endDate);
+                if (endDate < new Date()) {
+                    await firebase.firestore().collection('users').doc(userId).update({
+                        'subscription.status': 'expired',
+                        'subscription.active': false
+                    });
+                    return 'expired';
+                }
+            }
+            
+            return subscription.status || 'free';
+        }
+        
+        return 'free';
+    } catch (error) {
+        console.error('❌ Error getting subscription status:', error);
+        return 'free';
+    }
+}
+
+// Function to check if current user has premium access
+function isPremiumUser() {
+    const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || 'null');
+    return currentUser && currentUser.subscription?.status === 'premium';
+}
+
+// Function to update menu access based on subscription status
+function updateMenuAccess() {
+    const isSignedIn = JSON.parse(localStorage.getItem('french_app_current_user') || 'null') !== null;
+    const isPremium = isPremiumUser();
+    
+    // Get numbers menu elements
+    const numbersLinks = document.querySelectorAll('[data-feature="numbers"] a, [data-feature="numbers-submenu"] a');
+    
+    if (numbersLinks.length > 0) {
+        numbersLinks.forEach(link => {
+            link.classList.remove('premium-feature', 'premium-locked');
+        });
+        
+        if (!isSignedIn) {
+            numbersLinks.forEach(link => {
+                link.classList.add('premium-locked');
+                link.title = 'Please sign in to access this premium feature';
+            });
+        } else if (isPremium) {
+            numbersLinks.forEach(link => {
+                link.classList.add('premium-feature');
+                link.title = 'French Numbers - Premium Feature (You have access)';
+            });
+        } else {
+            numbersLinks.forEach(link => {
+                link.classList.add('premium-locked');
+                link.title = 'Premium Feature - Click to upgrade and unlock French Numbers';
+            });
+        }
+    }
+}
+
+// Main authentication toggle function
+function toggleAuthButtons(isSignedIn, userName = '', subscriptionStatus = 'free') {
+    console.log('🔄 toggleAuthButtons called:', { isSignedIn, userName, subscriptionStatus });
+    
+    const authButtons = document.querySelector('.auth-buttons');
+    const userStatus = document.getElementById('userStatus');
+    const userGreeting = document.getElementById('userGreeting');
+    const signOutBtn = document.getElementById('signOutBtn');
+    const donateBtn = document.querySelector('.nav-donate');
+    
+    if (isSignedIn) {
+        // User is signed in - show user status and hide sign in/up buttons
+        console.log('👤 Showing user status for:', userName);
+        
+        // Validate userName to prevent password from being displayed
+        const displayName = (userName && typeof userName === 'string' && userName.trim() && !userName.includes('@')) 
+            ? userName.trim() 
+            : 'User';
+        
+        if (authButtons) {
+            const signInBtn = authButtons.querySelector('.sign-in-btn');
+            const signUpBtn = authButtons.querySelector('.sign-up-btn');
+            if (signInBtn) signInBtn.style.display = 'none';
+            if (signUpBtn) signUpBtn.style.display = 'none';
+        }
+        
+        if (userStatus) userStatus.style.display = 'flex';
+        if (userGreeting) userGreeting.textContent = `Welcome, ${displayName}!`;
+        if (signOutBtn) signOutBtn.style.display = 'inline-block';
+        if (donateBtn) donateBtn.style.display = 'block';
+        
+        // Handle subscription button based on premium status
+        const subscriptionBtn = document.getElementById('subscriptionBtn');
+        if (subscriptionBtn) {
+            if (subscriptionStatus === 'premium') {
+                console.log('🎯 Premium user - hiding Go Premium button');
+                subscriptionBtn.style.display = 'none';
+            } else {
+                console.log('🎯 Non-premium user - showing Go Premium button');
+                subscriptionBtn.style.display = 'inline-flex';
+                subscriptionBtn.textContent = '💎 Go Premium';
+            }
+        }
+        
+        updateSubscriptionUI(subscriptionStatus);
+        
+    } else {
+        // User is signed out - show sign in/up buttons and hide user status
+        console.log('🚪 Showing sign in/up buttons');
+        
+        if (authButtons) {
+            const signInBtn = authButtons.querySelector('.sign-in-btn');
+            const signUpBtn = authButtons.querySelector('.sign-up-btn');
+            if (signInBtn) signInBtn.style.display = 'inline-block';
+            if (signUpBtn) signUpBtn.style.display = 'inline-block';
+        }
+        
+        if (userStatus) userStatus.style.display = 'none';
+        if (signOutBtn) signOutBtn.style.display = 'none';
+        if (donateBtn) donateBtn.style.display = 'none';
+        
+        if (userGreeting) userGreeting.textContent = 'Welcome!';
+        
+        updateSubscriptionUI('free');
+    }
+    
+    updateMenuAccess();
+}
+
+// Subscription UI management
+function updateSubscriptionUI(status) {
+    console.log('🎭 updateSubscriptionUI called with status:', status);
+    const subscriptionBtn = document.getElementById('subscriptionBtn');
+    
+    if (status === 'premium') {
+        console.log('👑 Premium status detected - hiding Go Premium button');
+        if (subscriptionBtn) subscriptionBtn.style.display = 'none';
+    } else {
+        console.log('📝 Non-premium status - showing Go Premium button');
+        if (subscriptionBtn) {
+            subscriptionBtn.innerHTML = '💎 Go Premium';
+            subscriptionBtn.className = 'subscription-btn';
+            subscriptionBtn.style.display = 'inline-flex';
+            subscriptionBtn.onclick = openSubscriptionModal;
+        }
+    }
+}
+
+// Debug function
+window.debugSubscriptionStatus = function() {
+    const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || 'null');
+    console.log('🔍 Debug: Current user:', currentUser);
+    console.log('📋 Debug: Subscription:', currentUser?.subscription);
+    console.log('⭐ Debug: Status:', currentUser?.subscription?.status);
+    
+    if (currentUser && currentUser.subscription?.status === 'premium') {
+        console.log('👑 Debug: User is premium, forcing UI update...');
+        updateSubscriptionUI('premium');
+    } else {
+        console.log('📝 Debug: User is not premium');
+        updateSubscriptionUI(currentUser?.subscription?.status || 'free');
+    }
+}</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section" id="development-checklist">
+            <h2>✅ 5. NEW PAGE DEVELOPMENT CHECKLIST</h2>
+            
+            <h3>Before Creating New Page:</h3>
+            <div class="checklist">
+                <ul>
+                    <li>Copy HTML structure from index.html or French-Verbs.html</li>
+                    <li>Ensure logo shows "Foundation" not "Academy"</li>
+                    <li>Include all required CSS classes</li>
+                    <li>Add all authentication JavaScript patterns</li>
+                </ul>
+            </div>
+
+            <h3>Authentication Requirements:</h3>
+            <div class="checklist">
+                <ul>
+                    <li>Window load event listener (NOT DOMContentLoaded)</li>
+                    <li>Storage event listener for cross-tab sync</li>
+                    <li>Firebase auth state change listener</li>
+                    <li>All required helper functions (getUserSubscriptionStatus, isPremiumUser, etc.)</li>
+                    <li>toggleAuthButtons function with exact logic</li>
+                </ul>
+            </div>
+
+            <h3>UI Requirements:</h3>
+            <div class="checklist">
+                <ul>
+                    <li>GK logo with "Foundation" text</li>
+                    <li>Auth buttons container with correct IDs</li>
+                    <li>Support Us button with nav-donate class</li>
+                    <li>Go Premium button with subscription-btn class</li>
+                    <li>User status display with userStatus ID</li>
+                </ul>
+            </div>
+
+            <h3>Testing Checklist:</h3>
+            <div class="checklist">
+                <ul>
+                    <li>Sign in on home page → navigate to new page (should stay signed in)</li>
+                    <li>Sign out on new page → check other pages (should all sign out)</li>
+                    <li>Premium user → Go Premium button hidden</li>
+                    <li>Free user → Go Premium button visible</li>
+                    <li>Cross-tab functionality works</li>
+                    <li><strong>Browser back/forward navigation</strong> maintains correct auth state</li>
+                    <li>Navigate between pages using browser back button - auth status stays correct</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section" id="synchronization">
+            <h2>🔄 6. SYNCHRONIZATION MAINTENANCE</h2>
+            
+            <h3>When Making Changes:</h3>
+            <div class="warning">
+                <ol>
+                    <li><strong>Test on ALL pages</strong> - never change just one page</li>
+                    <li><strong>Update this template</strong> if you modify authentication logic</li>
+                    <li><strong>Check cross-tab sync</strong> after any localStorage changes</li>
+                    <li><strong>Verify Firebase integration</strong> works consistently</li>
+                </ol>
+            </div>
+
+            <h3>Monthly Review:</h3>
+            <div class="checklist">
+                <ul>
+                    <li>Check all pages have identical authentication logic</li>
+                    <li>Verify logo consistency across all pages</li>
+                    <li>Test Firebase sync on all pages</li>
+                    <li>Update template if new patterns emerge</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section" id="quick-reference">
+            <h2>🚀 7. QUICK REFERENCE</h2>
+            
+            <h3>Copy These Files for New Pages:</h3>
+            <div class="info-box">
+                <ul>
+                    <li><strong>HTML Structure:</strong> From index.html (navigation section)</li>
+                    <li><strong>CSS Styles:</strong> From index.html (authentication classes)</li>
+                    <li><strong>JavaScript:</strong> From French-Verbs.html (full working pattern)</li>
+                    <li><strong>Firebase Config:</strong> From index.html (Firebase setup)</li>
+                </ul>
+            </div>
+
+            <h3>Debug Commands:</h3>
+            <div class="command">debugSubscriptionStatus()  // Check current authentication state</div>
+            <div class="command">forceFirebaseSync()       // Force Firebase synchronization</div>
+
+            <h3>Common Issues & Solutions:</h3>
+            <div class="warning">
+                <ul>
+                    <li><strong>Sign-in/out not syncing:</strong> Check storage event listener</li>
+                    <li><strong>Go Premium showing for premium:</strong> Check updateSubscriptionUI logic</li>
+                    <li><strong>Logo inconsistency:</strong> Ensure "Foundation" not "Academy"</li>
+                    <li><strong>Firebase timing:</strong> Use window.load not DOMContentLoaded</li>
+                    <li><strong>Go Premium button flashing:</strong> Ensure <code>display: none;</code> in CSS and NO duplicate CSS definitions</li>
+                    <li><strong>Button flash on navigation:</strong> Add 30-50ms delay in pageshow/load event handlers</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="success">
+            <h3>✨ Following this template ensures ALL pages stay perfectly synchronized with authentication, Firebase, and UI consistency across the entire GK Foundation platform!</h3>
+        </div>
+    </div>
+
+    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Back to top">↑</button>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Show/hide back to top button
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.scrollY > 300) {
+                backToTop.style.display = 'block';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html> 

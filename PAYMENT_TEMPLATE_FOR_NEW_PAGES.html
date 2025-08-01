@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEW PAGE TEMPLATE - GuruKullam Foundation</title>
+    <!-- ADD YOUR PAGE-SPECIFIC STYLES HERE -->
+</head>
+<body>
+
+<!-- YOUR PAGE CONTENT HERE -->
+
+<!-- ========================================= -->
+<!-- REQUIRED: STRIPE & PAYMENT INTEGRATION   -->
+<!-- ========================================= -->
+
+<!-- 1. STRIPE.JS LIBRARY (Required for all payment pages) -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<!-- 2. FIREBASE SDK (if using user authentication) -->
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+
+<script>
+    // ========================================
+    // REQUIRED: STRIPE CONFIGURATION
+    // ========================================
+    const STRIPE_CONFIG = {
+        publishableKey: 'pk_live_51Rr5H03QiDHRr52effkP2HrTynAiO7NYD8VQfmbQiHTfpj3zvbw7q4p3uSeRWHHK0ehhHAoYqHyxXwIjmuyGVz3Q00BJL8lkM9',
+        environment: 'live'  // CRITICAL: Must be 'live' for real payments
+    };
+
+    // ========================================
+    // REQUIRED: BACKEND URL CONFIGURATION
+    // ========================================
+    const BACKEND_CONFIG = {
+        baseUrl: 'https://foundation-backend-chi.vercel.app',
+        endpoints: {
+            createPaymentIntent: '/create-payment-intent',
+            subscriptionStatus: '/subscription-status',
+            health: '/health'
+        }
+    };
+
+    // Initialize Stripe
+    let stripe = null;
+    let cardElement = null;
+    let donationCardElement = null;
+    let selectedPlan = null;
+    let selectedDonationAmount = 0;
+
+    // ========================================
+    // REQUIRED: STRIPE INITIALIZATION
+    // ========================================
+    async function initializeStripe() {
+        try {
+            stripe = Stripe(STRIPE_CONFIG.publishableKey);
+            
+            const elements = stripe.elements();
+            
+            // Initialize subscription payment card element (if needed)
+            if (document.getElementById('card-element')) {
+                cardElement = elements.create('card', {
+                    style: {
+                        base: {
+                            fontSize: '16px',
+                            color: '#424770',
+                            '::placeholder': {
+                                color: '#aab7c4',
+                            },
+                        },
+                    },
+                });
+                cardElement.mount('#card-element');
+                
+                cardElement.addEventListener('change', ({error}) => {
+                    const displayError = document.getElementById('card-errors');
+                    if (error) {
+                        displayError.textContent = error.message;
+                    } else {
+                        displayError.textContent = '';
+                    }
+                });
+            }
+            
+            // Initialize donation card element (if needed)
+            if (document.getElementById('donation-card-element')) {
+                donationCardElement = elements.create('card', {
+                    style: {
+                        base: {
+                            fontSize: '16px',
+                            color: '#424770',
+                            '::placeholder': {
+                                color: '#aab7c4',
+                            },
+                        },
+                    },
+                });
+                donationCardElement.mount('#donation-card-element');
+                
+                donationCardElement.addEventListener('change', ({error}) => {
+                    const displayError = document.getElementById('donation-card-errors');
+                    if (error) {
+                        displayError.textContent = error.message;
+                    } else {
+                        displayError.textContent = '';
+                    }
+                });
+            }
+            
+            console.log('✅ Stripe initialized successfully with live backend integration');
+            
+        } catch (error) {
+            console.error('❌ Error initializing Stripe:', error);
+            showError('subscriptionError', 'Payment system initialization failed. Please refresh the page.');
+        }
+    }
+
+    // ========================================
+    // REQUIRED: SUBSCRIPTION PAYMENT PROCESSING
+    // ========================================
+    async function processPayment() {
+        if (!selectedPlan) {
+            showError('subscriptionError', 'Please select a subscription plan.');
+            return;
+        }
+        
+        const cardholderName = document.getElementById('cardholderName').value;
+        if (!cardholderName.trim()) {
+            showError('subscriptionError', 'Please enter the cardholder name.');
+            return;
+        }
+        
+        // Show loading
+        const subscribeBtn = document.getElementById('subscribeBtn');
+        const subscribeBtnText = document.getElementById('subscribeBtnText');
+        const subscribeSpinner = document.getElementById('subscribeSpinner');
+        
+        subscribeBtnText.style.display = 'none';
+        subscribeSpinner.style.display = 'inline';
+        subscribeBtn.disabled = true;
+        
+        try {
+            // Create payment method with Stripe
+            const {error, paymentMethod} = await stripe.createPaymentMethod({
+                type: 'card',
+                card: cardElement,
+                billing_details: {
+                    name: cardholderName,
+                },
+            });
+            
+            if (error) {
+                throw new Error(error.message);
+            }
+            
+            console.log('✅ Payment method created:', paymentMethod.id);
+            
+            // Get pricing for the selected plan and currency
+            const userCurrency = await getUserCurrency();
+            let priceInCents;
+            
+            if (userCurrency === 'CAD') {
+                priceInCents = selectedPlan === 'monthly' ? 1347 : selectedPlan === 'quarterly' ? 3644 : 13500;
+            } else if (userCurrency === 'INR') {
+                priceInCents = selectedPlan === 'monthly' ? 49900 : selectedPlan === 'quarterly' ? 149700 : 598800;
+            } else {
+                priceInCents = selectedPlan === 'monthly' ? 999 : selectedPlan === 'quarterly' ? 2699 : 9999;
+            }
+            
+            console.log('💳 Processing payment for:', priceInCents, userCurrency);
+            
+            // LIVE ENVIRONMENT: Backend Payment Processing with Stripe Payment Intents
+            if (STRIPE_CONFIG.environment === 'live') {
+                console.log('🚀 Processing LIVE payment with backend integration');
+                
+                try {
+                    console.log('💳 Creating payment intent with backend...');
+                    
+                    // Get current user for customer details
+                    const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || '{}');
+                    
+                    // Create payment intent via backend
+                    const response = await fetch(BACKEND_CONFIG.baseUrl + BACKEND_CONFIG.endpoints.createPaymentIntent, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            planType: selectedPlan,
+                            currency: userCurrency,
+                            amount: priceInCents,
+                            customerEmail: currentUser.email || '',
+                            customerName: currentUser.displayName || cardholderName
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || 'Payment setup failed');
+                    }
+                    
+                    const { clientSecret, paymentIntentId } = await response.json();
+                    console.log('✅ Payment intent created:', paymentIntentId);
+                    
+                    // Confirm payment with Stripe
+                    const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                        payment_method: paymentMethod.id
+                    });
+                    
+                    if (confirmError) {
+                        throw new Error(confirmError.message);
+                    }
+                    
+                    if (paymentIntent.status === 'succeeded') {
+                        console.log('✅ LIVE payment processed successfully!');
+                        console.log('💰 Payment Details:', paymentIntent);
+                        
+                        // Log the successful payment for tracking
+                        logPaymentSuccess(paymentIntent, selectedPlan, userCurrency, priceInCents);
+                    } else {
+                        throw new Error('Payment was not completed successfully');
+                    }
+                    
+                } catch (liveError) {
+                    console.error('❌ Live payment processing error:', liveError);
+                    
+                    // Redirect to error page with details
+                    const errorParams = new URLSearchParams({
+                        error: liveError.message || 'Payment processing failed',
+                        code: liveError.code || 'PAYMENT_FAILED',
+                        plan: selectedPlan,
+                        amount: priceInCents,
+                        currency: userCurrency
+                    });
+                    
+                    window.location.href = 'payment-error.html?' + errorParams.toString();
+                    return;
+                }
+            } else {
+                // Test environment processing
+                console.log('✅ Payment processed successfully with Stripe using test card');
+            }
+            
+            // Continue with Firebase updates and success handling...
+            // (Add your Firebase integration and success redirect logic here)
+            
+        } catch (error) {
+            console.error('❌ Payment processing error:', error);
+            showError('subscriptionError', error.message);
+            
+        } finally {
+            // Reset button state
+            subscribeBtnText.style.display = 'inline';
+            subscribeSpinner.style.display = 'none';
+            subscribeBtn.disabled = false;
+        }
+    }
+
+    // ========================================
+    // REQUIRED: DONATION PROCESSING
+    // ========================================
+    async function processDonation() {
+        if (!selectedDonationAmount || selectedDonationAmount < 1) {
+            showError('donationError', 'Please select a donation amount of at least $1.');
+            return;
+        }
+        
+        const cardholderName = document.getElementById('donationCardholderName').value;
+        if (!cardholderName.trim()) {
+            showError('donationError', 'Please enter the cardholder name.');
+            return;
+        }
+        
+        // Show loading
+        const donateBtn = document.getElementById('donateProcessBtn');
+        const donateBtnText = document.getElementById('donateBtnText');
+        const donateSpinner = document.getElementById('donateSpinner');
+        
+        donateBtnText.style.display = 'none';
+        donateSpinner.style.display = 'inline';
+        donateBtn.disabled = true;
+        
+        try {
+            // Create payment method with Stripe
+            const {error, paymentMethod} = await stripe.createPaymentMethod({
+                type: 'card',
+                card: donationCardElement,
+                billing_details: {
+                    name: cardholderName,
+                },
+            });
+            
+            if (error) {
+                throw new Error(error.message);
+            }
+            
+            console.log('✅ Donation payment method created:', paymentMethod.id);
+            
+            // Get user currency
+            const userCurrency = await getUserCurrency();
+            let amountInCents = Math.round(selectedDonationAmount * 100);
+            
+            // Convert to local currency if needed
+            if (userCurrency === 'CAD') {
+                amountInCents = Math.round(selectedDonationAmount * 134);
+            } else if (userCurrency === 'INR') {
+                amountInCents = Math.round(selectedDonationAmount * 8300);
+            }
+            
+            console.log('💳 Processing donation:', amountInCents, userCurrency);
+            
+            // LIVE ENVIRONMENT: Backend Donation Processing with Stripe Payment Intents
+            if (STRIPE_CONFIG.environment === 'live') {
+                try {
+                    console.log('💝 Creating donation payment intent with backend...');
+                    
+                    // Get current user for customer details
+                    const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || '{}');
+                    
+                    // Create donation payment intent via backend
+                    const response = await fetch(BACKEND_CONFIG.baseUrl + BACKEND_CONFIG.endpoints.createPaymentIntent, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            planType: 'donation',
+                            currency: userCurrency,
+                            amount: amountInCents,
+                            customerEmail: currentUser.email || '',
+                            customerName: currentUser.displayName || cardholderName
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || 'Donation setup failed');
+                    }
+                    
+                    const { clientSecret, paymentIntentId } = await response.json();
+                    console.log('✅ Donation payment intent created:', paymentIntentId);
+                    
+                    // Confirm donation payment with Stripe
+                    const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                        payment_method: paymentMethod.id
+                    });
+                    
+                    if (confirmError) {
+                        throw new Error(confirmError.message);
+                    }
+                    
+                    if (paymentIntent.status !== 'succeeded') {
+                        throw new Error('Donation was not completed successfully');
+                    }
+                    
+                    console.log('✅ LIVE donation processed successfully!');
+                    console.log('💰 Donation Details:', paymentIntent);
+                    
+                } catch (donationError) {
+                    console.error('❌ Live donation processing error:', donationError);
+                    throw donationError;
+                }
+            } else {
+                // Test environment processing
+                console.log('✅ Donation processed successfully with Stripe using test card');
+            }
+            
+            // Continue with success handling...
+            // (Add your donation success logic here)
+            
+        } catch (error) {
+            console.error('❌ Donation processing error:', error);
+            showError('donationError', error.message);
+            
+        } finally {
+            // Reset button state
+            donateBtnText.style.display = 'inline';
+            donateSpinner.style.display = 'none';
+            donateBtn.disabled = false;
+        }
+    }
+
+    // ========================================
+    // HELPER FUNCTIONS (Copy these as-is)
+    // ========================================
+    
+    // Get user currency
+    async function getUserCurrency() {
+        try {
+            const response = await fetch('https://ipapi.co/currency/');
+            const currency = await response.text();
+            return ['CAD', 'INR', 'USD'].includes(currency) ? currency : 'USD';
+        } catch (error) {
+            console.log('Currency detection failed, defaulting to USD');
+            return 'USD';
+        }
+    }
+
+    // Show error messages
+    function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+        console.error('Error:', message);
+    }
+
+    // Show success messages
+    function showSuccess(elementId, message) {
+        const successElement = document.getElementById(elementId);
+        if (successElement) {
+            successElement.textContent = message;
+            successElement.style.display = 'block';
+        }
+        console.log('Success:', message);
+    }
+
+    // Log payment success (customize as needed)
+    function logPaymentSuccess(paymentIntent, plan, currency, amount) {
+        console.log('📊 Payment Success Logged:', {
+            paymentId: paymentIntent.id,
+            plan: plan,
+            currency: currency,
+            amount: amount,
+            timestamp: new Date().toISOString()
+        });
+        
+        // Add your custom logging logic here (Firebase, analytics, etc.)
+    }
+
+    // Initialize everything when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeStripe();
+        
+        // Add any page-specific initialization here
+        console.log('🚀 Payment-enabled page loaded successfully');
+    });
+
+</script>
+
+<!-- ========================================= -->
+<!-- PAYMENT FORM HTML TEMPLATES              -->
+<!-- ========================================= -->
+
+<!-- SUBSCRIPTION PAYMENT MODAL (Copy this for subscription payments) -->
+<div id="subscriptionModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('subscriptionModal')">&times;</span>
+        <h2>🌟 Choose Your Premium Plan</h2>
+        
+        <!-- Plan Selection -->
+        <div class="plan-selection">
+            <div class="plan-option" onclick="selectPlan('monthly')">
+                <h3>Monthly Premium - $9.99/month</h3>
+                <p>Full access to all features</p>
+            </div>
+            <div class="plan-option" onclick="selectPlan('quarterly')">
+                <h3>Quarterly Premium - $26.99/3 months</h3>
+                <p>Save 10% with quarterly billing</p>
+            </div>
+            <div class="plan-option" onclick="selectPlan('yearly')">
+                <h3>Yearly Premium - $99.99/year</h3>
+                <p>Best value - Save 17%</p>
+            </div>
+        </div>
+
+        <!-- Payment Section -->
+        <div class="payment-section" id="paymentSection" style="display: none;">
+            <h3>💳 Payment Information</h3>
+            <div class="payment-form">
+                <div class="form-group">
+                    <label for="cardholderName">Cardholder Name</label>
+                    <input type="text" id="cardholderName" name="cardholderName" required placeholder="Enter cardholder name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="card-element">Credit or Debit Card</label>
+                    <div id="card-element"></div>
+                    <div id="card-errors" role="alert" style="color: #721c24; margin-top: 0.5rem;"></div>
+                </div>
+
+                <button type="button" class="subscription-btn-modal" id="subscribeBtn" onclick="processPayment()">
+                    <span id="subscribeBtnText">Complete Payment & Subscribe</span>
+                    <span id="subscribeSpinner" class="spinner" style="display: none;"></span>
+                </button>
+            </div>
+            <div id="subscriptionError" style="color: red; display: none; margin-top: 1rem;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- DONATION MODAL (Copy this for donation functionality) -->
+<div id="donationModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('donationModal')">&times;</span>
+        <h2>❤️ Support Global Education</h2>
+        
+        <!-- Amount Selection -->
+        <div class="amount-selection">
+            <button class="amount-btn" onclick="selectDonationAmount(5)">$5</button>
+            <button class="amount-btn" onclick="selectDonationAmount(10)">$10</button>
+            <button class="amount-btn" onclick="selectDonationAmount(25)">$25</button>
+            <button class="amount-btn" onclick="selectDonationAmount(50)">$50</button>
+            <input type="number" id="customAmount" placeholder="Custom amount" min="1">
+        </div>
+
+        <!-- Payment Section -->
+        <div id="donationPaymentSection" class="payment-section" style="display: none;">
+            <h3>Payment Details</h3>
+            <p>Donation Amount: <strong id="selectedDonationAmount">$0.00</strong></p>
+
+            <div class="form-group">
+                <label for="donationCardholderName">Cardholder Name</label>
+                <input type="text" id="donationCardholderName" placeholder="Your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="donation-card-element">Credit or Debit Card</label>
+                <div id="donation-card-element"></div>
+                <div id="donation-card-errors" role="alert" style="color: #721c24; margin-top: 0.5rem;"></div>
+            </div>
+
+            <button type="button" class="subscription-btn-modal" id="donateProcessBtn" onclick="processDonation()">
+                <span id="donateBtnText">Complete Donation</span>
+                <span id="donateSpinner" class="spinner" style="display: none;"></span>
+            </button>
+            <div id="donationError" style="color: red; display: none; margin-top: 1rem;"></div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html> 

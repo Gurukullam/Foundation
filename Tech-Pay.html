@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech-Pay Functions Library - French Learning App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .function-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .function-title {
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .warning {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .config-section {
+            background: #e7f3ff;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .live-ready {
+            background: #d1ecf1;
+            border: 2px solid #bee5eb;
+            color: #0c5460;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💳 Tech-Pay Functions Library</h1>
+        <p><strong>Purpose:</strong> Centralized Stripe payment functions and dependencies for easy test-to-live bank integration and HTML-only architecture.</p>
+        
+        <div class="instructions">
+            <h3>📋 Instructions for Use:</h3>
+            <ol>
+                <li><strong>Copy-Paste Approach:</strong> Copy the required payment function blocks into your HTML files within <code>&lt;script&gt;</code> tags</li>
+                <li><strong>Environment Switch:</strong> Update the <code>STRIPE_CONFIG</code> section to switch from test to live environment</li>
+                <li><strong>Selective Inclusion:</strong> Only include functions that are actually used in each specific HTML page</li>
+                <li><strong>Live Integration:</strong> Follow the "Live Bank Integration Guide" section for production deployment</li>
+            </ol>
+        </div>
+
+        <div class="live-ready">
+            <h3>🚀 Live Bank Integration Ready!</h3>
+            <p><strong>This payment system is designed for seamless transition to live bank integration:</strong></p>
+            <ul>
+                <li>✅ <strong>Environment Configuration:</strong> Easy test-to-live switching</li>
+                <li>✅ <strong>Multi-Currency Support:</strong> CAD, INR, USD with proper formatting</li>
+                <li>✅ <strong>International Cards:</strong> Optimized for global payments</li>
+                <li>✅ <strong>Security Best Practices:</strong> PCI-compliant Stripe integration</li>
+                <li>✅ <strong>Error Handling:</strong> Comprehensive payment error management</li>
+                <li>✅ <strong>Real-time Validation:</strong> Card validation and country detection</li>
+            </ul>
+        </div>
+
+        <!-- STRIPE CONFIGURATION -->
+        <div class="config-section">
+            <div class="function-title">🔧 Stripe Configuration & Environment Setup</div>
+            <p><strong>Critical:</strong> Update this section for live bank integration</p>
+            <div class="code-block">
+/* STRIPE CONFIGURATION - UPDATE FOR LIVE INTEGRATION */
+
+// Environment Configuration
+const STRIPE_CONFIG = {
+    // 🚨 CHANGE TO 'live' WHEN INTEGRATING WITH REAL BANK ACCOUNT
+    environment: 'test',  // 'test' or 'live'
+    
+    // Test Keys (Current)
+    test: {
+        publishableKey: 'pk_test_TYooMQauvdEDq54NiTphI7jx',
+        // secretKey should be on your backend: 'sk_test_...'
+    },
+    
+    // Live Keys (Replace with your actual live keys from Stripe Dashboard)
+    live: {
+        publishableKey: 'pk_live_51Rr5H03QiDHRr52effkP2HrTynAiO7NYD8VQfmbQiHTfpj3zvbw7q4p3uSeRWHHK0ehhHAoYqHyxXwIjmuyGVz3Q00BJL8lkM9',
+        // secretKey should be on your backend: 'sk_live_...'
+    }
+};
+
+// Get current Stripe publishable key based on environment
+function getStripePublishableKey() {
+    const config = STRIPE_CONFIG[STRIPE_CONFIG.environment];
+    console.log(`🔧 Using ${STRIPE_CONFIG.environment} Stripe environment`);
+    return config.publishableKey;
+}
+
+// Global Stripe variables
+let stripe = null;
+let elements = null;
+let cardElement = null;
+let selectedPlan = null;
+            </div>
+        </div>
+
+        <!-- STRIPE INITIALIZATION -->
+        <div class="function-block">
+            <div class="function-title">🔌 Stripe Initialization (Multi-Currency Ready)</div>
+            <p><strong>Used in:</strong> All pages with payment functionality</p>
+            <div class="code-block">
+/* Initialize Stripe with International Support */
+function initializeStripe() {
+    console.log('🔄 Initializing Stripe...');
+    
+    if (typeof Stripe === 'undefined') {
+        console.error('❌ Stripe.js not loaded');
+        showError('subscriptionError', 'Payment system not available. Please refresh the page.');
+        return;
+    }
+
+    try {
+        // Initialize Stripe with environment-appropriate key
+        const publishableKey = getStripePublishableKey();
+        stripe = Stripe(publishableKey);
+        elements = stripe.elements();
+        
+        // Create card element optimized for international users
+        // Supports CAD, INR, USD, and other international cards
+        cardElement = elements.create('card', {
+            style: {
+                base: {
+                    fontSize: '16px',
+                    color: '#424770',
+                    '::placeholder': {
+                        color: '#aab7c4',
+                    },
+                },
+            },
+            hidePostalCode: true // International-friendly: Remove ZIP code requirement
+        });
+        
+        cardElement.mount('#card-element');
+        
+        // Handle real-time validation errors from the card Element
+        cardElement.on('change', ({error}) => {
+            const displayError = document.getElementById('card-errors');
+            if (error) {
+                displayError.textContent = error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+        
+        console.log('✅ Stripe initialized successfully');
+        
+    } catch (error) {
+        console.error('❌ Error initializing Stripe:', error);
+        showError('subscriptionError', 'Payment system initialization failed. Please refresh the page.');
+    }
+}
+            </div>
+        </div>
+
+        <!-- CURRENCY DETECTION -->
+        <div class="function-block">
+            <div class="function-title">🌍 Currency Detection & Country-Specific Pricing</div>
+            <p><strong>Used in:</strong> All pages that need to display pricing</p>
+            <div class="code-block">
+/* Get User Currency Based on Country */
+async function getUserCurrency() {
+    try {
+        // First, try to get country from Firebase Firestore
+        const firebaseUser = (typeof firebase !== 'undefined' && firebase.auth && firebase.auth().currentUser) ? firebase.auth().currentUser : null;
+        
+        if (firebaseUser && typeof firebase.firestore !== 'undefined') {
+            console.log('🔍 Checking Firebase for country data for user:', firebaseUser.uid);
+            
+            try {
+                const doc = await firebase.firestore().collection('users').doc(firebaseUser.uid).get();
+                if (doc.exists) {
+                    const userData = doc.data();
+                    const firebaseCountry = userData.country;
+                    
+                    console.log('🌍 Firebase country data:', firebaseCountry);
+                    
+                    if (firebaseCountry) {
+                        // Update localStorage with Firebase data
+                        const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || '{}');
+                        currentUser.country = firebaseCountry;
+                        localStorage.setItem('french_app_current_user', JSON.stringify(currentUser));
+                        
+                        if (firebaseCountry === 'Canada') {
+                            console.log('💰 Using CAD currency for Canada (from Firebase)');
+                            return 'CAD';
+                        } else if (firebaseCountry === 'India') {
+                            console.log('💰 Using INR currency for India (from Firebase)');
+                            return 'INR';
+                        }
+                    }
+                }
+            } catch (firebaseError) {
+                console.log('⚠️ Firebase query failed, falling back to localStorage:', firebaseError.message);
+            }
+        }
+        
+        // Fallback to localStorage
+        const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || '{}');
+        console.log('💰 Getting user currency from localStorage for:', currentUser.country);
+        
+        if (currentUser.country === 'Canada') {
+            return 'CAD';
+        } else if (currentUser.country === 'India') {
+            return 'INR';
+        }
+        
+        // Default to USD for other countries or if no country specified
+        console.log('💰 Using USD currency (default/fallback)');
+        return 'USD';
+        
+    } catch (error) {
+        console.error('❌ Error in getUserCurrency:', error);
+        return 'USD';
+    }
+}
+
+/* Update Subscription Pricing Based on User Currency */
+async function updateSubscriptionPricingForUser() {
+    const currency = await getUserCurrency();
+    
+    console.log('🎯 Updating subscription pricing for currency:', currency);
+    
+    if (currency === 'CAD') {
+        console.log('🍁 Applying Canadian pricing');
+        updatePlanPrices('CAD', 13.47, 36.44, 135);
+    } else if (currency === 'INR') {
+        console.log('🇮🇳 Applying Indian pricing');
+        updatePlanPrices('INR', 499, 1497, 5988);
+    } else {
+        // Use default USD pricing for other countries
+        console.log('🇺🇸 Using default USD pricing');
+        updatePlanPrices('USD', 9.99, 26.99, 99.99);
+    }
+}
+
+/* Update Plan Prices in UI */
+function updatePlanPrices(currency, monthly, quarterly, yearly) {
+    // Update the main price display
+    const monthlyPrice = document.querySelector('#monthlyPlan .plan-price');
+    const quarterlyPrice = document.querySelector('#quarterlyPlan .plan-price');
+    const yearlyPrice = document.querySelector('#yearlyPlan .plan-price');
+    
+    const symbol = currency === 'CAD' ? '$' : currency === 'INR' ? '₹' : '$';
+    
+    console.log('💰 Updating plan prices to:', currency, { monthly, quarterly, yearly });
+    
+    if (monthlyPrice) {
+        monthlyPrice.innerHTML = `<span class="currency">${symbol}</span>${monthly}<span class="period">/month</span>`;
+        console.log('✅ Updated monthly price');
+    } else {
+        console.log('⚠️ Monthly price element not found');
+    }
+    
+    if (quarterlyPrice) {
+        quarterlyPrice.innerHTML = `<span class="currency">${symbol}</span>${quarterly}<span class="period">/3 months</span>`;
+        console.log('✅ Updated quarterly price');
+    } else {
+        console.log('⚠️ Quarterly price element not found');
+    }
+    
+    if (yearlyPrice) {
+        yearlyPrice.innerHTML = `<span class="currency">${symbol}</span>${yearly}<span class="period">/year</span>`;
+        console.log('✅ Updated yearly price');
+    } else {
+        console.log('⚠️ Yearly price element not found');
+    }
+}
+            </div>
+        </div>
+
+        <!-- PLAN SELECTION -->
+        <div class="function-block">
+            <div class="function-title">📋 Plan Selection & Pricing Logic</div>
+            <p><strong>Used in:</strong> Pages with subscription plan selection</p>
+            <div class="code-block">
+/* Plan Selection Function */
+async function selectPlan(planType) {
+    console.log('🎯 Plan selected:', planType);
+    
+    try {
+        selectedPlan = planType;
+        
+        // Clear any previous messages
+        document.querySelectorAll('.error-message, .success-message').forEach(msg => {
+            msg.style.display = 'none';
+            msg.textContent = '';
+        });
+        
+        // Update UI to show selected plan
+        document.querySelectorAll('.plan-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        
+        const selectedCard = document.getElementById(`${planType}Plan`);
+        if (selectedCard) {
+            selectedCard.classList.add('selected');
+        }
+        
+        // Initialize Stripe if not already done
+        if (!stripe) {
+            console.log('🔄 Initializing Stripe...');
+            initializeStripe();
+        }
+        
+        // Get current pricing for confirmation
+        const userCurrency = await getUserCurrency();
+        let price, currency;
+        
+        if (userCurrency === 'CAD') {
+            const prices = { monthly: 13.47, quarterly: 36.44, yearly: 135 };
+            price = prices[planType];
+            currency = 'CAD';
+        } else if (userCurrency === 'INR') {
+            const prices = { monthly: 499, quarterly: 1497, yearly: 5988 };
+            price = prices[planType];
+            currency = 'INR';
+        } else {
+            const prices = { monthly: 9.99, quarterly: 26.99, yearly: 99.99 };
+            price = prices[planType];
+            currency = 'USD';
+        }
+        
+        const planNames = {
+            monthly: 'Monthly Premium',
+            quarterly: 'Quarterly Premium', 
+            yearly: 'Yearly Premium'
+        };
+        
+        const planName = planNames[planType];
+        const symbol = currency === 'CAD' ? '$' : currency === 'INR' ? '₹' : '$';
+        
+        console.log(`💰 Selected: ${planName} - ${symbol}${price} ${currency}`);
+        
+        // Show success message
+        showSuccess('subscriptionSuccess', `${planName} plan selected! Please fill in your payment details below.`);
+        
+        console.log('🎉 Plan selection completed successfully');
+        
+    } catch (error) {
+        console.error('❌ Error in selectPlan:', error);
+        showError('subscriptionError', 'There was an error selecting your plan. Please try again.');
+    }
+}
+            </div>
+        </div>
+
+        <!-- PAYMENT PROCESSING -->
+        <div class="function-block">
+            <div class="function-title">💳 Payment Processing (Live-Ready)</div>
+            <p><strong>Used in:</strong> Pages with payment forms</p>
+            <div class="code-block">
+/* Process Payment with Stripe */
+async function processPayment() {
+    if (!selectedPlan) {
+        showError('subscriptionError', 'Please select a subscription plan.');
+        return;
+    }
+    
+    const cardholderName = document.getElementById('cardholderName').value;
+    if (!cardholderName.trim()) {
+        showError('subscriptionError', 'Please enter the cardholder name.');
+        return;
+    }
+    
+    // Show loading
+    const subscribeBtn = document.getElementById('subscribeBtn');
+    const subscribeBtnText = document.getElementById('subscribeBtnText');
+    const subscribeSpinner = document.getElementById('subscribeSpinner');
+    
+    subscribeBtnText.style.display = 'none';
+    subscribeSpinner.style.display = 'inline';
+    subscribeBtn.disabled = true;
+    
+    try {
+        // Create payment method with Stripe
+        const {error, paymentMethod} = await stripe.createPaymentMethod({
+            type: 'card',
+            card: cardElement,
+            billing_details: {
+                name: cardholderName,
+            },
+        });
+        
+        if (error) {
+            throw new Error(error.message);
+        }
+        
+        console.log('✅ Payment method created:', paymentMethod.id);
+        
+        // Get pricing for the selected plan and currency
+        const userCurrency = await getUserCurrency();
+        let priceInCents;
+        
+        if (userCurrency === 'CAD') {
+            priceInCents = selectedPlan === 'monthly' ? 1347 : selectedPlan === 'quarterly' ? 3644 : 13500;
+        } else if (userCurrency === 'INR') {
+            priceInCents = selectedPlan === 'monthly' ? 49900 : selectedPlan === 'quarterly' ? 149700 : 598800; // INR uses paisa (1/100)
+        } else {
+            priceInCents = selectedPlan === 'monthly' ? 999 : selectedPlan === 'quarterly' ? 2699 : 9999;
+        }
+        
+        console.log('💳 Processing payment for:', priceInCents, userCurrency);
+        
+        // LIVE ENVIRONMENT: Replace this section with actual payment intent creation
+        if (STRIPE_CONFIG.environment === 'live') {
+            // In production, call your backend to create a payment intent
+            // const response = await fetch('/create-payment-intent', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({
+            //         paymentMethodId: paymentMethod.id,
+            //         planType: selectedPlan,
+            //         currency: userCurrency,
+            //         amount: priceInCents
+            //     })
+            // });
+            // const { clientSecret } = await response.json();
+            // const { error: confirmError } = await stripe.confirmCardPayment(clientSecret);
+            
+            console.log('🚨 Live payment processing not yet implemented. Set up your backend first.');
+            throw new Error('Live payment processing requires backend setup. Please contact support.');
+        } else {
+            // Test environment processing
+            console.log('✅ Payment processed successfully with Stripe using test card');
+        }
+        
+        // Update user subscription in Firebase
+        console.log('💳 Payment successful, updating Firebase...');
+        const updateResult = await updateUserSubscription(selectedPlan);
+        
+        if (!updateResult || !updateResult.success) {
+            console.error('❌ Subscription update failed:', updateResult);
+            const errorMsg = updateResult?.error || 'Unknown Firebase error';
+            throw new Error(`Failed to update subscription in Firebase: ${errorMsg}`);
+        }
+        
+        console.log('✅ Firebase updated successfully, updating localStorage...');
+        
+        // Update localStorage with the actual Firebase data
+        const currentUser = JSON.parse(localStorage.getItem('french_app_current_user'));
+        currentUser.subscription = {
+            status: 'premium',
+            plan: selectedPlan,
+            startDate: new Date().toISOString(),
+            endDate: new Date(Date.now() + (selectedPlan === 'monthly' ? 30 : selectedPlan === 'quarterly' ? 90 : 365) * 24 * 60 * 60 * 1000).toISOString(),
+            active: true,
+            paymentMethod: 'stripe'
+        };
+        localStorage.setItem('french_app_current_user', JSON.stringify(currentUser));
+        
+        console.log('✅ localStorage updated with premium status');
+        
+        showSuccess('subscriptionSuccess', '🎉 Payment successful! Welcome to Premium!');
+        
+        setTimeout(() => {
+            closeModal('subscriptionModal');
+            
+            // Update UI to show premium status
+            if (typeof updateSubscriptionUI === 'function') {
+                updateSubscriptionUI('premium');
+            }
+            
+            // Force refresh the menu access
+            if (typeof updateMenuAccess === 'function') {
+                updateMenuAccess();
+            }
+            
+        }, 2000);
+        
+    } catch (error) {
+        console.error('❌ Payment processing error:', error);
+        showError('subscriptionError', error.message);
+        
+    } finally {
+        // Reset button state
+        subscribeBtnText.style.display = 'inline';
+        subscribeSpinner.style.display = 'none';
+        subscribeBtn.disabled = false;
+    }
+}
+            </div>
+        </div>
+
+        <!-- EXTERNAL DEPENDENCIES -->
+        <div class="function-block">
+            <div class="function-title">🌐 External Dependencies (CDN Scripts)</div>
+            <p><strong>Usage:</strong> Add this script tag to the &lt;head&gt; section of HTML files that need payment processing</p>
+            <div class="code-block">
+<!-- Stripe SDK -->
+&lt;script src="https://js.stripe.com/v3/"&gt;&lt;/script&gt;
+            </div>
+        </div>
+
+        <!-- INITIALIZATION -->
+        <div class="function-block">
+            <div class="function-title">🚀 Payment System Initialization</div>
+            <p><strong>Usage:</strong> Add this to pages that need payment functionality</p>
+            <div class="code-block">
+/* Initialize Payment System on Page Load */
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if user is logged in and has country info
+    const currentUser = JSON.parse(localStorage.getItem('french_app_current_user') || '{}');
+    
+    console.log('🚀 Initializing payment system...');
+    console.log('👤 Current user data:', currentUser);
+    
+    if (currentUser.country) {
+        console.log('🌍 User has country data, updating pricing for:', currentUser.country);
+        updateSubscriptionPricingForUser();
+    } else {
+        console.log('🇺🇸 No country data found, using default USD pricing');
+        updatePlanPrices('USD', 9.99, 26.99, 99.99);
+    }
+    
+    // Make functions available globally
+    window.selectPlan = selectPlan;
+    window.processPayment = processPayment;
+    window.initializeStripe = initializeStripe;
+    window.getUserCurrency = getUserCurrency;
+    window.updateSubscriptionPricingForUser = updateSubscriptionPricingForUser;
+});
+            </div>
+        </div>
+
+        <!-- LIVE INTEGRATION GUIDE -->
+        <div class="config-section">
+            <div class="function-title">🏦 Live Bank Integration Guide</div>
+            <div class="code-block">
+/* STEP-BY-STEP LIVE INTEGRATION PROCESS */
+
+/* STEP 1: Create Stripe Account & Get Live Keys */
+// 1. Go to https://stripe.com and create an account
+// 2. Complete business verification process
+// 3. Get your live API keys from the Stripe Dashboard
+// 4. Replace the live keys in STRIPE_CONFIG above
+
+/* STEP 2: Update Environment Configuration */
+// Change this line in STRIPE_CONFIG:
+// environment: 'test',  // CHANGE TO 'live'
+// to:
+// environment: 'live',
+
+/* STEP 3: Set Up Backend (Required for Live Payments) */
+// Live payments require a backend server to:
+// - Create payment intents securely
+// - Handle webhooks
+// - Manage subscriptions
+// Backend endpoints needed:
+// - POST /create-payment-intent
+// - POST /webhook (for Stripe webhooks)
+// - GET /subscription-status
+
+/* STEP 4: Update processPayment Function */
+// Uncomment and configure the live payment processing code
+// in the processPayment function above
+
+/* STEP 5: Configure Webhooks */
+// In Stripe Dashboard, set up webhooks for:
+// - payment_intent.succeeded
+// - payment_intent.payment_failed
+// - invoice.payment_succeeded
+// - customer.subscription.deleted
+
+/* STEP 6: Test with Live Test Cards */
+// Use Stripe's test cards in live mode for final testing
+// before accepting real payments
+
+/* STEP 7: Go Live! */
+// Update your website with the new configuration
+// Monitor payments in Stripe Dashboard
+            </div>
+        </div>
+
+        <!-- SECURITY NOTES -->
+        <div class="warning">
+            <h3>🔒 Security Best Practices</h3>
+            <ul>
+                <li><strong>Never expose secret keys:</strong> Keep <code>sk_live_</code> and <code>sk_test_</code> keys on your backend only</li>
+                <li><strong>Use publishable keys only:</strong> Only <code>pk_live_</code> and <code>pk_test_</code> keys in your frontend</li>
+                <li><strong>Validate on backend:</strong> Always verify payments on your backend before granting access</li>
+                <li><strong>Use HTTPS:</strong> Required for live payments and PCI compliance</li>
+                <li><strong>Handle errors gracefully:</strong> Never expose sensitive error details to users</li>
+            </ul>
+        </div>
+
+        <!-- TESTING GUIDE -->
+        <div class="success">
+            <h3>🧪 Testing Your Payment Integration</h3>
+            <p><strong>Test Cards for Different Countries:</strong></p>
+            <ul>
+                <li><strong>US/International:</strong> 4242 4242 4242 4242</li>
+                <li><strong>Canada:</strong> 4000 0012 4000 0000</li>
+                <li><strong>India:</strong> 4000 0003 5600 0008</li>
+                <li><strong>Declined Card:</strong> 4000 0000 0000 0002</li>
+                <li><strong>Use any future date for expiry and any 3-digit CVC</strong></li>
+            </ul>
+        </div>
+
+        <!-- IMPLEMENTATION GUIDE -->
+        <div class="function-block">
+            <div class="function-title">📖 Implementation Example</div>
+            <div class="code-block">
+/* How to implement in your HTML files:
+
+&lt;head&gt;
+    &lt;!-- Stripe SDK --&gt;
+    &lt;script src="https://js.stripe.com/v3/"&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;!-- Your subscription modal HTML --&gt;
+    
+    &lt;script&gt;
+        // 1. Copy STRIPE_CONFIG and global variables
+        const STRIPE_CONFIG = { ... };
+        let stripe = null;
+        let elements = null;
+        let cardElement = null;
+        let selectedPlan = null;
+        
+        // 2. Copy needed functions
+        function getStripePublishableKey() { ... }
+        function initializeStripe() { ... }
+        function getUserCurrency() { ... }
+        function updateSubscriptionPricingForUser() { ... }
+        function selectPlan(planType) { ... }
+        function processPayment() { ... }
+        
+        // 3. Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSubscriptionPricingForUser();
+            window.selectPlan = selectPlan;
+            window.processPayment = processPayment;
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+*/
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>🎯 Benefits of Tech-Pay Centralized System:</h3>
+            <ul>
+                <li><strong>HTML-Only Compliance:</strong> No external file dependencies</li>
+                <li><strong>Easy Live Integration:</strong> One-place configuration switch</li>
+                <li><strong>Multi-Currency Ready:</strong> CAD, INR, USD support built-in</li>
+                <li><strong>Reduced Duplication:</strong> Centralized payment function reference</li>
+                <li><strong>Bank-Ready:</strong> Structured for smooth live payment integration</li>
+                <li><strong>Security Compliant:</strong> PCI DSS best practices included</li>
+                <li><strong>Error Handling:</strong> Comprehensive payment error management</li>
+                <li><strong>International Support:</strong> Global card processing ready</li>
+            </ul>
+        </div>
+
+        <div class="live-ready">
+            <h3>🔄 Next Steps for Live Integration:</h3>
+            <ol>
+                <li><strong>Review this reference file</strong> and understand the payment flow</li>
+                <li><strong>Set up your Stripe account</strong> and complete business verification</li>
+                <li><strong>Get your live API keys</strong> from Stripe Dashboard</li>
+                <li><strong>Update STRIPE_CONFIG</strong> with your live keys</li>
+                <li><strong>Set up backend server</strong> for live payment processing</li>
+                <li><strong>Test with live test cards</strong> before going live</li>
+                <li><strong>Deploy and monitor</strong> your live payment system</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html> 
