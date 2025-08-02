@@ -162,15 +162,11 @@
             let priceInCents;
             
                             if (userCurrency === 'CAD') {
-                    // Fee-absorbed pricing: Customer pays exactly what's displayed (no surprises!)
-                    // Adjusted for 34% markup (taxes, fees, conversion): Display ÷ 1.34
-                    priceInCents = selectedPlan === 'monthly' ? 1005 : selectedPlan === 'quarterly' ? 2720 : 10075;
+                    priceInCents = selectedPlan === 'monthly' ? 1347 : selectedPlan === 'quarterly' ? 3644 : 13500;
                 } else if (userCurrency === 'INR') {
-                    // Fee-absorbed pricing for INR (includes all taxes and fees)
-                    priceInCents = selectedPlan === 'monthly' ? 37239 : selectedPlan === 'quarterly' ? 111716 : 447015; // Adjusted for fees
+                    priceInCents = selectedPlan === 'monthly' ? 49900 : selectedPlan === 'quarterly' ? 149700 : 598800; // INR uses paisa (1/100)
                 } else {
-                    // Fee-absorbed pricing for USD (includes all taxes and fees)
-                    priceInCents = selectedPlan === 'monthly' ? 746 : selectedPlan === 'quarterly' ? 2014 : 7462;
+                    priceInCents = selectedPlan === 'monthly' ? 999 : selectedPlan === 'quarterly' ? 2699 : 9999;
                 }
             
             console.log('💳 Processing payment for:', priceInCents, userCurrency);
@@ -302,19 +298,16 @@
             
             // Get user currency
             const userCurrency = await getUserCurrency();
-            // 🎯 FEE-ABSORBED DONATION PRICING: Customer pays exactly what they see!
+            // 💰 CLEAR PRICING: Customer pays exactly what's displayed
             let amountInCents = Math.round(selectedDonationAmount * 100);
             
-            // Absorb all fees, taxes, and currency conversion charges
+            // Standard currency conversion (displayed prices already include fees)
             if (userCurrency === 'CAD') {
-                // Fix: Absorb 34% markup (taxes, fees) so customer pays displayed amount
-                amountInCents = Math.round((selectedDonationAmount * 100) / 1.34);
+                amountInCents = Math.round(selectedDonationAmount * 100); // CAD cents
             } else if (userCurrency === 'INR') {
-                // Fee-absorbed INR pricing (absorb taxes and fees)
-                amountInCents = Math.round((selectedDonationAmount * 8300) / 1.34);
+                amountInCents = Math.round(selectedDonationAmount * 100); // INR paisa (1 INR = 100 paisa)
             } else {
-                // Fee-absorbed USD pricing (absorb taxes and fees)
-                amountInCents = Math.round((selectedDonationAmount * 100) / 1.34);
+                amountInCents = Math.round(selectedDonationAmount * 100); // USD cents
             }
             
             console.log('💳 Processing donation:', amountInCents, userCurrency);
